@@ -1,0 +1,1467 @@
+<!doctype html>
+<html lang="sr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Digitalna elektronika – skripta za 1. kolokvijum</title>
+<style>
+:root{--bg:#fbfaf7;--card:#fff;--ink:#1d1d1f;--mut:#5d5d66;--line:#e3e1da;--acc:#1f5fbf;--acc2:#0f7a4a;--warn:#b42318;--tip:#fff7e0;--tipb:#e8c66a;--key:#eef4ff;--keyb:#9db8e8;--code:#f3f1ec}
+@media (prefers-color-scheme:dark){:root{--bg:#141416;--card:#1c1c20;--ink:#ececf0;--mut:#a3a3ad;--line:#33333a;--acc:#7fb0ff;--acc2:#5fd39a;--warn:#ff8a7a;--tip:#2a2412;--tipb:#7a6420;--key:#16223a;--keyb:#35548a;--code:#25252b}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 -apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.wrap{display:grid;grid-template-columns:270px 1fr;max-width:1300px;margin:0 auto}
+nav{position:sticky;top:0;height:100vh;overflow:auto;padding:20px 14px;border-right:1px solid var(--line);font-size:13.5px}
+nav a{display:block;color:var(--mut);text-decoration:none;padding:2px 6px;border-radius:5px}
+nav a:hover{background:var(--code);color:var(--ink)}
+nav h4{margin:14px 0 4px;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--acc)}
+main{padding:28px 40px 120px;min-width:0}
+h1{font-size:30px;margin:0 0 6px}
+h2{font-size:24px;margin:56px 0 12px;padding-top:12px;border-top:3px solid var(--acc)}
+h3{font-size:19px;margin:34px 0 8px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:6px 24px 18px;margin:22px 0;scroll-margin-top:12px}
+.q>h3{margin-top:14px;color:var(--acc)}
+.q>h3 .n{display:inline-block;min-width:34px;font-weight:800}
+.tag{font-size:11px;font-weight:700;padding:2px 7px;border-radius:20px;background:var(--code);color:var(--mut);vertical-align:middle;margin-left:6px}
+.key{background:var(--key);border-left:4px solid var(--keyb);padding:10px 14px;border-radius:6px;margin:12px 0}
+.key b:first-child{color:var(--acc)}
+.tip{background:var(--tip);border-left:4px solid var(--tipb);padding:10px 14px;border-radius:6px;margin:12px 0}
+.warn{color:var(--warn);font-weight:600}
+.ov{border-top:1.5px solid currentColor;padding-top:1px;margin:0 1.5px;line-height:1}
+.ovwrap{display:inline-block}
+.f{font-family:"Cambria Math","Times New Roman",serif;font-size:1.08em;white-space:nowrap}
+.big{display:block;text-align:center;font-size:1.25em;margin:10px 0;white-space:normal}
+table.t{border-collapse:collapse;margin:10px 0;font-size:14.5px}
+table.t th,table.t td{border:1px solid var(--line);padding:4px 10px;text-align:center}
+table.t th{background:var(--code)}
+table.t td.l{text-align:left}
+.row{display:flex;flex-wrap:wrap;gap:22px;align-items:flex-start}
+.km{display:inline-block;margin:8px 0}
+.km table{border-collapse:collapse}
+.km td{width:54px;height:50px;border:1.5px solid var(--ink);text-align:center;position:relative;padding:0;vertical-align:middle}
+.km td b{font-size:18px}
+.km td.v0 b{color:var(--mut);font-weight:400}
+.km td.vx b{color:#c2410c}
+.km td .i{position:absolute;top:1px;left:3px;font-size:9.5px;color:var(--mut)}
+.km td .bars{position:absolute;bottom:3px;left:4px;right:4px;display:flex;flex-direction:column;gap:2px}
+.km td .bars i{height:4px;border-radius:2px;display:block}
+.km td.hz{outline:3px dashed #e11d48;outline-offset:-5px}
+.km th{font-size:12.5px;font-weight:600;padding:2px 4px;color:var(--mut)}
+.km th.corner{font-size:11px;text-align:right;line-height:1.1}
+.km .lg{font-size:13.5px;margin-top:6px}
+.km .lg span.sw{display:inline-block;width:14px;height:6px;border-radius:2px;margin-right:6px;vertical-align:middle}
+.km .cap{font-size:13px;font-weight:700;margin-bottom:4px}
+svg{max-width:100%;height:auto}
+svg .w{stroke:var(--ink);stroke-width:1.6;fill:none}
+svg .g{stroke:var(--ink);stroke-width:1.8;fill:var(--card)}
+svg .lb{font:13px "Segoe UI",Arial,sans-serif;fill:var(--ink)}
+svg .sm{font:11px "Segoe UI",Arial,sans-serif;fill:var(--mut)}
+svg .ovl{stroke:var(--ink);stroke-width:1.2}
+svg .bx{fill:var(--card);stroke:var(--ink);stroke-width:1.8}
+svg .sig{stroke:var(--acc);stroke-width:2;fill:none}
+svg .hl{fill:#e11d48;opacity:.18}
+svg .grid{stroke:var(--line);stroke-width:1;stroke-dasharray:3 3}
+svg .an{stroke:var(--warn);stroke-width:1.3;fill:none}
+svg .ant{font:12px "Segoe UI",Arial,sans-serif;fill:var(--warn)}
+.fig{margin:12px 0;overflow-x:auto}
+.cap2{font-size:13px;color:var(--mut);margin-top:2px}
+ol.steps li{margin:4px 0}
+code{background:var(--code);padding:1px 5px;border-radius:4px}
+.toc-q{columns:2;font-size:14px}
+.hero{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 24px;margin:16px 0}
+@media (max-width:900px){.wrap{grid-template-columns:1fr}nav{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line)}main{padding:18px 16px 80px}.q{padding:4px 14px 14px}.toc-q{columns:1}}
+@media print{nav{display:none}.wrap{display:block}.q{break-inside:avoid-page}body{background:#fff}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav>
+<b>Digitalna elektronika</b><br><span style="color:var(--mut)">1. kolokvijum – skripta</span>
+<h4>Deo A – od nule</h4>
+<a href="#a0">0. Kako da učiš ovo</a>
+<a href="#a1">1. Bit, 0 i 1, logička kola</a>
+<a href="#a2">2. Bulova algebra</a>
+<a href="#a3">3. Tablica istinitosti, indeksi</a>
+<a href="#a4">4. Karnoove tablice (najvažnije!)</a>
+<a href="#a5">5. DNF / KNF, NI-NI, NILI-NILI</a>
+<a href="#a6">6. Kašnjenje i hazardi</a>
+<a href="#a7">7. MUX, DEMUX, dekoder, koder</a>
+<a href="#a8">8. Napon, brzina, potrošnja kola</a>
+<a href="#a9">9. Brojevi i kodovi</a>
+<h4>Deo B – odgovori</h4>
+<a href="#q1">1–4 Funkcije, minimizacija</a>
+<a href="#q5">5–11 Logička kola</a>
+<a href="#q12">12–23 Hazardi</a>
+<a href="#q24">24–31 MUX / DEMUX</a>
+<a href="#q34">34 Funkcionalni hazard</a>
+<a href="#q35">35–42 Dekoderi</a>
+<a href="#q43">43–45 Koderi</a>
+<a href="#q46">46–50 Kodovi, parnost</a>
+<a href="#q49b">49b–50b PLA</a>
+<h4>Na kraju</h4>
+<a href="#bubaj">Šta MORAŠ da znaš napamet</a>
+</nav>
+<main>
+
+<h1>Digitalna elektronika – skripta za 1. kolokvijum</h1>
+<p style="color:var(--mut)">Mikroračunarska elektronika · 2026/27 · sastavljeno iz predavanja (DE 01–07), vežbi (Vežbe 1–6 + priprema) i okvirnog spiska pitanja. Pitanja 32 i 33 su izbačena (ne idu).</p>
+
+<div class="hero">
+<b>Kako je kolokvijum sastavljen:</b> 7–8 teorijskih pitanja + 2–3 zadatka. Pitanja sa <b>*</b> su mali zadaci – na kolokvijumu dobiješ <i>istu vrstu</i> zadatka, ali sa drugom funkcijom. Zato u ovoj skripti za svaki takav zadatak imaš <b>recept korak po korak</b> + rešene primere sa spiska.
+<br><br>
+<b>Deo A</b> te uči osnove od nule (pročitaj ga prvi, ne preskači Karnoove tablice). <b>Deo B</b> su odgovori na sva pitanja, redom. U svakom odgovoru plavi okvir „Ukratko“ je ono što treba da napišeš ako nemaš vremena; ispod je objašnjenje da razumeš.
+</div>
+
+<!-- ===================== DEO A ===================== -->
+<h2 id="a0">Deo A · 0. Kako da učiš ovo</h2>
+<ol class="steps">
+<li><b>Prvo Deo A</b>, redom od 1 do 9 – ne preskači ništa, svaka sekcija koristi prethodnu. Bez Karnoovih tablica ne možeš ništa – pola zadataka su one.</li>
+<li><b>Onda zadaci</b>: pitanja 3, 4, 17–22 (Karnoo + hazardi), 28–30 (MUX), 41 (dekoder). Uzmi papir i reši ih sam, pa uporedi.</li>
+<li><b>Onda teorija</b>: pročitaj „Ukratko“ okvire za sva pitanja, pa ih izgovori naglas / napiši po sećanju.</li>
+<li><b>Na kraju</b> sekcija <a href="#bubaj">„Šta MORAŠ da znaš napamet“</a> – formule i definicije u jednom mestu.</li>
+</ol>
+<div class="tip"><b>Oznake:</b> crta iznad slova (<span class="f">~A</span>) znači <b>komplement</b> (negacija, „ne A“): ako je A=1 onda je <span class="f">~A</span>=0. Tačka <span class="f">·</span> je logičko I (često se izostavi: <span class="f">AB</span> = A·B), a <span class="f">+</span> je logičko ILI.<br><b>Skraćenice:</b> <b>LK</b> = logičko kolo · <b>KM</b> = kombinaciona mreža (bilo koje kolo sastavljeno od više LK, čiji izlaz zavisi samo od trenutnih ulaza – npr. MUX, dekoder, tvoja minimizovana funkcija) · <b>DNF</b> = zbir proizvoda (I-ILI) · <b>KNF</b> = proizvod zbirova (ILI-I) · <b>M</b> = mera složenosti (broj ulaza svih kola) · <b>MUX</b> = multiplekser · <b>DEC</b> = dekoder.</div>
+
+<h2 id="a1">1. Bit, 0 i 1, logička kola</h2>
+<p>Digitalni signal ima samo <b>dva nivoa napona</b>: visok V<sub>H</sub> (npr. 3,3 V) i nizak V<sub>L</sub> (0 V). U <b>pozitivnoj logici</b> V<sub>H</sub> = logička <b>1</b>, V<sub>L</sub> = logička <b>0</b> (u negativnoj logici obrnuto). Jedna takva cifra (0 ili 1) zove se <b>bit</b>.</p>
+<p><b>Logičko kolo</b> (LK) je mali elektronski sklop koji od ulaznih bitova pravi izlazni bit po nekom pravilu. Osnovna kola:</p>
+<p>U tablici ispod: za svaku kombinaciju ulaza A i B izlaz F je <b>jedan bit – 0 ili 1</b>.</p>
+<div id="gatesTable"></div>
+<div class="tip"><b>Kako da zapamtiš:</b> <b>I</b> = „svi moraju biti 1“. <b>ILI</b> = „bar jedan je 1“. <b>NE</b> = obrni. <b>NI / NILI</b> = I / ILI pa obrni (kružić na izlazu = negacija). <b>EX-ILI</b> = „1 ako su ulazi <i>različiti</i>“. <b>EX-NILI</b> = „1 ako su <i>isti</i>“ (koincidencija).</div>
+<p><b>Potpun skup operacija</b> = skup kojim možeš napraviti BILO KOJU funkciju: {I, NE}, {ILI, NE}, <b>samo NI</b> ili <b>samo NILI</b>. Zato su NI i NILI kola toliko važna.</p>
+
+<h2 id="a2">2. Bulova algebra – pravila računanja sa 0 i 1</h2>
+<table class="t">
+<tr><th>Šta</th><th>Za I (·)</th><th>Za ILI (+)</th></tr>
+<tr><td class="l">sa nulom</td><td class="f">0·A = 0</td><td class="f">0 + A = A</td></tr>
+<tr><td class="l">sa jedinicom</td><td class="f">1·A = A</td><td class="f">1 + A = 1</td></tr>
+<tr><td class="l">isto sa istim</td><td class="f">A·A = A</td><td class="f">A + A = A</td></tr>
+<tr><td class="l">sa komplementom</td><td class="f">A·~A = 0</td><td class="f">A + ~A = 1</td></tr>
+<tr><td class="l">komutativnost</td><td class="f">AB = BA</td><td class="f">A+B = B+A</td></tr>
+<tr><td class="l">distributivnost</td><td class="f">A(B+C) = AB + AC</td><td class="f">A + BC = (A+B)(A+C)</td></tr>
+<tr><td class="l">apsorpcija</td><td class="f">A(A+B) = A</td><td class="f">A + AB = A</td></tr>
+<tr><td class="l">apsorpcija 2</td><td class="f">A(~A+B) = AB</td><td class="f">A + ~AB = A + B</td></tr>
+<tr><td class="l">„spajanje“</td><td class="f">(A+B)(A+~B) = A</td><td class="f">AB + A~B = A</td></tr>
+<tr><td class="l"><b>De Morgan</b></td><td class="f">~[A·B] = ~A + ~B</td><td class="f">~[A+B] = ~A·~B</td></tr>
+</table>
+<div class="key"><b>De Morgan rečima:</b> „crta se pocepa, a znak se promeni“. Dvostruka negacija ne menja ništa: <span class="f">~[~[X]] = X</span>. Ova dva trika koristiš da funkciju prebaciš u NI-NI ili NILI-NILI oblik.</div>
+<p><b>Primer algebarske minimizacije:</b> <span class="f">F = AB + A~B + ~AB = A(B+~B) + ~AB = A + ~AB = A + B</span>.</p>
+
+<h2 id="a3">3. Tablica istinitosti, indeksi, potpuni proizvodi</h2>
+<p>Funkciju od n promenljivih potpuno opisuje <b>tablica istinitosti</b>: 2<sup>n</sup> redova (za 3 promenljive 8, za 4 promenljive 16). Svaki red ima svoj <b>indeks</b> = binarni broj ulaza pretvoren u decimalni. Pazi na redosled: kod <span class="f">F(D,C,B,A)</span> D je najteži bit (vredi 8), C=4, B=2, A=1. Npr. DCBA = 0101 → indeks 5.</p>
+<table class="t">
+<tr><th>Indeks</th><th>A</th><th>B</th><th>C</th><th>Potpun proizvod (minterm)</th><th>Potpuna suma (maksterm)</th></tr>
+<tr><td>0</td><td>0</td><td>0</td><td>0</td><td class="f">~A~B~C</td><td class="f">A+B+C</td></tr>
+<tr><td>1</td><td>0</td><td>0</td><td>1</td><td class="f">~A~BC</td><td class="f">A+B+~C</td></tr>
+<tr><td>5</td><td>1</td><td>0</td><td>1</td><td class="f">A~BC</td><td class="f">~A+B+~C</td></tr>
+<tr><td>7</td><td>1</td><td>1</td><td>1</td><td class="f">ABC</td><td class="f">~A+~B+~C</td></tr>
+</table>
+<p>Pravilo: u <b>mintermu</b> (za jedinice) promenljiva koja je 0 ide sa crtom; u <b>makstermu</b> (za nule) promenljiva koja je 1 ide sa crtom („negativna logika“).</p>
+<ul>
+<li><span class="f">F = Σ(1,3,5)</span> – „funkcija je 1 u redovima 1, 3, 5“ (sve ostalo 0). To je <b>zadavanje skupom indeksa</b>.</li>
+<li><span class="f">F = Π(0,4)</span> – „funkcija je <b>0</b> u redovima 0 i 4“ (sve ostalo 1). <span class="warn">Pazi: Π navodi NULE!</span></li>
+<li><span class="f">+ x(13)</span> – u redu 13 vrednost <b>nije bitna</b> („x-stanje“, može biti 0 ili 1 – biraš kako ti odgovara).</li>
+</ul>
+
+<h2 id="a4">4. Karnoove tablice – ovo je ključ (od nule, korak po korak)</h2>
+<div class="hero"><b>Šta je cilj:</b> dobiješ funkciju (tablicu istinitosti ili Σ) i treba da napišeš <b>što kraći izraz</b> za F. Karnoova tablica je samo „pametno nacrtana“ tablica istinitosti na kojoj se kraćenje vidi okom. Idemo polako: prvo 2 promenljive, pa 3, pa 4.</div>
+
+<h3>4.1 Zašto se uopšte nešto skraćuje</h3>
+<p>Sve se zasniva na jednom pravilu iz Bulove algebre:</p>
+<p class="f big">AB + A~B = A</p>
+<p>Rečima: „A=1 i B=1“ <b>ili</b> „A=1 i B=0“ – to je isto što i samo „A=1“, jer B je ili 0 ili 1, pa <b>B nije bitno</b>. Kad dva člana izgledaju isto osim u <b>jednoj</b> promenljivoj (koja je u jednom sa crtom, u drugom bez), ta promenljiva <b>nestaje</b>.</p>
+<p>Karnoova tablica je nacrtana tako da su takvi parovi <b>jedan pored drugog</b>. Zato samo zaokružiš susedne jedinice i odmah vidiš šta nestaje.</p>
+
+<h3>4.2 Dve promenljive (B, A) – 4 polja</h3>
+<p>Tablica istinitosti ima 4 reda. Svaki red je <b>jedno polje</b> u Karnoovoj tablici. Primer: ILI funkcija <span class="f">F = A + B</span>.</p>
+<div class="row">
+<table class="t" style="width:auto"><tr><th>indeks</th><th>B</th><th>A</th><th>F</th></tr>
+<tr><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1</td><td>0</td><td>1</td><td>1</td></tr><tr><td>2</td><td>1</td><td>0</td><td>1</td></tr><tr><td>3</td><td>1</td><td>1</td><td>1</td></tr></table>
+<div class="km" data-k='{"cap":"isto, kao Karnoova tablica","r":"B","c":"A","ones":[1,2,3]}'></div>
+<div style="max-width:360px"><p><b>Kako se čita polje:</b> red kaže koliko je B, kolona kaže koliko je A. Polje u redu B=1 i koloni A=0 je red tablice sa B=1, A=0 → indeks 2 → tu upisuješ F za taj red (1).</p><p>Sivi broj u uglu polja je <b>indeks</b> (redni broj reda iz tablice istinitosti). Velika cifra je <b>vrednost F</b> (0 ili 1).</p></div>
+</div>
+<p><b>Sad zaokružujemo jedinice.</b> Kontura sme da obuhvati 1, 2 ili 4 polja, samo jedinice, i mora biti pravougaonik.</p>
+<div class="row">
+<div class="km" data-k='{"r":"B","c":"A","ones":[1,2,3],"g":[["A","#2563eb",[1,3]],["B","#16a34a",[2,3]]]}'></div>
+<div style="max-width:470px">
+<p><b>Plava kontura</b> = polja 1 i 3 (cela kolona A=1). Pitaš se za svaku promenljivu: <i>da li je ista u oba polja?</i></p>
+<table class="t" style="width:auto"><tr><th>polje</th><th>B</th><th>A</th></tr><tr><td>1</td><td>0</td><td>1</td></tr><tr><td>3</td><td>1</td><td>1</td></tr><tr><th>ista?</th><td>NE – izbaci</td><td><b>DA, 1</b> → piši A</td></tr></table>
+<p>→ plava kontura = <span class="f">A</span>. Isto tako <b>zelena</b> (polja 2 i 3): B je stalno 1, A se menja → <span class="f">B</span>.</p>
+<p><b>Konture spojiš sa +:</b> <span class="f">F = A + B</span>. ✔ (Polje 3 je u obe konture – to je dozvoljeno.)</p>
+</div></div>
+<div class="key"><b>Zlatno pravilo čitanja konture:</b> za svaku promenljivu pogledaj da li ima <b>istu vrednost u svim poljima konture</b>.<br>• stalno <b>1</b> → pišeš je <b>bez crte</b> (A)<br>• stalno <b>0</b> → pišeš je <b>sa crtom</b> (<span class="f">~A</span>)<br>• menja se → <b>izbaciš je</b>.<br>Ono što ostane, napišeš jedno do drugog (to je I, proizvod). Sve konture spojiš sa +.</div>
+
+<h3>4.3 Tri promenljive (C, B, A) – 8 polja</h3>
+<p>Sad imamo 8 redova, pa tablica ima 2 reda (C = 0 ili 1) i 4 kolone (BA). <b>Pazi na redosled kolona: 00, 01, 11, 10</b> – ne 00, 01, 10, 11! Tako se svake dve susedne kolone razlikuju u <b>samo jednom</b> bitu (01→11 menja se samo B, 11→10 menja se samo A). Zbog toga su i <b>prva i poslednja kolona susedne</b> (00 i 10 razlikuju se samo u B) – tablica se „savija u valjak“.</p>
+<div class="row">
+<table class="t" style="width:auto"><tr><th>ind.</th><th>C</th><th>B</th><th>A</th><th>F</th></tr>
+<tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td></tr><tr><td>2</td><td>0</td><td>1</td><td>0</td><td>0</td></tr><tr><td>3</td><td>0</td><td>1</td><td>1</td><td>1</td></tr><tr><td>4</td><td>1</td><td>0</td><td>0</td><td>0</td></tr><tr><td>5</td><td>1</td><td>0</td><td>1</td><td>1</td></tr><tr><td>6</td><td>1</td><td>1</td><td>0</td><td>1</td></tr><tr><td>7</td><td>1</td><td>1</td><td>1</td><td>1</td></tr></table>
+<div><div class="km" data-k='{"cap":"Primer: F = Σ(1,3,5,6,7)","r":"C","c":"BA","ones":[1,3,5,6,7]}'></div>
+<p style="max-width:330px"><b>Σ(1,3,5,6,7)</b> znači: F=1 u redovima 1, 3, 5, 6, 7 tablice istinitosti, svuda drugde F=0. Samo prepišeš jedinice u polja sa tim indeksima.</p></div>
+</div>
+<p><b>Korak 1 – najveća moguća kontura.</b> Polja 1, 3, 5, 7 čine kvadrat 2×2 (kolone 01 i 11, oba reda). 4 polja – odlično.</p>
+<div class="row">
+<div class="km" data-k='{"r":"C","c":"BA","ones":[1,3,5,6,7],"g":[["A","#2563eb",[1,3,5,7]],["CB","#16a34a",[6,7]]]}'></div>
+<div style="max-width:470px">
+<table class="t" style="width:auto"><tr><th>polje</th><th>C</th><th>B</th><th>A</th></tr><tr><td>1</td><td>0</td><td>0</td><td>1</td></tr><tr><td>3</td><td>0</td><td>1</td><td>1</td></tr><tr><td>5</td><td>1</td><td>0</td><td>1</td></tr><tr><td>7</td><td>1</td><td>1</td><td>1</td></tr><tr><th>ista?</th><td>ne</td><td>ne</td><td><b>da, 1</b></td></tr></table>
+<p>→ <b>plava</b> = <span class="f">A</span>.</p>
+<p><b>Korak 2 – ostala je jedinica u polju 6.</b> Spojimo je sa susedom 7 (smemo, iako je 7 već u plavoj – preklapanje je OK). Polja 6 (110) i 7 (111): C=1, B=1, A se menja → <b>zelena</b> = <span class="f">CB</span>.</p>
+<p class="f big">F = A + CB</p>
+</div></div>
+<div class="tip"><b>Primeti:</b> kontura od <b>2</b> polja izbaci <b>1</b> promenljivu, od <b>4</b> polja izbaci <b>2</b>, od <b>8</b> izbaci <b>3</b>. Zato veća kontura = kraći član.</div>
+
+<h3>4.4 Četiri promenljive (D, C, B, A) – 16 polja</h3>
+<p>Isto, samo i redovi idu <b>00, 01, 11, 10</b> (redovi su DC, kolone BA). Gornji i donji red su takođe susedi, a <b>sva 4 ugla</b> mogu biti jedna kontura.</p>
+<div class="row">
+<div class="km" data-k='{"cap":"Indeksi polja (zapamti raspored)","r":"DC","c":"BA","ones":[],"x":[]}'></div>
+<div style="max-width:430px">
+<p><b>Kako naći polje:</b> polje u redu DC=01 i koloni BA=11 je DCBA = 0111 = 4+2+1 = <b>7</b>. (D vredi 8, C 4, B 2, A 1.)</p>
+<p>Raspored indeksa je uvek isti – nauči ga napamet, mnogo ubrzava:</p>
+<pre style="background:var(--code);padding:8px;border-radius:6px;font-size:14px"> 0  1  3  2
+ 4  5  7  6
+12 13 15 14
+ 8  9 11 10</pre>
+<p>(Treća i četvrta kolona su „zamenjene“, a isto i treći i četvrti red – zbog redosleda 00, 01, <b>11, 10</b>.)</p>
+</div></div>
+
+<h3>4.5 Recept (radi za 2, 3 i 4 promenljive)</h3>
+<ol class="steps">
+<li><b>Nacrtaj tablicu</b> sa oznakama 00, 01, 11, 10 i upiši indekse u ćoškove (šablon gore).</li>
+<li><b>Upiši 1</b> u polja čiji su indeksi u Σ, <b>x</b> u polja iz x(…), u ostala 0.</li>
+<li><b>Počni od jedinice koja se može zaokružiti samo na jedan način</b> i zaokruži je što većom konturom (8 → 4 → 2 → 1 polje; pravougaonik; preko ivica se sme).</li>
+<li>Ponavljaj dok <b>sve jedinice</b> nisu u nekoj konturi. Svaka nova kontura mora uhvatiti bar jednu još nepokrivenu jedinicu. Preklapanje je dozvoljeno.</li>
+<li><b>Pročitaj svaku konturu</b> zlatnim pravilom (stalno 1 → A, stalno 0 → <span class="f">~A</span>, menja se → izbaci).</li>
+<li><b>F = zbir</b> svih pročitanih članova.</li>
+</ol>
+
+<h3>4.6 Primer sa 4 promenljive, ceo</h3>
+<div class="row">
+<div class="km" data-k='{"cap":"F = Σ(0,4,5,7,13,14,15)","r":"DC","c":"BA","ones":[0,4,5,7,13,14,15],"g":[["CA","#2563eb",[5,7,13,15]],["DCB","#16a34a",[14,15]],["!D!B!A","#d97706",[0,4]]]}'></div>
+<div style="max-width:470px">
+<p><b>Plava</b> (5, 7, 13, 15) – kvadrat u sredini. To su redovi 01 i 11 (C=1 u oba, D se menja) i kolone 01 i 11 (A=1 u obe, B se menja) → <span class="f">CA</span>.</p>
+<p><b>Zelena</b> (14, 15) – red 11 (D=1, C=1), kolone 11 i 10 (B=1, A se menja) → <span class="f">DCB</span>.</p>
+<p><b>Narandžasta</b> (0, 4) – kolona 00 (B=0, A=0), redovi 00 i 01 (D=0, C se menja) → <span class="f">~D~B~A</span>.</p>
+<p class="f big">F = CA + DCB + ~D~B~A</p>
+<p>Obojene crtice u poljima pokazuju kojoj konturi polje pripada.</p></div></div>
+
+<h3>4.7 Konture preko ivice (ovo se najčešće promaši)</h3>
+<div class="row">
+<div class="km" data-k='{"cap":"4 ugla: Σ(0,2,8,10)","r":"DC","c":"BA","ones":[0,2,8,10],"g":[["!C!A","#2563eb",[0,2,8,10]]]}'></div>
+<div class="km" data-k='{"cap":"leva + desna kolona: Σ(0,2,4,6,8,10,12,14)","r":"DC","c":"BA","ones":[0,2,4,6,8,10,12,14],"g":[["!A","#16a34a",[0,2,4,6,8,10,12,14]]]}'></div>
+<div style="max-width:330px"><p><b>4 ugla</b> = jedna kontura od 4 polja. Polja 0000, 0010, 1000, 1010: C=0 i A=0 uvek, D i B se menjaju → <span class="f">~C~A</span>.</p><p><b>Prva + poslednja kolona</b> = kontura od 8 polja: samo A=0 je stalno → <span class="f">~A</span>.</p></div>
+</div>
+<div class="warn"><b>Česte greške:</b> (1) kontura od 3 ili 6 polja – NE SME; (2) kontura u obliku slova L – NE SME; (3) kontura po dijagonali – polja se dodiruju samo ćoškom, nisu susedna – NE SME; (4) zaboravljeno spajanje preko ivice → dobiješ duži izraz nego što treba.</div>
+
+<h3>4.8 KNF – isto, ali zaokružuješ NULE</h3>
+<p>Ponekad je kraće zaokružiti nule. Postupak je isti, ali se <b>čita obrnuto</b> i dobija se proizvod zagrada:</p>
+<div class="key">Kontura <b>nula</b>: stalno <b>0</b> → pišeš A (bez crte), stalno <b>1</b> → pišeš <span class="f">~A</span>, menja se → izbaci. Promenljive iz jedne konture spojiš sa <b>+</b> u <b>zagradu</b>, a zagrade se množe.</div>
+<div class="row">
+<div class="km" data-k='{"cap":"Primer sa predavanja (zaokružene nule)","r":"DC","c":"BA","ones":[0,1,2,3,5,7,8,10,12,14],"g":[["D+!C+A","#d97706",[4,6]],["!D+!A","#ca8a04",[9,11,13,15]]]}'></div>
+<div style="max-width:450px">
+<p><b>Narandžasta</b> (nule u poljima 4 i 6): D=0, C=1, A=0 stalno, B se menja → <span class="f">(D + ~C + A)</span>.</p>
+<p><b>Žuta</b> (nule 9, 11, 13, 15): D=1, A=1 stalno → <span class="f">(~D + ~A)</span>.</p>
+<p class="f big">F = (~D + ~A)(D + ~C + A)</p>
+<p>Ista funkcija zaokružena po jedinicama daje <span class="f">F = ~D~C + ~DA + D~A</span>. Oba izraza su tačna; uzimaš onaj sa manjim M.</p></div></div>
+
+<h3>Mera složenosti M</h3>
+<p><b>M = ukupan broj ulaza svih kola</b> potrebnih za realizaciju. (U CMOS-u svaki ulaz = 2 tranzistora, zato hoćemo što manji M.) Primer: <span class="f">F = CA + DCB + ~D~B~A</span>: I kola imaju 2+3+3 ulaza, ILI kolo 3 ulaza → M = 11. Pretpostavlja se da su prave i komplementarne vrednosti ulaza dostupne (invertori se ne broje). Član od jednog slova ne treba I kolo – ide direktno u ILI kolo.</p>
+
+<h3>4.9 Vežbaj sam (klikni „Rešenje“ tek kad uradiš)</h3>
+<div class="row">
+<div><div class="km" data-k='{"cap":"Vežba 1: F(C,B,A) = Σ(0,1,2,3)","r":"C","c":"BA","ones":[0,1,2,3]}'></div><details><summary>Rešenje</summary>Ceo gornji red (4 polja): C=0 stalno, B i A se menjaju → <span class="f">F = ~C</span>.</details></div>
+<div><div class="km" data-k='{"cap":"Vežba 2: F(C,B,A) = Σ(0,2,4,6)","r":"C","c":"BA","ones":[0,2,4,6]}'></div><details><summary>Rešenje</summary>Prva + poslednja kolona (preko ivice!), 4 polja: A=0 stalno → <span class="f">F = ~A</span>.</details></div>
+<div><div class="km" data-k='{"cap":"Vežba 3: F = Σ(1,3,4,5,6,7,9,11)","r":"DC","c":"BA","ones":[1,3,4,5,6,7,9,11]}'></div><details><summary>Rešenje</summary>Red 01 (4,5,6,7): D=0, C=1 → <span class="f">~DC</span>. Polja 1,3,9,11 (kolone 01 i 11, redovi 00 i 10 – preko ivice!): C=0, A=1 → <span class="f">~CA</span>. <b><span class="f">F = ~DC + ~CA</span></b></details></div>
+<div><div class="km" data-k='{"cap":"Vežba 4: F = Σ(0,2,5,7,8,10,13,15)","r":"DC","c":"BA","ones":[0,2,5,7,8,10,13,15]}'></div><details><summary>Rešenje</summary>4 ugla (0,2,8,10) → <span class="f">~C~A</span>. Kvadrat u sredini (5,7,13,15) → <span class="f">CA</span>. <b><span class="f">F = ~C~A + CA</span></b></details></div>
+</div>
+
+<h2 id="a5">5. Dvostepena logika: I-ILI, ILI-I, NI-NI, NILI-NILI</h2>
+
+<h3>5.1 Šta znači „dvostepena“</h3>
+<p>Kad dobiješ izraz za F, treba da ga <b>napraviš od logičkih kola</b> (nacrtaš šemu). „Dvostepena“ znači da signal od ulaza (A, B, C, D) do izlaza F prolazi kroz <b>tačno dva sloja kola</b>:</p>
+<ol class="steps">
+<li><b>1. stepen (levo):</b> nekoliko kola, svako pravi jedan član izraza.</li>
+<li><b>2. stepen (desno):</b> jedno kolo koje te članove spaja u F.</li>
+</ol>
+<p><b>Zašto baš dva:</b> svako kolo malo kasni. Kroz dva sloja signal kasni samo 2 kašnjenja – to je najbrže moguće za proizvoljnu funkciju. Zato se zadaci uvek rade u dvostepenom obliku.</p>
+<div class="tip"><b>Važno:</b> pretpostavlja se da su na ulazu dostupne i promenljive i njihovi komplementi (A i <span class="f">~A</span>), pa invertori na ulazu <b>ne računaju</b> kao stepen.</div>
+
+<h3>5.2 Četiri oblika – na jednom primeru</h3>
+<p>Uzećemo funkciju sa slajda „Grafički način minimizacije“. Iz Karnoove tablice dobili smo dva izraza za <b>istu</b> funkciju:</p>
+<ul>
+<li>zaokružene <b>jedinice</b> → <b>DNF</b> (zbir proizvoda): <span class="f">F = ~D~C + ~DA + D~A</span></li>
+<li>zaokružene <b>nule</b> → <b>KNF</b> (proizvod zbirova): <span class="f">F = (~D+~A)(D+~C+A)</span></li>
+</ul>
+<p>Od DNF se prave <b>I-ILI</b> i <b>NI-NI</b>. Od KNF se prave <b>ILI-I</b> i <b>NILI-NILI</b>.</p>
+
+<h3>① I-ILI (iz DNF)</h3>
+<p>Čitaj izraz <span class="f">F = ~D~C + ~DA + D~A</span>:</p>
+<ol class="steps">
+<li>Svaki <b>proizvod</b> (član između plusova) = jedno <b>I kolo</b>. Imamo 3 proizvoda → 3 I kola: prvo dobija <span class="f">~D, ~C</span>, drugo <span class="f">~D, A</span>, treće <span class="f">D, ~A</span>.</li>
+<li>Plusovi između njih = jedno <b>ILI kolo</b> na kraju, sa 3 ulaza (izlazi I kola).</li>
+</ol>
+<div class="fig" data-t='{"type":"AND-OR","terms":[["!D","!C"],["!D","A"],["D","!A"]],"cap":"I-ILI: F = ~D~C + ~DA + D~A"}'></div>
+<p><b>Složenost M</b> = zbir svih ulaza u sva kola = 2 + 2 + 2 (I kola) + 3 (ILI kolo) = <b>9</b>.</p>
+
+<h3>② NI-NI (isto iz DNF)</h3>
+<p>Zašto bi uopšte hteo NI-NI? Zato što su <b>NI kola najjeftinija i najbrža</b> u praksi, pa se ceo čip pravi samo od njih. Postupak:</p>
+<ol class="steps">
+<li>Stavi <b>dve crte</b> iznad celog izraza (dvostruka negacija ništa ne menja): <span class="f">F = ~[~[~D~C + ~DA + D~A]]</span></li>
+<li>Na <b>donju</b> crtu primeni De Morgana („crta se pocepa, znak se promeni“ – <b>+</b> postaje <b>·</b>): <span class="f">F = ~[~[~D~C]·~[~DA]·~[D~A]]</span></li>
+<li>Pročitaj: <span class="f">~[~D~C]</span> je NI kolo sa ulazima <span class="f">~D, ~C</span>. Isto za ostala dva. Spoljna crta preko proizvoda = još jedno NI kolo koje ih spaja.</li>
+</ol>
+<div class="fig" data-t='{"type":"NAND-NAND","terms":[["!D","!C"],["!D","A"],["D","!A"]],"cap":"NI-NI: ista funkcija, M = 9"}'></div>
+<div class="key"><b>Prečica:</b> NI-NI šema je <b>potpuno ista</b> kao I-ILI – iste žice, isti ulazi – samo <b>svako kolo zameniš NI kolom</b> (dodaš kružiće). M ostaje isti (9). Jedini izuzetak: ako DNF ima član od <b>jednog slova</b> (npr. <span class="f">F = C + ~AB</span>), to slovo ide direktno u izlazno NI kolo, ali <b>komplementirano</b> (<span class="f">~C</span>).</div>
+
+<h3>③ ILI-I (iz KNF)</h3>
+<p>Sad isto, samo „naopako“. Čitaj <span class="f">F = (~D+~A)(D+~C+A)</span>:</p>
+<ol class="steps">
+<li>Svaka <b>zagrada (zbir)</b> = jedno <b>ILI kolo</b>. Dve zagrade → 2 ILI kola: prvo sa <span class="f">~D, ~A</span>, drugo sa <span class="f">D, ~C, A</span>.</li>
+<li>Množenje između zagrada = jedno <b>I kolo</b> na kraju, sa 2 ulaza.</li>
+</ol>
+<div class="fig" data-t='{"type":"OR-AND","terms":[["!D","!A"],["D","!C","A"]],"cap":"ILI-I: F = (~D+~A)(D+~C+A)"}'></div>
+<p><b>M</b> = 2 + 3 (ILI kola) + 2 (I kolo) = <b>7</b>. Manje od 9 → ova realizacija je jednostavnija.</p>
+
+<h3>④ NILI-NILI (isto iz KNF)</h3>
+<ol class="steps">
+<li>Dve crte iznad celog izraza: <span class="f">F = ~[~[(~D+~A)(D+~C+A)]]</span></li>
+<li>De Morgan na donju crtu (<b>·</b> postaje <b>+</b>): <span class="f">F = ~[~[~D+~A] + ~[D+~C+A]]</span></li>
+<li>Pročitaj: svaka <span class="f">~[zbir]</span> = NILI kolo; spoljna crta preko zbira = izlazno NILI kolo.</li>
+</ol>
+<div class="fig" data-t='{"type":"NOR-NOR","terms":[["!D","!A"],["D","!C","A"]],"cap":"NILI-NILI: ista funkcija, M = 7"}'></div>
+<div class="key"><b>Prečica:</b> NILI-NILI šema je <b>ista kao ILI-I</b>, samo svako kolo zameniš NILI kolom. M isti (7). Izuzetak isti kao gore: zagrada od jednog slova ide u izlazno NILI kolo komplementirana.</div>
+
+<h3>5.3 Sve na jednom mestu</h3>
+<table class="t">
+<tr><th>Oblik</th><th>Polaziš od</th><th>1. stepen</th><th>2. stepen</th><th>U primeru</th></tr>
+<tr><td><b>I-ILI</b></td><td>DNF (zaokružene 1)</td><td>I kola (jedno po proizvodu)</td><td>ILI kolo</td><td>M = 9</td></tr>
+<tr><td><b>NI-NI</b></td><td>DNF</td><td>NI kola</td><td>NI kolo</td><td>M = 9</td></tr>
+<tr><td><b>ILI-I</b></td><td>KNF (zaokružene 0)</td><td>ILI kola (jedno po zagradi)</td><td>I kolo</td><td>M = 7</td></tr>
+<tr><td><b>NILI-NILI</b></td><td>KNF</td><td>NILI kola</td><td>NILI kolo</td><td>M = 7</td></tr>
+</table>
+<div class="key"><b>Recept za zadatak „realizovati u NI-NI / NILI-NILI“:</b> (1) Karnoo → za NI-NI zaokruži <b>jedinice</b> (DNF), za NILI-NILI zaokruži <b>nule</b> (KNF); (2) nacrtaj I-ILI odnosno ILI-I šemu; (3) zameni sva kola NI odnosno NILI kolima; (4) izračunaj M. Ako se traži „minimalna realizacija“, uradi oba (DNF i KNF) i uzmi manji M.</div>
+
+<h2 id="a6">6. Kašnjenje i hazardi – od nule</h2>
+
+<h3>6.1 Kola kasne</h3>
+<p>Do sada smo se pravili da kolo menja izlaz <b>istog trenutka</b> kad se promeni ulaz. U stvarnosti svako logičko kolo malo kasni – izlaz se promeni tek posle <b>vremena propagacije t<sub>p</sub></b> (nekoliko nanosekundi). Primer invertora (NE kola):</p>
+<div class="fig" data-w='{"T":7,"s":[{"n":"A (ulaz)","v":0,"t":[1,4]},{"n":"!A (izlaz)","v":1,"t":[2,5]}],"m":[[1,"A se promeni"]]}'></div>
+<p class="cap2">Kako se čita ovakav <b>vremenski dijagram</b>: vreme ide sleva nadesno. Linija <b>gore</b> = signal je 1, <b>dole</b> = 0. Jedan podeok = jedno kašnjenje t<sub>p</sub>. Vidi se da izlaz <span class="f">~A</span> promeni stanje <b>jedan podeok posle</b> ulaza A.</p>
+<p>Ako signal prođe kroz 2 kola, kasni 2 t<sub>p</sub>; kroz 3 kola – 3 t<sub>p</sub>. To je samo po sebi u redu (sačekaš malo). Problem nastaje kad do izlaza vode <b>dva puta različite dužine</b>.</p>
+
+<h3>6.2 Šta je hazard – primer korak po korak</h3>
+<p>Funkcija <span class="f">F = AB + ~BC</span>. Neka je A=1 i C=1 sve vreme. Tada:</p>
+<ul><li>ako je B=1: <span class="f">AB = 1</span>, pa F=1</li><li>ako je B=0: <span class="f">~BC = 1</span>, pa F=1</li></ul>
+<p>Dakle F bi <b>stalno trebalo da bude 1</b>, šta god radio B. Ali pogledaj šta se dešava kad B padne sa 1 na 0:</p>
+<div class="fig" data-w='{"T":8,"s":[{"n":"B","v":1,"t":[2]},{"n":"!B","v":0,"t":[3]},{"n":"AB","v":1,"t":[3]},{"n":"!BC","v":0,"t":[4]},{"n":"F","v":1,"t":[4,5],"h":[[4,5,"lažna 0 (glič)"]]}],"m":[[2,"B se menja"]]}'></div>
+<table class="t"><tr><th>trenutak</th><th>šta se desi</th><th>zašto</th></tr>
+<tr><td>2</td><td>B padne na 0</td><td>ulaz se promenio</td></tr>
+<tr><td>3</td><td><span class="f">AB</span> padne na 0, a <span class="f">~B</span> tek postane 1</td><td>AB je samo 1 kolo od B; <span class="f">~B</span> prolazi kroz invertor (1 t<sub>p</sub>)</td></tr>
+<tr><td>4</td><td><span class="f">~BC</span> postane 1; a F <b>padne na 0</b>!</td><td><span class="f">~BC</span> čeka <span class="f">~B</span> (put je duži za jedno kolo). F (ILI kolo) vidi da je AB=0 a <span class="f">~BC</span> još 0</td></tr>
+<tr><td>5</td><td>F se vrati na 1</td><td>ILI kolo konačno „vidi“ <span class="f">~BC</span>=1</td></tr></table>
+<p>Na izlazu se pojavio <b>kratak lažni impuls</b> (glič) – F je na trenutak bio 0 iako je trebalo da bude stalno 1. Ta pojava se zove <b>hazard</b>. Uzrok: član AB se „ugasi“ pre nego što se član <span class="f">~BC</span> „upali“, i na tren nijedan ne drži F na 1.</p>
+
+<h3>6.3 Kako se hazard vidi u Karnoovoj tablici (najvažnije za zadatke!)</h3>
+<p>Upišimo <span class="f">F = AB + ~BC</span> u tablicu (C red, BA kolone). AB = polja 3 i 7, <span class="f">~BC</span> = polja 4 i 5.</p>
+<div class="row">
+<div class="km" data-k='{"cap":"Ima hazard: 5 i 7 su susedi u različitim konturama","r":"C","c":"BA","ones":[3,4,5,7],"g":[["AB","#2563eb",[3,7]],["!BC","#16a34a",[4,5]]],"h":[[5,7]]}'></div>
+<div class="km" data-k='{"cap":"Bez hazarda: dodata kontura CA","r":"C","c":"BA","ones":[3,4,5,7],"g":[["AB","#2563eb",[3,7]],["!BC","#16a34a",[4,5]],["CA (dodato)","#dc2626",[5,7]]]}'></div>
+<div style="max-width:380px">
+<p>Polja <b>5</b> (C=1, B=0, A=1) i <b>7</b> (C=1, B=1, A=1) su <b>susedna</b> – razlikuju se samo u B. To je baš prelaz iz primera! Oba su 1, ali su u <b>različitim konturama</b> i <b>nijedna kontura ne obuhvata oba</b>. Dok prelaziš sa jednog na drugo, jedna kontura se gasi, druga pali → glič.</p>
+<p><b>Lek:</b> dodaj konturu koja obuhvata oba polja: (5, 7) → C=1, A=1 → <span class="f">CA</span>. Ona je 1 za vreme celog prelaza i drži F=1.</p>
+<p class="f big">F = AB + ~BC + CA</p>
+<p>Taj član je „višak“ (redundantan) za logiku, ali je potreban protiv hazarda.</p></div></div>
+<div class="key"><b>Pravilo za zadatke:</b> u DNF postoji hazard ako postoje <b>dve susedne jedinice koje nisu zajedno ni u jednoj konturi</b>. Za svaki takav par dodaš konturu koja ih spaja. Kad svaki par susednih jedinica ima zajedničku konturu → nema hazarda.</div>
+
+<h3>6.4 Vrste hazarda – četiri slučaja, jedan po jedan</h3>
+<p>Sve vrste hazarda su ista pojava: <b>na izlazu se na tren pojavi pogrešna vrednost</b>. Razlikuju se samo po dva pitanja:</p>
+<table class="t">
+<tr><th></th><th>menja se <b>jedan</b> ulaz</th><th>menjaju se <b>dva ili više</b> ulaza odjednom</th></tr>
+<tr><th>izlaz treba da <b>ostane isti</b></th><td><b>statički hazard</b><br>(jedinice ili nule)</td><td rowspan="2"><b>funkcionalni hazard</b></td></tr>
+<tr><th>izlaz treba da se <b>promeni jednom</b></th><td><b>dinamički hazard</b></td></tr>
+</table>
+<p>Statički i dinamički zajedno se zovu <b>logički hazardi</b>: nastaju zbog toga <i>kako je kolo nacrtano</i> (različite dužine puteva), pa se mogu popraviti drugačijom šemom. Funkcionalni nastaje zbog <i>same funkcije</i> – njega šema ne može da popravi.</p>
+<div class="tip"><b>Reč „statički“</b> = izlaz je trebalo da stoji miran (statičan). <b>„Dinamički“</b> = izlaz je trebalo da se pomeri. <b>„Jedinice / nule“</b> = koja vrednost je trebalo da stoji (1 ili 0). Kad zapamtiš ovo, imena se sama objašnjavaju.</div>
+
+<h3>① Statički hazard jedinice („lažna nula“)</h3>
+<div class="row">
+<div style="max-width:520px">
+<p><b>Šta se vidi:</b> izlaz treba da <b>ostane 1</b>, a na tren padne na <b>0</b>. Drugo ime: <i>parazitni impuls nule</i>.</p>
+<p><b>Kad nastaje:</b> kod <b>I-ILI</b> (ili NI-NI) šeme – dakle kad si zaokruživao <b>jedinice</b>. Menja se jedna promenljiva, pa F prelazi iz jedne konture u drugu. Stara kontura (I kolo) se ugasi brže nego što se nova upali → za tren nijedno I kolo ne daje 1 → ILI kolo daje 0.</p>
+<p><b>Kako ga vidiš u tablici:</b> dve <b>susedne jedinice</b> u <b>različitim konturama</b>.</p>
+<p><b>Lek:</b> dodaj konturu (I kolo) koja obuhvata obe te jedinice.</p>
+<p>Ovo je baš primer iz 6.2 i 6.3: <span class="f">F = AB + ~BC</span>, lek <span class="f">+ CA</span>.</p>
+</div>
+<div class="km" data-k='{"cap":"susedne jedinice 5 i 7 u različitim konturama","r":"C","c":"BA","ones":[3,4,5,7],"g":[["AB","#2563eb",[3,7]],["!BC","#16a34a",[4,5]]],"h":[[5,7]]}'></div>
+</div>
+
+<h3>② Statički hazard nule („lažna jedinica“)</h3>
+<p><b>Šta se vidi:</b> izlaz treba da <b>ostane 0</b>, a na tren skoči na <b>1</b>. Drugo ime: <i>parazitni impuls jedinice</i>. Ovo je „ogledalo“ prethodnog: dešava se kod <b>ILI-I</b> (NILI-NILI) šeme – kad si zaokruživao <b>nule</b>.</p>
+<p><b>Primer:</b> <span class="f">F = (A + B)(~B + C)</span>, A=0 i C=0 sve vreme.</p>
+<ul><li>B=0: prva zagrada <span class="f">A+B</span> = 0 → F=0</li><li>B=1: druga zagrada <span class="f">~B+C</span> = 0 → F=0</li></ul>
+<p>F bi trebalo da bude <b>stalno 0</b>. Ali kad B skoči sa 0 na 1:</p>
+<div class="fig" data-w='{"T":8,"s":[{"n":"B","v":0,"t":[2]},{"n":"!B","v":1,"t":[3]},{"n":"A+B","v":0,"t":[3]},{"n":"!B+C","v":1,"t":[4]},{"n":"F","v":0,"t":[4,5],"h":[[4,5,"lažna 1 (glič)"]]}],"m":[[2,"B se menja"]]}'></div>
+<p>Zagrada <span class="f">A+B</span> postane 1 odmah (trenutak 3), a zagrada <span class="f">~B+C</span> padne na 0 tek kasnije (4), jer čeka invertor. Između 3 i 4 <b>obe zagrade su 1</b>, pa I kolo na izlazu daje 1 → lažna jedinica.</p>
+<div class="row">
+<div class="km" data-k='{"cap":"susedne NULE 0 i 2 u različitim konturama","r":"C","c":"BA","ones":[1,5,6,7],"g":[["A+B","#d97706",[0,4]],["!B+C","#9333ea",[2,3]]],"h":[[0,2]]}'></div>
+<div class="km" data-k='{"cap":"lek: kontura nula (0,2) = (A+C)","r":"C","c":"BA","ones":[1,5,6,7],"g":[["A+B","#d97706",[0,4]],["!B+C","#9333ea",[2,3]],["A+C (dodato)","#dc2626",[0,2]]]}'></div>
+<div style="max-width:330px"><p><b>U tablici:</b> nule 0 (CBA=000) i 2 (010) su susedne (razlikuju se samo u B), a u različitim su konturama.</p><p><b>Lek:</b> kontura nula (0, 2): C=0, A=0 stalno → zagrada <span class="f">(C + A)</span>.</p><p class="f big">F = (A+B)(~B+C)(A+C)</p></div>
+</div>
+
+<h3>③ Dinamički hazard („treperenje“)</h3>
+<div class="row">
+<div style="max-width:520px">
+<p><b>Šta se vidi:</b> izlaz treba da se promeni <b>jednom</b> (npr. 0 → 1), a on „zatreperi“: <b>0 → 1 → 0 → 1</b>, pa se tek onda smiri.</p>
+<p><b>Kad nastaje:</b> samo u mrežama sa <b>više od dva stepena</b> (signal prolazi kroz 3 i više kola), kad promenljiva do izlaza stiže <b>bar trima putevima</b> različite dužine. Najkraći put kaže „1“, srednji (u kome je statički hazard) na tren kaže „0“, najduži konačno kaže „1“ → izlaz skače više puta.</p>
+<p><b>Lek:</b> (1) ukloni statički hazard u delu mreže gde nastaje (dodaj kolo kao gore), (2) ujednači kašnjenja (da signal na sva kola stiže u isto vreme, npr. izbaci višak invertora), ili (3) sinhronizacija.</p>
+<p><b>Dobra vest:</b> u minimalnoj <b>dvostepenoj</b> šemi (I-ILI, ILI-I…) dinamički hazard <b>ne može</b> da nastane. Zato ga na kolokvijumu samo opisuješ i nacrtaš dijagram (pitanje 23).</p>
+</div>
+<div class="fig" data-w='{"T":9,"s":[{"n":"X (ulaz)","v":0,"t":[2]},{"n":"F (treba)","v":0,"t":[4]},{"n":"F (stvarno)","v":0,"t":[4,5,6],"h":[[4,6,"treperi"]]}],"m":[[2,"X se menja jednom"]]}'></div>
+</div>
+
+<h3>④ Funkcionalni hazard („dva ulaza se menjaju zajedno“)</h3>
+<p><b>Šta se vidi:</b> lažni impuls kad se <b>dva (ili više) ulaza promene u istom trenutku</b>.</p>
+<p><b>Zašto:</b> u stvarnosti dva signala <b>nikad ne stignu tačno istovremeno</b> – jedan uvek kasni bar malo. Zato mreža na tren prođe kroz <b>međukombinaciju</b>. Ako je F u toj međukombinaciji drugačiji – eto gliča.</p>
+<p><b>Primer:</b> ILI kolo <span class="f">F = A + B</span>. Prelaz sa A=1, B=0 na A=0, B=1. Na početku F=1, na kraju F=1 – trebalo bi stalno 1. Ali:</p>
+<table class="t"><tr><th>ko stigne prvi</th><th>put kroz kombinacije (A B)</th><th>F usput</th><th>rezultat</th></tr>
+<tr><td>B prvi (raste)</td><td>10 → <b>11</b> → 01</td><td>1 → <b>1</b> → 1</td><td>✔ nema gliča</td></tr>
+<tr><td>A prvi (pada)</td><td>10 → <b>00</b> → 01</td><td>1 → <b>0</b> → 1</td><td>✘ lažna nula!</td></tr></table>
+<div class="fig" data-w='{"T":8,"s":[{"n":"A","v":1,"t":[3]},{"n":"B","v":0,"t":[4]},{"n":"F = A+B","v":1,"t":[4,5],"h":[[4,5,"lažna 0"]]}],"m":[[3,"A stigao malo pre B"]]}'></div>
+<p><b>Važno:</b> ovde nema šta da se popravi u šemi – <span class="f">A + B</span> je već najprostije moguće, a F(00) <b>stvarno jeste 0</b>. Glič dolazi iz same funkcije, zato „funkcionalni“. Nastao bi i sa idealnim kolima bez kašnjenja.</p>
+<p><b>Lek:</b> <b>sinhronizacija</b> (EN pusti izlaz tek kad se sve smiri) ili da se ulazi menjaju <b>jedan po jedan</b> (npr. ulaze daješ u Grejovom kodu, gde se susedni brojevi razlikuju u samo jednom bitu).</p>
+
+<h3>Sve četiri na jednom mestu</h3>
+<table class="t">
+<tr><th>Vrsta</th><th>Menja se</th><th>Izlaz treba</th><th>Izlaz stvarno</th><th>Gde</th><th>Lek</th></tr>
+<tr><td><b>statički jedinice</b></td><td>1 ulaz</td><td>1 → 1</td><td>1 → <b>0</b> → 1</td><td>I-ILI, NI-NI</td><td>dodaj I kolo (kontura jedinica) ili sinhr.</td></tr>
+<tr><td><b>statički nule</b></td><td>1 ulaz</td><td>0 → 0</td><td>0 → <b>1</b> → 0</td><td>ILI-I, NILI-NILI</td><td>dodaj ILI kolo (kontura nula) ili sinhr.</td></tr>
+<tr><td><b>dinamički</b></td><td>1 ulaz</td><td>0 → 1</td><td>0 → 1 → <b>0</b> → 1</td><td>višestepene mreže</td><td>ukloni stat. hazard, ujednači kašnjenja, sinhr.</td></tr>
+<tr><td><b>funkcionalni</b></td><td>2+ ulaza</td><td>isto ili jedna promena</td><td>lažni impuls</td><td>zavisi od funkcije</td><td>samo sinhronizacija (ili Grejov kod)</td></tr>
+</table>
+<div class="key"><b>Kako da prepoznaš na kolokvijumu:</b> (1) Koliko ulaza se menja? Dva ili više → <b>funkcionalni</b>. (2) Ako jedan: da li izlaz treba da ostane isti? Da → <b>statički</b> (jedinice ako stoji 1, nule ako stoji 0). Ne, treba da se promeni → <b>dinamički</b>.</div>
+
+<h3>6.5 Druga zaštita: sinhronizacija</h3>
+<p>Umesto da popravljaš izraz, možeš izlaz da „zaključaš“: dodaš I kolo sa signalom dozvole <b>EN</b>. Dok se ulazi menjaju i mreža se smiruje, EN=0 i izlaz je 0. Tek kad prođe dovoljno vremena da se svi gličevi završe, EN postane 1 i pusti pravu vrednost. <b>Prednost:</b> radi za sve vrste hazarda. <b>Mana:</b> sporije je (čekaš) i treba dodatni signal EN (pitanje 13).</p>
+
+<h3>6.6 Recept za zadatke 17–22</h3>
+<ol class="steps">
+<li>Napravi Karnoovu tablicu i minimizuj (DNF: jedinice; KNF: nule).</li>
+<li>Prođi kroz svaki par <b>susednih</b> jedinica (za KNF – nula), uključujući preko ivice.</li>
+<li>Ako par nije zajedno ni u jednoj konturi → <b>hazard</b>. Označi ga.</li>
+<li>Za svaki takav par dodaj konturu (što veću) koja ga obuhvata.</li>
+<li>Napiši novi izraz (minimalni + dodati članovi) i nacrtaj šemu.</li>
+</ol>
+
+<h2 id="a7">7. MUX, DEMUX, dekoder, koder – polako, jedan po jedan</h2>
+<p>Ovo su četiri „gotova“ kola (kombinacione mreže) koja se kupuju kao čipovi. Svako ima ulaze za <b>podatke</b> i ulaze kojima <b>biraš</b> šta će da radi. Za svako: čemu služi → tablica → primer → kako se koristi u zadatku.</p>
+
+<h3>7.1 Multiplekser (MUX) – „biraš jedan od više ulaza“</h3>
+<p><b>Slika iz života:</b> TV daljinski. Imaš više kanala (ulaza), a na ekranu (izlazu) je samo jedan – onaj čiji <b>broj</b> ukucaš. Kod MUX-a „broj kanala“ zadaješ binarno, na <b>selekcionim ulazima</b>.</p>
+<p><b>Najmanji: MUX 2/1</b> – 2 ulaza podataka (I<sub>0</sub>, I<sub>1</sub>), 1 selekcioni ulaz (S), 1 izlaz (Y).</p>
+<div class="row">
+<table class="t" style="width:auto"><tr><th>S</th><th>Y (izlaz)</th></tr><tr><td>0</td><td>Y = I<sub>0</sub></td></tr><tr><td>1</td><td>Y = I<sub>1</sub></td></tr></table>
+<div style="max-width:440px"><p><b>Primer:</b> I<sub>0</sub>=1, I<sub>1</sub>=0.<br>• Ako je S=0 → izlaz „gleda“ I<sub>0</sub> → <b>Y=1</b>.<br>• Ako je S=1 → izlaz „gleda“ I<sub>1</sub> → <b>Y=0</b>.</p><p>Izlaz je i dalje <b>samo jedan bit</b> (0 ili 1) – MUX ga samo „prepiše“ sa izabranog ulaza.</p></div>
+</div>
+<p><b>MUX 4/1</b> – 4 ulaza (I<sub>0</sub>…I<sub>3</sub>), pa treba <b>2</b> selekciona ulaza (A<sub>1</sub>A<sub>0</sub>), jer sa 2 bita možeš napisati brojeve 0, 1, 2, 3.</p>
+<div class="row">
+<div class="fig" data-b='{"title":"MUX 4/1","left":[["I0",""],["I1",""],["I2",""],["I3",""]],"right":[["Y",""]],"bottom":[["A1",""],["A0",""]],"top":[["EN",""]]}'></div>
+<table class="t" style="width:auto"><tr><th>A<sub>1</sub></th><th>A<sub>0</sub></th><th>broj</th><th>Y</th></tr><tr><td>0</td><td>0</td><td>0</td><td>I<sub>0</sub></td></tr><tr><td>0</td><td>1</td><td>1</td><td>I<sub>1</sub></td></tr><tr><td>1</td><td>0</td><td>2</td><td>I<sub>2</sub></td></tr><tr><td>1</td><td>1</td><td>3</td><td>I<sub>3</sub></td></tr></table>
+</div>
+<div class="key"><b>Pravilo:</b> MUX sa <b>2<sup>n</sup></b> ulaza podataka ima <b>n</b> selekcionih ulaza. MUX 2/1 → n=1, MUX 4/1 → n=2, MUX 8/1 → n=3, MUX 16/1 → n=4.<br><b>Formula (MUX 4/1):</b> <span class="f">Y = ~A1~A0·I0 + ~A1A0·I1 + A1~A0·I2 + A1A0·I3</span> – svaki član „propusti“ svoj ulaz samo kad je na selekciji njegov broj.</div>
+
+<h3>7.2 Kako se MUX-om realizuje funkcija (zadaci 28–30!)</h3>
+<p><b>Ideja:</b> promenljive funkcije (C, B, A) dovedeš na <b>selekcione</b> ulaze. Tada svaka kombinacija ulaza „izabere“ jedan ulaz podataka – a na taj ulaz unapred staviš <b>vrednost F za tu kombinaciju</b> (0 ili 1). Izlaz MUX-a je onda tačno F.</p>
+<p>Uzmimo funkciju iz sekcije 4: <span class="f">F(C,B,A) = Σ(1,3,5,6,7)</span>.</p>
+<h3>Način 1: MUX 8/1 (onoliko selekcija koliko promenljivih)</h3>
+<div class="row">
+<table class="t" style="width:auto"><tr><th>ind.</th><th>C</th><th>B</th><th>A</th><th>F</th><th>→ ulaz</th></tr>
+<tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>I<sub>0</sub>=0</td></tr><tr><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>I<sub>1</sub>=1</td></tr><tr><td>2</td><td>0</td><td>1</td><td>0</td><td>0</td><td>I<sub>2</sub>=0</td></tr><tr><td>3</td><td>0</td><td>1</td><td>1</td><td>1</td><td>I<sub>3</sub>=1</td></tr><tr><td>4</td><td>1</td><td>0</td><td>0</td><td>0</td><td>I<sub>4</sub>=0</td></tr><tr><td>5</td><td>1</td><td>0</td><td>1</td><td>1</td><td>I<sub>5</sub>=1</td></tr><tr><td>6</td><td>1</td><td>1</td><td>0</td><td>1</td><td>I<sub>6</sub>=1</td></tr><tr><td>7</td><td>1</td><td>1</td><td>1</td><td>1</td><td>I<sub>7</sub>=1</td></tr></table>
+<div class="fig" data-b='{"title":"MUX 8/1","left":[["I0","0"],["I1","1"],["I2","0"],["I3","1"],["I4","0"],["I5","1"],["I6","1"],["I7","1"]],"right":[["Y","F"]],"bottom":[["S2","C"],["S1","B"],["S0","A"]],"top":[["EN","1"]]}'></div>
+</div>
+<p>Postupak: <b>ulaz I<sub>k</sub> = vrednost F u redu k</b>. Ništa se ne minimizuje – samo prepišeš kolonu F. (Pazi: najteža promenljiva C ide na najteži selekcioni ulaz S<sub>2</sub>; EN=1 da MUX radi.)</p>
+
+<h3>Način 2: MUX 4/1 (jedna promenljiva manje na selekciji)</h3>
+<p>Na selekciju stavimo samo C i B. Tada svaki ulaz I<sub>k</sub> „pokriva“ <b>dva reda</b> tablice (A=0 i A=1), pa na njega ne ide broj nego <b>0, 1, A ili <span class="f">~A</span></b>:</p>
+<div class="row">
+<table class="t" style="width:auto"><tr><th>C B</th><th>redovi</th><th>F kad A=0</th><th>F kad A=1</th><th>→ ulaz</th></tr>
+<tr><td>0 0</td><td>0, 1</td><td>0</td><td>1</td><td>I<sub>0</sub> = A</td></tr>
+<tr><td>0 1</td><td>2, 3</td><td>0</td><td>1</td><td>I<sub>1</sub> = A</td></tr>
+<tr><td>1 0</td><td>4, 5</td><td>0</td><td>1</td><td>I<sub>2</sub> = A</td></tr>
+<tr><td>1 1</td><td>6, 7</td><td>1</td><td>1</td><td>I<sub>3</sub> = 1</td></tr></table>
+<div class="fig" data-b='{"title":"MUX 4/1","left":[["I0","A"],["I1","A"],["I2","A"],["I3","1"]],"right":[["Y","F"]],"bottom":[["S1","C"],["S0","B"]],"top":[["EN","1"]]}'></div>
+</div>
+<div class="key"><b>Tablica za pamćenje</b> (F u paru redova A=0 / A=1 → šta staviš na ulaz):<br>0 / 0 → <b>0</b> &nbsp;·&nbsp; 1 / 1 → <b>1</b> &nbsp;·&nbsp; 0 / 1 → <b>A</b> &nbsp;·&nbsp; 1 / 0 → <span class="f">~A</span></div>
+
+<h3>7.3 Demultiplekser (DEMUX) – „jedan ulaz šalješ na izabrani izlaz“</h3>
+<p><b>Slika iz života:</b> poštar. Ima jedno pismo (ulaz Z) i mnogo sandučića (izlaza Y<sub>0</sub>, Y<sub>1</sub>, …). Adresa (selekcioni ulazi) kaže u koji sandučić ide. Ostali sandučići ostaju prazni (0).</p>
+<div class="row">
+<table class="t" style="width:auto"><tr><th>S<sub>1</sub></th><th>S<sub>0</sub></th><th>Y<sub>0</sub></th><th>Y<sub>1</sub></th><th>Y<sub>2</sub></th><th>Y<sub>3</sub></th></tr>
+<tr><td>0</td><td>0</td><td><b>Z</b></td><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>0</td><td><b>Z</b></td><td>0</td><td>0</td></tr><tr><td>1</td><td>0</td><td>0</td><td>0</td><td><b>Z</b></td><td>0</td></tr><tr><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td><b>Z</b></td></tr></table>
+<div style="max-width:400px"><p><b>Primer:</b> Z=1, S<sub>1</sub>S<sub>0</sub>=10 (broj 2) → Y<sub>2</sub>=1, svi ostali izlazi = 0.</p><p>MUX skuplja mnogo → jedan, DEMUX deli jedan → mnogo. Zajedno se koriste da se mnogo signala pošalje <b>jednom žicom</b>: MUX ih šalje redom, DEMUX ih na drugom kraju raspoređuje.</p></div>
+</div>
+
+<h3>7.4 Dekoder (DEC) – „pali tačno jedan izlaz: onaj čiji je broj na ulazu“</h3>
+<p><b>Slika iz života:</b> lift. Ukucaš broj sprata (binarno, na ulaze), i upali se <b>samo ta jedna</b> lampica. DEC n/2<sup>n</sup>: n ulaza, 2<sup>n</sup> izlaza.</p>
+<div class="row">
+<div class="fig" data-b='{"title":"DEC 2/4","left":[["A1",""],["A0",""]],"right":[["Y0",""],["Y1",""],["Y2",""],["Y3",""]],"top":[["EN",""]]}'></div>
+<table class="t" style="width:auto"><tr><th>A<sub>1</sub></th><th>A<sub>0</sub></th><th>Y<sub>0</sub></th><th>Y<sub>1</sub></th><th>Y<sub>2</sub></th><th>Y<sub>3</sub></th></tr>
+<tr><td>0</td><td>0</td><td><b>1</b></td><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>0</td><td><b>1</b></td><td>0</td><td>0</td></tr><tr><td>1</td><td>0</td><td>0</td><td>0</td><td><b>1</b></td><td>0</td></tr><tr><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td><b>1</b></td></tr></table>
+</div>
+<p><b>Razlika od DEMUX-a:</b> DEMUX šalje <i>podatak Z</i> (koji može biti 0 ili 1) na izabrani izlaz; dekoder na izabrani izlaz uvek stavlja <b>1</b>. (Zato se dekoder sa EN ulazom može koristiti kao DEMUX: Z dovedeš na EN.)</p>
+<div class="key"><b>Najvažnije:</b> izlaz Y<sub>k</sub> je 1 <b>samo</b> u redu k → to je baš <b>minterm k</b>. Npr. Y<sub>5</sub> = <span class="f">A2~A1A0</span>.</div>
+<h3>Kako se dekoderom realizuje funkcija (zadatak 41)</h3>
+<p>Pošto je F = zbir jedinica (minterma), a dekoder ti daje sve minterme, samo uzmeš izlaze čiji su indeksi u Σ i spojiš ih <b>jednim ILI kolom</b>. Za <span class="f">F = Σ(1,3,5,6,7)</span>:</p>
+<div class="row"><div class="fig" data-dec='{"ins":["C","B","A"],"use":[1,3,5,6,7]}'></div>
+<div style="max-width:360px"><p class="f big">F = Y1 + Y3 + Y5 + Y6 + Y7</p><p>Promenljive C, B, A idu na ulaze A<sub>2</sub>, A<sub>1</sub>, A<sub>0</sub> (najteža na najteži), EN=1.</p></div></div>
+
+<h3>7.5 Koder – obrnuto od dekodera</h3>
+<p><b>Slika iz života:</b> tastatura. Pritisneš jedan taster (jedan od ulaza je 1), a koder na izlaz ispiše <b>binarni broj</b> tog tastera.</p>
+<div class="row">
+<table class="t" style="width:auto"><tr><th>aktivan ulaz</th><th>Y<sub>1</sub></th><th>Y<sub>0</sub></th></tr><tr><td>X<sub>0</sub></td><td>0</td><td>0</td></tr><tr><td>X<sub>1</sub></td><td>0</td><td>1</td></tr><tr><td>X<sub>2</sub></td><td>1</td><td>0</td></tr><tr><td>X<sub>3</sub></td><td>1</td><td>1</td></tr></table>
+<div style="max-width:440px"><p>Koder 4/2: 4 ulaza, 2 izlaza. <b>Problem:</b> ako su istovremeno pritisnuta dva tastera, dobije se pogrešan broj. Rešenje je <b>prioritetni koder</b> – on ispiše broj <b>najvećeg</b> aktivnog ulaza i ima izlaz DV („važeći kod“) koji je 0 kad nijedan ulaz nije aktivan (pitanje 45).</p></div>
+</div>
+
+<h3>7.6 EN – signal dozvole</h3>
+<p>Skoro svako od ovih kola ima ulaz <b>EN</b> (enable = dozvola). <b>EN=1</b> → kolo radi normalno. <b>EN=0</b> → kolo „spava“: izlazi su 0 bez obzira na ulaze. U zadacima ga obično samo vežeš na 1. Koristi se i za spajanje više malih čipova u jedan veći (npr. dva MUX 8/1 → MUX 16/1).</p>
+
+<table class="t">
+<tr><th>Kolo</th><th>Ulazi → izlazi</th><th>Šta radi u jednoj rečenici</th></tr>
+<tr><td><b>MUX 2<sup>n</sup>/1</b></td><td>2<sup>n</sup> podataka + n selekcija → 1</td><td>prepiše na izlaz ulaz čiji je broj na selekciji</td></tr>
+<tr><td><b>DEMUX 1/2<sup>n</sup></b></td><td>1 podatak + n selekcija → 2<sup>n</sup></td><td>pošalje ulaz na izlaz čiji je broj na selekciji</td></tr>
+<tr><td><b>DEC n/2<sup>n</sup></b></td><td>n → 2<sup>n</sup></td><td>upali (1) samo izlaz čiji je broj na ulazu</td></tr>
+<tr><td><b>Koder 2<sup>n</sup>/n</b></td><td>2<sup>n</sup> → n</td><td>ispiše binarni broj aktivnog ulaza</td></tr>
+</table>
+
+
+<h2 id="a8">8. Kolo je stvarna stvar: napon, struja, brzina, potrošnja (za pitanja 5–11)</h2>
+<p>Do sada su kola bila „crne kutije“ koje rade sa 0 i 1. Ali unutra su <b>tranzistori</b> (danas skoro uvek <b>CMOS</b> tehnologija), pa 0 i 1 nisu idealni. Pitanja 6–11 su baš o tome. Pet stvari:</p>
+
+<h3>8.1 Kombinaciona i sekvencijalna mreža (pitanje 5)</h3>
+<ul>
+<li><b>Kombinaciona mreža (KM)</b> nema memoriju: izlaz zavisi <b>samo od toga šta je sad na ulazu</b>. Sve što smo do sad radili (funkcije, MUX, dekoder) su KM. Kao kalkulator: isti ulaz → uvek isti izlaz.</li>
+<li><b>Sekvencijalna mreža (SM)</b> ima memoriju: izlaz zavisi od ulaza <b>i od onoga što se desilo ranije</b> (stanja). Memoriju pravi <b>povratna sprega</b> – izlaz se vraća nazad na ulaz. Kao prekidač za svetlo na dugme: isti pritisak jednom pali, drugi put gasi. Primeri: flip-flop, brojač, registar, memorija.</li>
+</ul>
+
+<h3>8.2 Margina smetnji – koliko „šuma“ kolo trpi (pitanje 9)</h3>
+<p>Logička 1 nije tačno 3,3 V, a 0 nije tačno 0 V – to su <b>opsezi</b> napona. Na žici se uvek doda malo <b>šuma</b> (smetnje). Pitanje je: koliko sme da se napon „pomeri“, a da sledeće kolo i dalje prepozna dobru vrednost?</p>
+<ul>
+<li>Proizvođač garantuje da izlaz za 1 daje <b>bar V<sub>OHmin</sub></b>, a ulaz prepoznaje 1 već od <b>V<sub>IHmin</sub></b>. Razlika je rezerva za šum kod jedinice: <b>NM1 = V<sub>OHmin</sub> − V<sub>IHmin</sub></b>.</li>
+<li>Za 0: izlaz daje <b>najviše V<sub>OLmax</sub></b>, ulaz prepoznaje 0 do <b>V<sub>ILmax</sub></b>: <b>NM0 = V<sub>ILmax</sub> − V<sub>OLmax</sub></b>.</li>
+</ul>
+<p><b>Primer:</b> V<sub>OHmin</sub> = 2,4 V, V<sub>IHmin</sub> = 2,0 V → NM1 = 0,4 V. Znači šum do 0,4 V naniže ne može da pretvori 1 u 0. Veća margina = otpornije kolo.</p>
+
+<h3>8.3 Faktor grananja N – na koliko ulaza sme jedan izlaz (pitanje 7)</h3>
+<p>Jedan izlaz često vodi na <b>više ulaza</b> drugih kola. Svaki ulaz je mali kondenzator koji izlaz mora da napuni. Što više ulaza – izlaz je „umorniji“ i <b>sporiji</b>. <b>N</b> = najveći broj ulaza koji smeš da vežeš na jedan izlaz, a da kolo i dalje radi dovoljno brzo. Ako ti treba više (npr. N=4, a treba 5 ulaza) – ubaciš <b>bafer</b> (pojačivač, npr. dva invertora zaredom) koji preuzme deo opterećenja.</p>
+
+<h3>8.4 Vreme propagacije (pitanja 8 i 11)</h3>
+<p>To je kašnjenje iz sekcije 6.1, samo precizno izmereno: od trenutka kad <b>ulaz</b> pređe pola napona (50%) do trenutka kad <b>izlaz</b> pređe 50%. Izlaz ne pada i ne raste jednako brzo, pa postoje dva:</p>
+<ul><li><b>t<sub>PHL</sub></b> – kad izlaz ide iz <b>H</b>igh u <b>L</b>ow (sa 1 na 0)</li><li><b>t<sub>PLH</sub></b> – kad izlaz ide iz <b>L</b>ow u <b>H</b>igh (sa 0 na 1)</li></ul>
+<p class="f big">t<sub>p</sub> = (t<sub>PHL</sub> + t<sub>PLH</sub>) / 2</p>
+<p><b>Primer:</b> t<sub>PHL</sub> = 2 ns, t<sub>PLH</sub> = 4 ns → t<sub>p</sub> = 3 ns.</p>
+
+<h3>8.5 Potrošnja snage (pitanje 10)</h3>
+<p>CMOS kolo troši energiju na tri načina:</p>
+<ol class="steps">
+<li><b>Dinamička</b> (najveća): svaki put kad izlaz promeni stanje, puni se ili prazni kondenzator opterećenja. P<sub>din</sub> = C<sub>L</sub>·V<sub>DD</sub><sup>2</sup>·f. Što češće menja (veća frekvencija f) i što veći napon – to više troši. Zbog V<sup>2</sup> se napajanje danas smanjuje (0,6–0,9 V).</li>
+<li><b>Struja kratkog spoja</b>: tokom same promene oba tranzistora na tren vode, pa struja „procuri“ od napajanja do mase.</li>
+<li><b>Statička</b> (skoro nula): kad kolo miruje, teku samo sitne struje curenja. Rastu sa temperaturom.</li>
+</ol>
+<div class="key"><b>Ukratko sekcija 8:</b> KM nema memoriju, SM ima. Margina smetnji = rezerva za šum (NM1, NM0). Faktor grananja = koliko ulaza sme na jedan izlaz. t<sub>p</sub> = prosek t<sub>PHL</sub> i t<sub>PLH</sub>. Potrošnja = dinamička + kratak spoj + statička.</div>
+
+<h2 id="a9">9. Brojevi i kodovi – od nule (za pitanja 46–50)</h2>
+
+<h3>9.1 Binarni brojevi</h3>
+<p>Mi brojimo u <b>dekadnom</b> sistemu: cifra vredi 1, 10, 100… zavisno od mesta. Računar ima samo 0 i 1, pa koristi <b>binarni</b> sistem: mesta vrede <b>1, 2, 4, 8, 16, 32, 64…</b> (svako duplo veće).</p>
+<p><b>Binarni → dekadni:</b> saberi vrednosti mesta gde stoji 1. Primer: 1011<sub>2</sub> = 8 + 0 + 2 + 1 = <b>11</b>.</p>
+<p><b>Dekadni → binarni:</b> deli sa 2 i zapisuj ostatke, pa ih pročitaj <b>odozdo nagore</b>. Primer 11: 11:2=5 ost. <b>1</b> · 5:2=2 ost. <b>1</b> · 2:2=1 ost. <b>0</b> · 1:2=0 ost. <b>1</b> → odozdo: <b>1011</b>.</p>
+<p><b>Heksadecimalni</b> (osnova 16): cifre 0–9 pa A=10, B=11, C=12, D=13, E=14, F=15. Svaka heks cifra = tačno 4 bita, pa se binarni broj podeli u grupe po 4 s desna: 0111 1110 = 7 i 14 = <b>7E</b><sub>16</sub>.</p>
+
+<h3>9.2 Kodovi – isti broj, drugačiji zapis</h3>
+<p><b>Kod</b> je dogovor kako se broj (ili cifra) zapisuje bitovima. Ljudi računaju dekadno, kola binarno, pa se svaka <b>dekadna cifra</b> (0–9) zapiše sa 4 bita – to su <b>BCD</b> kodovi. Glavni:</p>
+<table class="t">
+<tr><th>Kod</th><th>Pravilo</th><th>Cifra 5 izgleda</th></tr>
+<tr><td><b>NBCD</b> (8421)</td><td>cifra u običnom binarnom (mesta 8,4,2,1)</td><td>0101</td></tr>
+<tr><td><b>XS3</b> (višak 3)</td><td>cifri dodaš 3, pa zapišeš binarno (5+3=8)</td><td>1000</td></tr>
+<tr><td><b>Grejov</b></td><td>susedni brojevi se razlikuju u <b>samo jednom bitu</b> (isto kao redosled 00, 01, 11, 10 u Karnoovoj tablici!)</td><td>0111</td></tr>
+<tr><td><b>Džonsonov</b></td><td>5 bita; jedinice „ulaze“ zdesna jedna po jedna, pa izlaze</td><td>11111</td></tr>
+<tr><td><b>Kružni</b></td><td>10 bita, tačno jedna jedinica – na mestu cifre</td><td>0000100000</td></tr>
+</table>
+<p><b>Binarni → Grejov</b> (zadatak 48): najteži bit prepišeš, a svaki sledeći je EX-ILI dva susedna binarna bita. Primer 110: g2 = 1, g1 = 1⊕1 = 0, g0 = 1⊕0 = 1 → <b>101</b>.</p>
+<p><b>Konvertor koda</b> je samo KM koja jedan kod pretvara u drugi. Svaki izlazni bit je posebna funkcija → napraviš tablicu i za svaki bit uradiš Karnoovu tablicu (kombinacije koje se ne pojavljuju, npr. 1010–1111 u NBCD, su <b>x</b>). Tako se radi i 7-segmentni displej (zadatak 49).</p>
+
+<h3>9.3 Bit parnosti – otkrivanje greške (pitanje 50)</h3>
+<p>Kad šalješ 4 bita, jedan može da se pokvari usput. Trik: dodaš 5. bit <b>P</b> tako da ukupan broj jedinica bude <b>paran</b>. Primer: poruka 1011 ima tri jedinice (neparno) → P = 1 → šalje se 10111 (četiri jedinice). Prijemnik prebroji: ako dobije neparan broj jedinica → zna da je bila greška. Računa se EX-ILI kolima: P = D⊕C⊕B⊕A.</p>
+
+<h3>9.4 Programabilna logika – PROM, PAL, PLA (pitanja 49b, 50b)</h3>
+<p>Svaka funkcija je zbir proizvoda (DNF). Zato postoje čipovi koji imaju <b>gomilu I kola</b> (I matrica, pravi proizvode) i <b>gomilu ILI kola</b> (ILI matrica, sabira ih), a ti samo „programiraš“ koje žice su spojene:</p>
+<ul><li><b>PROM</b>: I deo fiksan (svi mintermi, kao dekoder), ILI deo programiraš.</li><li><b>PAL</b>: I deo programiraš, ILI deo fiksan.</li><li><b>PLA</b>: oba programiraš – najfleksibilnije.</li></ul>
+<p>Oznaka <b>PLA 3/4/2</b> = 3 ulaza / 4 proizvoda (I kola) / 2 izlaza. U zadatku minimizuješ obe funkcije tako da zajedno koriste najviše 4 različita proizvoda (zajednički proizvodi se dele).</p>
+
+
+<!-- ===================== DEO B ===================== -->
+<h2 id="q1">Deo B · Odgovori na pitanja</h2>
+
+<div class="q"><h3><span class="n">1.</span> Načini zadavanja logičkih funkcija (primer: ILI nad dve promenljive)</h3>
+<div class="key"><b>Ukratko:</b> Logička funkcija se može zadati: (1) <b>tekstualno</b>, (2) <b>algebarski</b> (standardne forme DNF/KNF; potpuna forma ako svaki član sadrži sve promenljive), (3) <b>tabelarno</b> (tablica istinitosti, za mali broj promenljivih), (4) <b>skupom indeksa</b> (Σ ili Π), (5) <b>grafički</b> (Venov dijagram ili Karnoova tablica), (6) <b>logičkom šemom</b>.</div>
+<p><b>Primer – ILI funkcija F(A,B):</b></p>
+<ol>
+<li><b>Tekstualno:</b> „Lampa svetli ako je pritisnut bar jedan od dva prekidača A i B.“</li>
+<li><b>Algebarski:</b> <span class="f">F = A + B</span>. Potpuna DNF: <span class="f">F = ~AB + A~B + AB</span>. KNF: <span class="f">F = A + B</span> (jedna suma).</li>
+<li><b>Tabelarno:</b>
+<table class="t"><tr><th>A</th><th>B</th><th>F</th></tr><tr><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>1</td></tr><tr><td>1</td><td>0</td><td>1</td></tr><tr><td>1</td><td>1</td><td>1</td></tr></table></li>
+<li><b>Skupom indeksa:</b> <span class="f">F = Σ(1,2,3) = Π(0)</span>.</li>
+<li><b>Grafički:</b> Venov dijagram – dva kruga A i B, osenčena je cela unija. Karnoova tablica:
+<div class="km" data-k='{"r":"A","c":"B","ones":[1,2,3],"g":[["A","#2563eb",[2,3]],["B","#16a34a",[1,3]]]}'></div></li>
+<li><b>Logičkom šemom:</b> jedno ILI kolo sa ulazima A, B i izlazom F. <span id="orSym"></span></li>
+</ol>
+<p class="cap2">Na predavanju je isto rađeno i za isključivo ILI (<span class="f">F = ~AB + A~B = A⊕B</span>, Σ(1,2)) – ako dobiješ drugu operaciju, postupak je isti.</p>
+</div>
+
+<div class="q"><h3><span class="n">2.</span> Nepotpuno definisane funkcije</h3>
+<div class="key"><b>Ukratko:</b> Funkcija je nepotpuno definisana kada za neke kombinacije ulaza vrednost izlaza nije zadata. Nastaju zbog: (1) <b>zabranjenih stanja</b> – kombinacija koje se nikad ne mogu pojaviti na ulazu (npr. 1010–1111 u NBCD kodu), i (2) <b>stanja bez značaja</b> – kombinacija za koje nije bitno šta je na izlazu (korisnik taj izlaz tada ne koristi). Zadaju se skupom indeksa uz x-stanja, npr. <span class="f">F = Σ(…) + x(…)</span>. U minimizaciji x-stanjima dodeljujemo 0 ili 1 – kako nam odgovara: u Karnoovoj tablici <b>mogu, ali ne moraju</b> da se obuhvate konturom, a ne sme se praviti kontura koja dodaje samo nova x-stanja.</div>
+<p><b>Zašto pomažu:</b> x dozvoljava veće konture → kraći izraz. Primer: NBCD/7-segmenata konvertor (pitanje 49) – ulazi 10–15 se nikad ne pojavljuju, pa za segment g dobijamo <span class="f">g = D + ~CB + C~B + B~A</span> (veliku konturu „D“ od 8 polja smemo samo zahvaljujući x-stanjima).</p>
+</div>
+
+<div class="q"><h3><span class="n">3.</span> * Minimizirati prekidačku funkciju <span class="tag">ZADATAK</span></h3>
+<p><b>Recept:</b> (1) izmnoži zagrade da dobiješ zbir proizvoda; (2) odredi indekse (za svaki proizvod nađi sve redove gde je 1); (3) Karnoova tablica; (4) očitaj minimalnu formu. (Može i algebarski – Bulovim pravilima.)</p>
+<h3>a) <span class="f">F(A,B,C) = (A+~B)·C + ~AB</span></h3>
+<p><b>Korak 1 – izmnoži zagradu</b> (kao u običnoj matematici, C pomnožiš sa svakim članom u zagradi):</p>
+<p class="f big">(A + ~B)·C + ~AB = AC + ~BC + ~AB</p>
+<p><b>Korak 2 – za svaki proizvod nađi redove tablice istinitosti u kojima je 1.</b> Funkcija je <span class="f">F(A,B,C)</span>, pa je red zapisan kao <b>A B C</b> (A je prvi, najteži bit – vredi 4, B vredi 2, C vredi 1).</p>
+<p>Proizvod je 1 samo kad je <b>svako</b> slovo u njemu 1: slovo bez crte mora biti <b>1</b>, slovo sa crtom mora biti <b>0</b>. Slovo kojeg <b>nema</b> u proizvodu može biti bilo šta – pišemo <b>?</b> i probamo i 0 i 1.</p>
+<table class="t" style="width:auto">
+<tr><th>proizvod</th><th>uslov</th><th>A B C</th><th>? = 0</th><th>? = 1</th><th>indeksi</th></tr>
+<tr><td class="f">AC</td><td>A=1, C=1, B nema</td><td>1 ? 1</td><td>101 = 4+1 = <b>5</b></td><td>111 = 4+2+1 = <b>7</b></td><td><b>5, 7</b></td></tr>
+<tr><td class="f">~BC</td><td>B=0, C=1, A nema</td><td>? 0 1</td><td>001 = <b>1</b></td><td>101 = <b>5</b></td><td><b>1, 5</b></td></tr>
+<tr><td class="f">~AB</td><td>A=0, B=1, C nema</td><td>0 1 ?</td><td>010 = <b>2</b></td><td>011 = <b>3</b></td><td><b>2, 3</b></td></tr>
+</table>
+<p><b>Korak 3 – skupi sve indekse</b> (5 se ponavlja, piše se jednom): <span class="f">F = Σ(1,2,3,5,7)</span>. To znači: F=1 u redovima 1, 2, 3, 5, 7, a u redovima 0, 4, 6 je F=0.</p>
+<p><b>Provera za jedan red:</b> red 5 = A B C = 1 0 1. <span class="f">AC</span> = 1·1 = 1 → F=1 ✔. Red 4 = 1 0 0: <span class="f">AC</span> = 0, <span class="f">~BC</span> = 1·0 = 0, <span class="f">~AB</span> = 0·0 = 0 → F=0 ✔.</p>
+<p><b>Korak 4 – nacrtaj praznu Karnoovu tablicu.</b> Imamo 3 promenljive (A, B, C) → 8 redova tablice istinitosti → <b>8 polja</b>. Prvu promenljivu (A) staviš levo kao <b>redove</b> (A=0 gore, A=1 dole), a druge dve (BC) gore kao <b>kolone</b>, obavezno redom <b>00, 01, 11, 10</b>.</p>
+<p>U svako polje upišeš mali broj – <b>indeks</b>: spojiš oznaku reda i kolone, pa pretvoriš u broj. Primer: red A=1, kolona BC=01 → ABC = 101 = 4+1 = <b>5</b>.</p>
+<div class="row">
+<div class="km" data-k='{"cap":"prazna tablica sa indeksima","r":"A","c":"BC","ones":[],"x":[]}'></div>
+<table class="t" style="width:auto"><tr><th>polje</th><th>A</th><th>BC</th><th>ABC</th><th>indeks</th></tr>
+<tr><td>gore, 1. kolona</td><td>0</td><td>00</td><td>000</td><td>0</td></tr>
+<tr><td>gore, 2. kolona</td><td>0</td><td>01</td><td>001</td><td>1</td></tr>
+<tr><td>gore, 3. kolona</td><td>0</td><td>11</td><td>011</td><td><b>3</b></td></tr>
+<tr><td>gore, 4. kolona</td><td>0</td><td>10</td><td>010</td><td><b>2</b></td></tr>
+<tr><td>dole, 1. kolona</td><td>1</td><td>00</td><td>100</td><td>4</td></tr>
+<tr><td>dole, 2. kolona</td><td>1</td><td>01</td><td>101</td><td>5</td></tr>
+<tr><td>dole, 3. kolona</td><td>1</td><td>11</td><td>111</td><td><b>7</b></td></tr>
+<tr><td>dole, 4. kolona</td><td>1</td><td>10</td><td>110</td><td><b>6</b></td></tr></table>
+</div>
+<p class="warn">Pazi: zbog redosleda 00, 01, <b>11, 10</b> indeksi u redu idu <b>0 1 3 2</b> i <b>4 5 7 6</b> – ne 0 1 2 3! To je najčešća greška.</p>
+<p><b>Korak 5 – upiši jedinice.</b> F = Σ(1,2,3,5,7) → u polja sa indeksima 1, 2, 3, 5, 7 upišeš <b>1</b>, u sva ostala (0, 4, 6) upišeš <b>0</b>:</p>
+<div class="km" data-k='{"cap":"popunjena tablica","r":"A","c":"BC","ones":[1,2,3,5,7]}'></div>
+<p><b>Korak 6 – zaokruži jedinice</b> (što veće konture: 4 polja, pa 2…) i pročitaj svaku:</p>
+<div class="row"><div class="km" data-k='{"r":"A","c":"BC","ones":[1,2,3,5,7],"g":[["C","#2563eb",[1,3,5,7]],["!AB","#16a34a",[2,3]]]}'></div>
+<div><p><b>Plava</b> (1, 3, 5, 7) – kolone 01 i 11, oba reda: C=1 stalno, A i B se menjaju → <span class="f">C</span>.<br><b>Zelena</b> (2, 3) – red A=0, kolone 11 i 10: A=0, B=1 stalno, C se menja → <span class="f">~AB</span>.</p><p class="f big">F = C + ~AB</p><p>M: I kolo 2 + ILI kolo 2 = <b>4</b> (umesto 2+2+2+3=9 u polaznom obliku).</p><p>Algebarski: <span class="f">AC + ~BC = C(A+~B)</span>; <span class="f">C(A+~B) + ~AB</span> … najlakše preko tablice.</p></div></div>
+<h3>b) <span class="f">F(A,B,C) = (A+B)·C + ~A~B</span></h3>
+<p><span class="f">F = AC + BC + ~A~B = Σ(0,1,3,5,7)</span>.</p>
+<div class="row"><div class="km" data-k='{"r":"A","c":"BC","ones":[0,1,3,5,7],"g":[["C","#2563eb",[1,3,5,7]],["!A!B","#16a34a",[0,1]]]}'></div>
+<div><p class="f big">F = C + ~A~B</p></div></div>
+<h3>c) <span class="f">F(A,B,C,D) = (A+B)·~C·D + A·~B</span></h3>
+<p><span class="f">F = A~CD + B~CD + A~B</span>. Indeksi (ABCD): <span class="f">A~CD</span> → 1?01 → 9,13; <span class="f">B~CD</span> → ?101 → 5,13; <span class="f">A~B</span> → 10?? → 8,9,10,11. <span class="f">F = Σ(5,8,9,10,11,13)</span>.</p>
+<div class="row"><div class="km" data-k='{"r":"AB","c":"CD","ones":[5,8,9,10,11,13],"g":[["A!B","#2563eb",[8,9,10,11]],["B!CD","#16a34a",[5,13]]]}'></div>
+<div><p class="f big">F = A~B + B~CD</p><p>(<span class="f">A~CD</span> je višak – polja 9 i 13 su već pokrivena.)</p></div></div>
+</div>
+
+<div class="q"><h3><span class="n">4.</span> * Sintetizovati funkciju u minimalnoj formi (I-ILI, NI-NI, ILI-I, NILI-NILI) <span class="tag">ZADATAK</span></h3>
+<p><b>Recept:</b> (1) nađi indekse i Karnoovu tablicu; (2) za <b>I-ILI i NI-NI</b> zaokruži jedinice (DNF); (3) za <b>ILI-I i NILI-NILI</b> zaokruži nule (KNF); (4) prevedi De Morganom; (5) nacrtaj šemu (pretpostavka: prave i komplementarne vrednosti ulaza su dostupne).</p>
+<h3>a) <span class="f">F(A,B,C) = AB~C + ~AB + B~C</span></h3>
+<p>Indeksi: <span class="f">AB~C</span>→6; <span class="f">~AB</span>→2,3; <span class="f">B~C</span>→2,6. <span class="f">F = Σ(2,3,6)</span>, nule: 0,1,4,5,7.</p>
+<div class="row">
+<div class="km" data-k='{"cap":"DNF (jedinice)","r":"A","c":"BC","ones":[2,3,6],"g":[["B!C","#2563eb",[2,6]],["!AB","#16a34a",[2,3]]]}'></div>
+<div class="km" data-k='{"cap":"KNF (nule)","r":"A","c":"BC","ones":[2,3,6],"g":[["B (B=0 u konturi)","#9333ea",[0,1,4,5]],["!A+!C","#d97706",[5,7]]]}'></div>
+</div>
+<p><b>I-ILI:</b> <span class="f">F = B~C + ~AB</span> &nbsp; <b>NI-NI:</b> <span class="f">F = ~[~[B~C]·~[~AB]]</span><br>
+<b>ILI-I:</b> <span class="f">F = B·(~A+~C)</span> &nbsp; <b>NILI-NILI:</b> <span class="f">F = ~[~B + ~[~A+~C]]</span></p>
+<div class="row">
+<div class="fig" data-t='{"type":"AND-OR","terms":[["B","!C"],["!A","B"]],"cap":"I-ILI"}'></div>
+<div class="fig" data-t='{"type":"NAND-NAND","terms":[["B","!C"],["!A","B"]],"cap":"NI-NI"}'></div>
+<div class="fig" data-t='{"type":"OR-AND","terms":[["B"],["!A","!C"]],"cap":"ILI-I"}'></div>
+<div class="fig" data-t='{"type":"NOR-NOR","terms":[["B"],["!A","!C"]],"cap":"NILI-NILI"}'></div>
+</div>
+<h3>b) <span class="f">F(A,B,C) = A(B+C) + (A+C)(~A+~B)</span></h3>
+<p>Izmnožimo: <span class="f">AB + AC + A~A + A~B + ~AC + ~BC = AB + A~B + AC + ~AC + ~BC = A + C</span> (jer <span class="f">AB+A~B = A</span>, <span class="f">A + ~AC = A + C</span>). Indeksi: Σ(1,3,4,5,6,7), nule 0 i 2 → KNF je ista: <span class="f">(A+C)</span>.</p>
+<p><b>I-ILI / ILI-I:</b> <span class="f">F = A + C</span> (jedno ILI kolo). <b>NI-NI:</b> <span class="f">F = ~[~A·~C]</span> (jedno NI kolo sa ulazima <span class="f">~A, ~C</span>). <b>NILI-NILI:</b> <span class="f">F = ~[~[A+C]]</span> (NILI pa NILI kao invertor).</p>
+<h3>c) <span class="f">F(A,B,C) = A(B+C) + ~ABC</span></h3>
+<p><span class="f">F = AB + AC + ~ABC = Σ(3,5,6,7)</span> – ovo je „većinska“ funkcija (1 kad su bar dva ulaza 1).</p>
+<div class="row">
+<div class="km" data-k='{"cap":"DNF","r":"A","c":"BC","ones":[3,5,6,7],"g":[["AB","#2563eb",[6,7]],["AC","#16a34a",[5,7]],["BC","#d97706",[3,7]]]}'></div>
+<div class="km" data-k='{"cap":"KNF","r":"A","c":"BC","ones":[3,5,6,7],"g":[["A+B","#2563eb",[0,1]],["A+C","#16a34a",[0,2]],["B+C","#d97706",[0,4]]]}'></div>
+</div>
+<p><b>I-ILI:</b> <span class="f">F = AB + AC + BC</span> &nbsp; <b>ILI-I:</b> <span class="f">F = (A+B)(A+C)(B+C)</span> &nbsp; (M = 9 u oba slučaja)<br>
+<b>NI-NI:</b> <span class="f">F = ~[~[AB]·~[AC]·~[BC]]</span> &nbsp; <b>NILI-NILI:</b> <span class="f">F = ~[~[A+B]+~[A+C]+~[B+C]]</span></p>
+<div class="tip">Ako se pita „u kom slučaju je realizacija jednostavnija“ – izračunaj M za obe varijante i uporedi.</div>
+</div>
+
+<h2 id="q5">Logička kola i projektovanje (pitanja 5–11)</h2>
+
+<div class="q"><h3><span class="n">5.</span> Uloga kombinacionih i sekvencijalnih mreža</h3>
+<div class="key"><b>Ukratko:</b> <b>Kombinaciona mreža (KM)</b> – izlaz zavisi <b>samo od trenutne kombinacije ulaza</b>: Out = f(In). Nema memoriju. Primeri: MUX, DEMUX, dekoder, koder, konvertori koda, sabirači, komparatori. <b>Sekvencijalna mreža (SM)</b> – izlaz zavisi od trenutnih ulaza <b>i od prethodnih stanja</b>: Out = f(In, Q). „Pamćenje“ obezbeđuje <b>povratna sprega</b> (izlaz se vraća na ulaz); Q je promenljiva stanja. Primeri: lečevi, flip-flopovi, brojači, registri, memorije.</div>
+<div class="fig"><svg viewBox="0 0 640 130" width="640"><rect class="bx" x="60" y="30" width="120" height="60"/><text class="lb" x="120" y="65" text-anchor="middle">KM</text><path class="w" d="M10 60H60M180 60H240"/><text class="lb" x="12" y="52">In</text><text class="lb" x="208" y="52">Out</text>
+<rect class="bx" x="390" y="20" width="120" height="60"/><text class="lb" x="450" y="55" text-anchor="middle">KM</text><rect class="bx" x="410" y="92" width="80" height="28"/><text class="sm" x="450" y="110" text-anchor="middle">memorija Q</text><path class="w" d="M330 50H390M510 50H590M540 50V106H490M410 106H370V70H390"/><text class="lb" x="332" y="42">In</text><text class="lb" x="560" y="42">Out</text><text class="sm" x="372" y="125">povratna sprega</text></svg></div>
+</div>
+
+<div class="q"><h3><span class="n">6.</span> O kojim odlikama logičkih kola treba voditi računa pri projektovanju</h3>
+<div class="key"><b>Ukratko:</b> (1) <b>familija logičkih kola</b> (danas CMOS; ranije TTL, ECL), (2) <b>faktor grananja</b> N (koliko ulaza sme da se veže na jedan izlaz), (3) <b>broj ulaza M / ulazno opterećenje</b>, (4) <b>margina smetnji</b> logičke nule i jedinice (NM0, NM1), (5) <b>vreme propagacije</b> (t<sub>PHL</sub>, t<sub>PLH</sub>, t<sub>p</sub>), (6) <b>disipacija snage</b> (potrošnja).</div>
+<p><b>Familije:</b> TTL (tranzistorsko-tranzistorska) dugo je bila industrijski standard; ECL (emitorski spregnuta) najbrža bipolarna ali troši mnogo. Danas dominira <b>CMOS</b> (komplementarna MOS logika) zbog male statičke potrošnje, robusnosti i brzine. Unutar CMOS-a postoje i podvrste: prolazna tranzistorska logika (DPL – diferencijalna prolazna), dinamička CMOS logika itd.</p>
+<p><b>Broj ulaza M</b> – broj nezavisnih ulaznih priključaka kola; ograničen brojem nožica, ali i električnim osobinama (kola sa više od 4 ulaza postaju znatno sporija).</p>
+</div>
+
+<div class="q"><h3><span class="n">7.</span> Faktor grananja (dinamički faktor grananja; primer kad N=4 nije zadovoljen; rešenja)</h3>
+<div class="key"><b>Ukratko:</b> <b>Faktor grananja N</b> je maksimalan broj ulaza logičkih kola iste familije koji se mogu priključiti na izlaz posmatranog kola, a da ono i dalje radi prema očekivanjima (da se ne naruše dozvoljeni logički nivoi i brzina). Kod CMOS-a ulazi skoro ne vuku statičku struju, ali svaki ulaz je <b>kapacitivnost</b> koju izlaz mora da napuni/isprazni → sa više priključenih ulaza kolo postaje sve sporije. Zato se definiše <b>dinamički faktor grananja</b>: najveći broj ulaza koji se sme priključiti tako da vreme propagacije (brzina promene stanja) ostane u dozvoljenim granicama. Ako je N prekoračen (npr. jedan invertor sa N=4 pobuđuje 5 ulaza), izlaz nema dovoljno struje → kola sporije menjaju stanje ili se prelaz uopšte ne desi. <b>Rešenje:</b> rasteretiti izlaz ubacivanjem <b>bafera</b> (razdvojnog stepena = <b>dva invertora</b> redno, da funkcija ostane ista) i podeliti opterećenje na grane; najbolje rešenje je da <b>sve grane imaju isti broj stepeni</b> (ujednačeno kašnjenje).</div>
+<div class="fig"><svg viewBox="0 0 760 210" width="760">
+<text class="lb" x="10" y="20" font-weight="700">Loše: 1 izlaz → 5 ulaza (N=4)</text>
+<rect class="bx" x="20" y="90" width="60" height="34"/><text class="sm" x="50" y="111" text-anchor="middle">invertor</text>
+<g id="fanBad"></g>
+<text class="lb" x="300" y="20" font-weight="700">Bolje: bafer u jednoj grani</text>
+<text class="lb" x="540" y="20" font-weight="700">Najbolje: baferi u svim granama</text>
+</svg></div>
+<p><b>Primer sa predavanja:</b> donji invertor u mreži pobuđuje 5 ulaza, a N=4 → nije dozvoljeno. (1) Ubacimo dva invertora (bafer) u jednu granu → N je zadovoljen, ali signali u grani bez bafera stižu ranije (neujednačeno kašnjenje → mogući hazardi). (2) Najbolje: bafer ubacimo tako da <b>svi</b> priključeni ulazi dobijaju signal preko istog broja stepeni → N je u redu i kašnjenje je ujednačeno.</p>
+<p>U standardnim CMOS kolima N je obično &gt; 20, ponekad &gt; 60. Uvodi se i <b>standardno opterećenje</b> jer svi ulazi ne opterećuju izlaz jednako.</p>
+</div>
+
+<div class="q"><h3><span class="n">8.</span> Vreme propagacije t<sub>p</sub>, t<sub>PHL</sub> i t<sub>PLH</sub></h3>
+<div class="key"><b>Ukratko:</b> <b>Vreme propagacije</b> je vremenski interval od trenutka promene ulaznog signala V<sub>IN</sub> do trenutka odgovarajuće promene izlaznog signala V<sub>OUT</sub>; meri se između tačaka kada signali pređu <b>50% logičke amplitude</b>. <b>t<sub>PHL</sub></b> – kašnjenje kada izlaz prelazi sa visokog na nizak nivo (opadajuća ivica izlaza). <b>t<sub>PLH</sub></b> – kašnjenje kada izlaz prelazi sa niskog na visok nivo (rastuća ivica izlaza). U opštem slučaju t<sub>PHL</sub> ≠ t<sub>PLH</sub>, pa je vreme propagacije kola njihova srednja vrednost: <span class="f big">t<sub>p</sub> = (t<sub>PHL</sub> + t<sub>PLH</sub>) / 2</span></div>
+<div class="fig" data-w='{"T":11,"slope":0.35,"s":[{"n":"VIN","v":0,"t":[2,6.5]},{"n":"VOUT","v":1,"t":[3.2,8.2]}],"a":[[2,3.2,1,"tPHL"],[6.5,8.2,1,"tPLH"]],"m":[]}'></div>
+<p class="cap2">Primer: invertor. Kad ulaz poraste, izlaz padne posle t<sub>PHL</sub>; kad ulaz padne, izlaz poraste posle t<sub>PLH</sub>. U zadacima se zadaju t<sub>dmin</sub>, t<sub>dtip</sub>, t<sub>dmax</sub> (proizvodne tolerancije).</p>
+</div>
+
+<div class="q"><h3><span class="n">9.</span> Margina smetnji – definicija i značaj</h3>
+<div class="key"><b>Ukratko:</b> <b>Margina smetnji</b> je dozvoljena promena naponskog nivoa na ulazu logičkog kola koja <b>neće izazvati neželjenu promenu na izlazu</b>. Proizvođač za najgori slučaj daje 4 napona: V<sub>OHmin</sub> (min. izlazni napon za log. 1), V<sub>OLmax</sub> (max. izlazni napon za log. 0), V<sub>IHmin</sub> (min. ulazni napon koji kolo prepoznaje kao 1), V<sub>ILmax</sub> (max. ulazni napon koji kolo prepoznaje kao 0).
+<span class="f big">NM1 = V<sub>OHmin</sub> − V<sub>IHmin</sub> &nbsp;&nbsp;&nbsp; NM0 = V<sub>ILmax</sub> − V<sub>OLmax</sub></span>
+<b>Važna je</b> jer se na signale uvek superponira šum (smetnje sa napajanja, preslušavanje, indukcija). Dok je šum manji od margine, sledeće kolo ispravno prepoznaje nivo; ako šum pređe marginu, kolo može pogrešno da protumači 1 kao 0 (ili obrnuto) i izlaz pogrešno promeni stanje. Veća margina = otpornije kolo.</div>
+<div class="fig"><svg viewBox="0 0 520 250" width="520">
+<text class="lb" x="70" y="18" text-anchor="middle" font-weight="700">izlaz kola 1</text><text class="lb" x="370" y="18" text-anchor="middle" font-weight="700">ulaz kola 2</text>
+<rect x="30" y="30" width="80" height="60" fill="#2563eb" opacity=".25"/><text class="sm" x="70" y="64" text-anchor="middle">log. 1</text>
+<rect x="30" y="170" width="80" height="60" fill="#16a34a" opacity=".25"/><text class="sm" x="70" y="204" text-anchor="middle">log. 0</text>
+<rect x="330" y="30" width="80" height="85" fill="#2563eb" opacity=".25"/><text class="sm" x="370" y="74" text-anchor="middle">prepoznaje 1</text>
+<rect x="330" y="145" width="80" height="85" fill="#16a34a" opacity=".25"/><text class="sm" x="370" y="190" text-anchor="middle">prepoznaje 0</text>
+<path class="grid" d="M110 90H330M110 170H330M200 115H330M200 145H330"/>
+<text class="sm" x="115" y="86">V<tspan dy="3" font-size="9">OHmin</tspan></text><text class="sm" x="115" y="166">V<tspan dy="3" font-size="9">OLmax</tspan></text>
+<text class="sm" x="420" y="119">V<tspan dy="3" font-size="9">IHmin</tspan></text><text class="sm" x="420" y="149">V<tspan dy="3" font-size="9">ILmax</tspan></text>
+<path class="an" d="M260 92V113M260 147V168"/><text class="ant" x="266" y="106">NM1</text><text class="ant" x="266" y="162">NM0</text>
+<text class="sm" x="330" y="134">zabranjena oblast</text></svg></div>
+</div>
+
+<div class="q"><h3><span class="n">10.</span> Disipacija snage (potrošnja) u digitalnim kolima – komponente</h3>
+<div class="key"><b>Ukratko (CMOS):</b> Ukupna potrošnja ima tri komponente:
+<br>1) <b>Statička potrošnja</b> – skoro nula, jer PMOS i NMOS nikad ne vode istovremeno u ustaljenom stanju; postoje samo <b>struje curenja</b> I<sub>leak</sub> (0,1–0,5 nA na 27 °C) kroz inverzno polarisane spojeve. Rastu sa temperaturom (na 85 °C ≈ 60× veće) → hlađenje je važno. P<sub>stat</sub> = I<sub>leak</sub>·V<sub>DD</sub>.
+<br>2) <b>Dinamička potrošnja zbog punjenja i pražnjenja kapacitivnosti opterećenja</b> C<sub>L</sub> – najveća komponenta. Pri svakoj promeni izlaza C<sub>L</sub> se puni preko PMOS-a (pola energije se skladišti u C<sub>L</sub>, pola se gubi na PMOS-u) ili prazni preko NMOS-a. <span class="f">P<sub>din</sub> = C<sub>L</sub>·V<sub>DD</sub><sup>2</sup>·f</span> – ne zavisi od dimenzija tranzistora.
+<br>3) <b>Potrošnja zbog struje direktne putanje</b> (kratkog spoja) – tokom konačnog vremena porasta/pada ulaza oba tranzistora kratko vode, pa teče struja od napajanja ka masi: <span class="f">P<sub>dp</sub> ≈ ½·(t<sub>r</sub>+t<sub>f</sub>)·V<sub>DD</sub>·I<sub>peak</sub>·f</span>.
+<br><b>P<sub>uk</sub> = P<sub>din</sub> + P<sub>dp</sub> + P<sub>stat</sub></b>. Smanjenje: <b>prvo smanjiti napon napajanja</b> (kvadratna zavisnost; danas 0,6–0,9 V), smanjiti broj promena stanja, kapacitivnosti i frekvenciju.</div>
+</div>
+
+<div class="q"><h3><span class="n">11.</span> * Vremenski odziv – interpretacija vremenskog dijagrama <span class="tag">ZADATAK</span></h3>
+<div class="fig"><svg viewBox="0 0 760 120" width="760" id="q11svg"></svg></div>
+<div class="key"><b>Kako se čita:</b> <b>šrafirana oblast</b> = signal se menja / neodređen je (ne smeš ga koristiti). <b>Jedna linija gore</b> = stabilna logička 1, <b>dole</b> = stabilna 0. <b>Dve paralelne linije (gore i dole) koje se ukrštaju u „X“</b> = signal je stabilan, ima vrednost 1 <i>ili</i> 0 (ne znamo koju), ali se ne menja. Promena se računa u trenutku kad signal pređe 50% amplitude.</div>
+<table class="t">
+<tr><th>Interval</th><th>Stanje signala</th></tr>
+<tr><td>pre A</td><td class="l">neodređen (može da se menja)</td></tr>
+<tr><td>A – B</td><td class="l">logička 1</td></tr>
+<tr><td>B – C</td><td class="l">signal može da se menja (prelazni proces)</td></tr>
+<tr><td>C – D</td><td class="l">logička 1</td></tr>
+<tr><td>D – E</td><td class="l">opada u D, zatim logička 0</td></tr>
+<tr><td>E – F</td><td class="l">signal može da se menja</td></tr>
+<tr><td>F – G</td><td class="l">stabilan: ili 1 ili 0, ali ne menja vrednost</td></tr>
+<tr><td>G – H</td><td class="l">logička 1</td></tr>
+<tr><td>H – I</td><td class="l">signal može da se menja</td></tr>
+<tr><td>posle I</td><td class="l">stabilan: ili 1 ili 0 (ne menja se)</td></tr>
+</table>
+<p>Vremenski dijagram prikazuje ponašanje signala u funkciji vremena i definiše zahteve za <b>minimalno i maksimalno kašnjenje</b> (koliko najranije signal može početi da se menja i najkasnije kad mora biti stabilan).</p>
+</div>
+
+<h2 id="q12">Hazardi (pitanja 12–23)</h2>
+
+<div class="q"><h3><span class="n">12.</span> Tipovi nepravilnog rada usled kašnjenja (hazardi) – manifestacija i uslovi</h3>
+<div class="key"><b>Ukratko:</b> Zbog konačnog vremena propagacije izlaz KM može u kratkim intervalima da ne odgovara funkciji – javlja se lažni impuls (<b>glič</b>). Hazardi nastaju usled: <b>kašnjenja u logičkim kolima</b>, <b>kašnjenja pri prostiranju signala po vezama</b> i <b>kašnjenja zbog parazitnih akumulacionih elemenata</b> (kapacitivnosti). Podela:
+<br><b>1. Logički hazardi</b> (pri promeni <b>samo jednog</b> ulaza):
+ – <b>statički hazard jedinice</b> – izlaz treba da ostane 1, a kratko padne na 0 („lažna nula“); u I-ILI / NI-NI mrežama;
+ – <b>statički hazard nule</b> – izlaz treba da ostane 0, a kratko skoči na 1 („lažna jedinica“); u ILI-I / NILI-NILI mrežama;
+ – <b>dinamički hazard</b> – izlaz treba da se promeni jednom, a promeni se više puta (npr. 0→1→0→1); u višestepenim mrežama.
+<br><b>2. Funkcionalni hazard</b> – nastaje pri <b>istovremenoj promeni dva ili više ulaza</b> (Hemingovo rastojanje H&gt;1), jer ulazi ne stižu istovremeno pa mreža prolazi kroz međukombinacije; javlja se čak i sa idealnim kolima.</div>
+</div>
+
+<div class="q"><h3><span class="n">13.</span> Mere protiv grešaka usled hazarda; prednosti i mane sinhronizacije</h3>
+<div class="key"><b>Ukratko – mere:</b> (1) <b>Modifikacija mreže</b>: dodavanje redundantnih kola/članova koji prekrivaju kritične prelaze (za statičke hazarde); (2) <b>ujednačavanje kašnjenja</b> po putanjama (vremenski identični signali, baferi u svim granama, izbacivanje suvišnih invertora); (3) <b>sinhronizacija</b> – signal dozvole EN (takt) propušta izlaz tek kad su svi signali postavljeni i ispravni. Sinhronizacija se može uvesti <b>na ulazu KM</b>, <b>na ulazu izlaznog LK</b> ili <b>iza izlaznog LK</b> (na izlazu KM). Sinhronizacioni signal se aktivira najranije kad su sve promenljive stabilne, a traje najkasnije do trenutka kada se ponovo menjaju.
+<br><b>Prednosti sinhronizacije:</b> uklanja sve vrste hazarda, i one koji se ne mogu ukloniti modifikacijom (funkcionalni, dinamički); jednostavno i univerzalno projektovanje – ne moramo analizirati svaki prelaz.
+<br><b>Mane:</b> unosi dodatno kašnjenje – izlaz važi samo deo periode, pa je sistem sporiji (mora se čekati najgori slučaj t<sub>dmax</sub>); potrebno je generisati i razvesti taktni signal (dodatna kola, potrošnja); pogrešno postavljen EN (prerano ili prekasno) propušta greške. Zato se, gde može, prednost daje modifikaciji mreže.</div>
+<p><b>Kako sinhronizaciono kolo blokira izlaz</b> (zavisi od tipa izlaznog kola):</p>
+<table class="t"><tr><th>Izlazno kolo</th><th>Propušta kada</th><th>Kad blokira, izlaz je</th></tr>
+<tr><td>I</td><td>EN = 1</td><td>0</td></tr><tr><td>NI</td><td>EN = 1</td><td>1 (i obrne logiku)</td></tr>
+<tr><td>ILI</td><td>EN = 0</td><td>1</td></tr><tr><td>NILI</td><td>EN = 0</td><td>0 (i obrne logiku)</td></tr></table>
+<div class="fig" data-w='{"T":12,"s":[{"n":"ulazi X","v":0,"t":[1,9],"u":[[1,1.4],[9,9.4]],"stable":true},{"n":"Y (izlaz KM)","v":1,"t":[1,9],"u":[[1,4],[9,12]],"stable":true},{"n":"EN","v":0,"t":[5,8]},{"n":"F = Y·EN","v":0,"t":[5,8]}],"m":[[4,"Y stabilan"],[9,"X se menja"]]}'></div>
+<p class="cap2">Sinhronizacija na izlazu KM I kolom: F = Y·EN. EN sme biti aktivan samo dok je Y sigurno stabilan (između 4 i 9); van tog intervala izlaz je blokiran na 0.</p>
+<p><b>Određivanje intervala EN (vežbe):</b> t<sub>1</sub> (najranije aktiviranje) – kad stigne signal najsporijom putanjom, računato sa <b>t<sub>dmax</sub></b>; t<sub>2</sub> (najkasnije) – pre nego što najbrža putanja donese sledeću promenu, računato sa <b>t<sub>dmin</sub></b>. Ako EN prolazi kroz bafer, oduzmi njegovo kašnjenje.</p>
+</div>
+
+<div class="q"><h3><span class="n">14.</span> Podela logičkih hazarda</h3>
+<div class="key"><b>Ukratko:</b> Logički hazardi nastaju pri promeni <b>jednog</b> ulaznog signala i dele se na:
+<br>• <b>Statičke</b> – izlaz treba da ostane isti, a pojavi se jedan lažni impuls: <b>hazard jedinice</b> (lažna 0) – u dvostepenoj <b>I-ILI / NI-NI</b> logici; <b>hazard nule</b> (lažna 1) – u dvostepenoj <b>ILI-I / NILI-NILI</b> logici.
+<br>• <b>Dinamičke</b> – izlaz treba da se promeni jednom, a menja se više puta (višestruka promena nivoa); u <b>višestepenim</b> mrežama gde promenljiva do izlaza stiže preko 3 ili više putanja različitog kašnjenja.
+<br>(Za razliku od njih, <b>funkcionalni</b> hazard nastaje pri promeni više ulaza – vidi pitanje 34.)</div>
+</div>
+
+<div class="q"><h3><span class="n">15.</span> Statički hazard jedinice (parazitni impuls nule)</h3>
+<div class="key"><b>Ukratko:</b> <b>Uslov nastanka:</b> mreža realizovana kao dvostepena <b>I-ILI (NI-NI)</b> logika, menja se <b>samo jedna</b> ulazna promenljiva, a izlaz treba da ostane 1. Pri prelazu jedan proizvod prestaje da bude 1 pre nego što drugi postane 1 (zbog kašnjenja invertora) → izlaz kratko padne na 0 („lažna nula“).
+<br><b>Procena Karnoovom tablicom:</b> mogućnost hazarda postoji ako postoje <b>dva susedna polja sa jedinicama koja pripadaju različitim konturama</b> (konture se „dodiruju“, a nijedna ih ne obuhvata zajedno).
+<br><b>Eliminacija:</b> (1) <b>modifikacijom mreže</b> – dodavanjem I (NI) kola koje odgovara konturi koja prekriva oba kritična polja (redundantni član); (2) <b>sinhronizacijom</b>.</div>
+<div class="row">
+<div class="km" data-k='{"cap":"F = AB + !BC: polja 7 i 5 su susedna, a u različitim konturama","r":"A","c":"BC","ones":[1,5,6,7],"g":[["AB","#2563eb",[6,7]],["!BC","#16a34a",[1,5]],["AC (dodato)","#dc2626",[5,7]]],"h":[[5,7]]}'></div>
+<div style="max-width:420px"><p>Kada je A=C=1 i B se menja (prelaz 111 ↔ 101), iz konture AB prelazi se u konturu <span class="f">~BC</span> → lažna 0 (vremenski dijagram u <a href="#a6">delu A6</a>). Dodavanjem člana <span class="f">AC</span> (crvena kontura) taj član je 1 za vreme celog prelaza, pa F ostaje 1:</p><p class="f big">F = AB + ~BC + AC</p></div></div>
+</div>
+
+<div class="q"><h3><span class="n">16.</span> Statički hazard nule (parazitni impuls jedinice)</h3>
+<div class="key"><b>Ukratko:</b> <b>Uslov nastanka:</b> mreža realizovana kao dvostepena <b>ILI-I (NILI-NILI)</b> logika, menja se <b>samo jedna</b> promenljiva, a izlaz treba da ostane 0. Jedna suma postaje 0 tek posle nego što je druga već postala 1 → izlaz kratko skoči na 1 („lažna jedinica“).
+<br><b>Procena Karnoovom tablicom:</b> postoje <b>dva susedna polja sa nulama koja pripadaju različitim konturama</b> (konture nula se dodiruju).
+<br><b>Eliminacija:</b> dodavanjem ILI (NILI) kola – sume koja odgovara konturi koja prekriva oba kritična polja nula; ili sinhronizacijom.</div>
+<div class="row">
+<div class="fig" data-w='{"T":8,"s":[{"n":"B","v":0,"t":[2]},{"n":"!B","v":1,"t":[3]},{"n":"A+B","v":0,"t":[3]},{"n":"!B+C","v":1,"t":[4]},{"n":"F","v":0,"t":[4,5],"h":[[4,5,"lažna 1"]]}],"m":[[2,"B: 0→1"]]}'></div>
+<div style="max-width:380px"><p>Primer: <span class="f">F = (A+B)(~B+C)</span>, A=C=0, B: 0→1. F treba da bude 0 sve vreme, ali suma <span class="f">A+B</span> postane 1 pre nego što <span class="f">~B+C</span> postane 0. Rešenje: dodati sumu <span class="f">(A+C)</span>: <span class="f">F = (A+B)(~B+C)(A+C)</span>.</p></div></div>
+</div>
+
+<div class="q"><h3><span class="n">17.</span> * Ima li hazarda u DNF (II var. KNF)? Eliminisati i sintetizovati <span class="tag">ZADATAK</span></h3>
+<div class="tip"><b>Recept:</b> (1) minimiziraj (konture jedinica za DNF / nula za KNF); (2) traži <b>susedne jedinice (nule) u različitim konturama</b> – obeleži ih; (3) za svaki takav par dodaj konturu koja ih obuhvata; (4) napiši formu bez hazarda; (5) nacrtaj šemu (I-ILI za DNF, ILI-I za KNF). Ako se traži da izabereš – nacrtaj jednostavniju varijantu (manji M). Ponekad je minimalna forma već bez hazarda – onda to napišeš.</div>
+
+<h3>Tablica 1 (redovi DC, kolone BA): F = Σ(0,4,5,6,7,8,11)</h3>
+<div class="row">
+<div class="km" data-k='{"cap":"DNF","r":"DC","c":"BA","ones":[0,4,5,6,7,8,11],"g":[["!DC","#2563eb",[4,5,6,7]],["!C!B!A","#16a34a",[0,8]],["DC!BA","#d97706",[11]],["!D!B!A (dodato)","#dc2626",[0,4]]],"h":[[0,4]]}'></div>
+<div style="max-width:420px"><p><b>Minimalna DNF:</b> <span class="f">F = ~DC + ~C~B~A + D~CBA</span>.<br>Polja 0 i 4 su susedna, a u različitim konturama → <b>ima hazarda</b> (lažna 0 kad je D=B=A=0 i menja se C). Polje 11 nema susednih jedinica.</p>
+<p><b>Bez hazarda:</b></p><p class="f big">F = ~DC + ~C~B~A + ~D~B~A + D~CBA</p></div></div>
+<div class="fig" data-t='{"type":"AND-OR","terms":[["!D","C"],["!C","!B","!A"],["!D","!B","!A"],["D","!C","B","A"]],"cap":"Šema bez hazarda (I-ILI), M = 2+3+3+4+4 = 16"}'></div>
+<p><b>KNF varijanta</b> (nule: 1,2,3,9,10,12–15): minimalna <span class="f">F = (~D+~C)(C+B+~A)(C+~B+A)(D+C+~A)</span>, ali ima čak 3 hazardna para nula (2–3, 9–13, 10–14) → treba dodati <span class="f">(D+C+~B)(~D+B+~A)(~D+~B+A)</span> = 7 suma. DNF je mnogo jednostavnija → crta se DNF.</p>
+
+<h3>Tablica 2 (redovi AB, kolone CD): F = Σ(3,4,5,7,11,12,13,15)</h3>
+<div class="row">
+<div class="km" data-k='{"cap":"DNF","r":"AB","c":"CD","ones":[3,4,5,7,11,12,13,15],"g":[["CD","#2563eb",[3,7,15,11]],["B!C","#16a34a",[4,5,12,13]],["BD (dodato)","#dc2626",[5,7,13,15]]],"h":[[5,7],[13,15]]}'></div>
+<div class="km" data-k='{"cap":"KNF","r":"AB","c":"CD","ones":[3,4,5,7,11,12,13,15],"g":[["B+C","#2563eb",[0,1,8,9]],["!C+D","#16a34a",[2,6,14,10]],["B+D (dodato)","#dc2626",[0,2,8,10]]],"h":[[0,2],[8,10]]}'></div>
+</div>
+<p><b>DNF:</b> minimalna <span class="f">F = CD + B~C</span>; parovi 5–7 i 13–15 u različitim konturama → hazard; bez hazarda: <span class="f">F = CD + B~C + BD</span>.<br>
+<b>KNF:</b> minimalna <span class="f">F = (B+C)(~C+D)</span>; parovi nula 0–2 i 8–10 → hazard; bez hazarda: <span class="f">F = (B+C)(~C+D)(B+D)</span>. Obe varijante su iste složenosti (M=9).</p>
+<div class="row"><div class="fig" data-t='{"type":"AND-OR","terms":[["C","D"],["B","!C"],["B","D"]],"cap":"I-ILI bez hazarda"}'></div><div class="fig" data-t='{"type":"OR-AND","terms":[["B","C"],["!C","D"],["B","D"]],"cap":"ILI-I bez hazarda"}'></div></div>
+
+<h3>Tablica 3 (redovi DC, kolone BA): F = Σ(0,2,4,5,6,8,10)</h3>
+<div class="row">
+<div class="km" data-k='{"cap":"DNF","r":"DC","c":"BA","ones":[0,2,4,5,6,8,10],"g":[["!C!A","#2563eb",[0,2,8,10]],["!D!A","#16a34a",[0,2,4,6]],["!DC!B","#d97706",[4,5]]]}'></div>
+<div style="max-width:420px"><p><b>DNF:</b> <span class="f">F = ~C~A + ~D~A + ~DC~B</span>. Proverimo sve susedne jedinice: 0–2, 0–4, 0–8, 2–6, 2–10, 4–5, 4–6, 8–10 – svaki par je unutar neke zajedničke konture → <b>nema hazarda</b>; minimalna forma je istovremeno forma bez hazarda.</p>
+<p><b>KNF:</b> <span class="f">F = (~D+~C)(~B+~A)(C+~A)</span> ima hazard (nule 9–13), pa treba i <span class="f">(~D+~A)</span> → 4 sume. Crta se DNF.</p></div></div>
+<div class="fig" data-t='{"type":"AND-OR","terms":[["!C","!A"],["!D","!A"],["!D","C","!B"]],"cap":"I-ILI (minimalna = bez hazarda)"}'></div>
+</div>
+
+<div class="q"><h3><span class="n">18.</span> * Hazardi u nepotpuno definisanoj funkciji <span class="tag">ZADATAK</span></h3>
+<div class="tip">Isti recept kao 17, plus: x-polja smeš da uključiš u konture. Par u kome je jedno polje <b>x</b> se ne smatra hazardom (to stanje se ne pojavljuje / nije bitno).</div>
+<h3>Tablica 1: F = Σ(4,5,6,11,12,13) + x(15)</h3>
+<div class="row"><div class="km" data-k='{"r":"DC","c":"BA","ones":[4,5,6,11,12,13],"x":[15],"g":[["C!B","#2563eb",[4,5,12,13]],["!DC!A","#16a34a",[4,6]],["DBA","#d97706",[11,15]]]}'></div>
+<div style="max-width:400px"><p class="f big">F = C~B + ~DC~A + DBA</p><p>Polje 11 smo spojili sa x(15). Svi susedni parovi jedinica (4–5, 4–6, 4–12, 5–13, 12–13) su u zajedničkoj konturi → <b>nema hazarda</b>.</p></div></div>
+<h3>Tablica 2: F = Σ(4,5,6,10,11,12,13) + x(14)</h3>
+<div class="row"><div class="km" data-k='{"r":"DC","c":"BA","ones":[4,5,6,10,11,12,13],"x":[14],"g":[["C!B","#2563eb",[4,5,12,13]],["C!A","#16a34a",[4,6,12,14]],["D!CB","#d97706",[10,11]]]}'></div>
+<div style="max-width:400px"><p class="f big">F = C~B + C~A + D~CB</p><p>x(14) nam omogućava veliku konturu <span class="f">C~A</span>. Par 10–14 uključuje x → nije hazard. <b>Nema hazarda.</b></p></div></div>
+<h3>Tablica 3 (redovi AB, kolone CD): F = Σ(0,2,4,5,6,8,10,13) + x(7)</h3>
+<div class="row"><div class="km" data-k='{"r":"AB","c":"CD","ones":[0,2,4,5,6,8,10,13],"x":[7],"g":[["!B!D","#2563eb",[0,2,8,10]],["!A!D","#16a34a",[0,2,4,6]],["B!CD","#d97706",[5,13]],["!AB (dodato)","#dc2626",[4,5,6,7]]],"h":[[4,5]]}'></div>
+<div style="max-width:400px"><p><b>Minimalna:</b> <span class="f">F = ~B~D + ~A~D + B~CD</span>. Polja 4 i 5 su susedna, a u različitim konturama → <b>ima hazarda</b>. Dodajemo konturu <span class="f">~AB</span> (4,5,6,7 – koristi x7):</p><p class="f big">F = ~B~D + ~A~D + ~AB + B~CD</p></div></div>
+</div>
+
+<div class="q"><h3><span class="n">19.</span> * Hazard u funkciji zadatoj indeksima <span class="tag">ZADATAK</span></h3>
+<h3>a) <span class="f">F(D,C,B,A) = Σ(0,4,5,7,13,14,15)</span></h3>
+<div class="row"><div class="km" data-k='{"r":"DC","c":"BA","ones":[0,4,5,7,13,14,15],"g":[["CA","#2563eb",[5,7,13,15]],["DCB","#16a34a",[14,15]],["!D!B!A","#d97706",[0,4]],["!DC!B (dodato)","#dc2626",[4,5]]],"h":[[4,5]]}'></div>
+<div style="max-width:400px"><p>Minimalna: <span class="f">F = CA + DCB + ~D~B~A</span>. Polja 4 i 5 – susedna, različite konture → hazard (D=0, C=1, B=0, menja se A). Bez hazarda:</p><p class="f big">F = CA + DCB + ~D~B~A + ~DC~B</p></div></div>
+<div class="fig" data-t='{"type":"AND-OR","terms":[["C","A"],["D","C","B"],["!D","!B","!A"],["!D","C","!B"]],"cap":"I-ILI bez hazarda"}'></div>
+<h3>b) <span class="f">F(D,C,B,A) = Π(0,4,5,7,13,14,15)</span></h3>
+<p class="warn">Π navodi NULE! Jedinice su ostali indeksi: Σ(1,2,3,6,8,9,10,11,12).</p>
+<div class="row"><div class="km" data-k='{"r":"DC","c":"BA","ones":[1,2,3,6,8,9,10,11,12],"g":[["!CA","#2563eb",[1,3,9,11]],["!CB","#16a34a",[2,3,10,11]],["!DB!A","#d97706",[2,6]],["D!B!A","#9333ea",[8,12]],["D!C (dodato)","#dc2626",[8,9,10,11]]],"h":[[8,9],[8,10]]}'></div>
+<div style="max-width:400px"><p>Minimalna: <span class="f">F = ~CA + ~CB + ~DB~A + D~B~A</span>. Polje 8 (kontura <span class="f">D~B~A</span>) je susedno sa 9 i 10 koji su u drugim konturama → hazard. Dodajemo <span class="f">D~C</span>:</p><p class="f big">F = ~CA + ~CB + ~DB~A + D~B~A + D~C</p></div></div>
+</div>
+
+<div class="q"><h3><span class="n">20.</span> * Realizovati funkciju zadatu šemom u minimalnoj I-ILI (II var. ILI-I) <span class="tag">ZADATAK</span></h3>
+<div class="tip"><b>Recept:</b> (1) iz šeme napiši izraz – idi od ulaza ka izlazu, kolo po kolo (kružić = negacija!); (2) napravi tablicu istinitosti / indekse (najlakše: za svaku kombinaciju izračunaj izlaz); (3) Karnoo → minimalna DNF (I-ILI) ili KNF (ILI-I); (4) nacrtaj.</div>
+<h3>Leva šema</h3>
+<p>Gornje I kolo: AB. Donje I kolo: <span class="f">~BC</span>. Srednje kolo je ILI sa kružićem = <b>NILI</b>: <span class="f">X = ~[AB + ~BC]</span>. Izlazno kolo je <b>EX-ILI</b> sa D: <span class="f">F = ~[AB + ~BC] ⊕ D</span>.</p>
+<p>Tablica: kad je D=0, F = X; kad je D=1, F = <span class="f">~X</span>. X=1 kada nije ni AB ni <span class="f">~BC</span>. Dobija se <span class="f">F = Σ(0,1,2,6,11,12,13,15)</span> (indeksi po DCBA).</p>
+<div class="row"><div class="km" data-k='{"cap":"DNF","r":"DC","c":"BA","ones":[0,1,2,6,11,12,13,15],"g":[["!D!C!B","#2563eb",[0,1]],["!DB!A","#16a34a",[2,6]],["DC!B","#d97706",[12,13]],["DBA","#9333ea",[11,15]]]}'></div>
+<div class="km" data-k='{"cap":"KNF","r":"DC","c":"BA","ones":[0,1,2,6,11,12,13,15],"g":[["D+!B+!A","#2563eb",[3,7]],["D+!C+B","#16a34a",[4,5]],["!D+C+B","#d97706",[8,9]],["!D+!B+A","#9333ea",[10,14]]]}'></div></div>
+<p><b>I-ILI:</b> <span class="f">F = ~D~C~B + ~DB~A + DC~B + DBA</span> &nbsp; <b>ILI-I:</b> <span class="f">F = (D+~B+~A)(D+~C+B)(~D+C+B)(~D+~B+A)</span> (obe M = 16).</p>
+<h3>Desna šema</h3>
+<p>Gornje I kolo: DC. NILI kolo (ILI sa kružićem) sa ulazima DC i <span class="f">~B</span>: <span class="f">~[DC + ~B] = B·~[DC]</span>. Donje I kolo: BA. Izlaz EX-ILI: <span class="f">F = ~[DC + ~B] ⊕ BA</span>. Za B=0 oba ulaza XOR-a su 0 → F=0. Za B=1: <span class="f">F = ~[DC] ⊕ A</span>. Rezultat: <span class="f">F = Σ(2,6,10,15)</span>.</p>
+<div class="row"><div class="km" data-k='{"r":"DC","c":"BA","ones":[2,6,10,15],"g":[["!DB!A","#2563eb",[2,6]],["!CB!A","#16a34a",[2,10]],["DCBA","#d97706",[15]]]}'></div>
+<div><p><b>I-ILI:</b> <span class="f">F = ~DB~A + ~CB~A + DCBA</span></p><p><b>ILI-I:</b> <span class="f">F = B(~A+D)(~A+C)(A+~D+~C)</span></p></div></div>
+</div>
+
+<div class="q"><h3><span class="n">22.</span> * Hazard u nepotpuno definisanoj funkciji (indeksi) <span class="tag">ZADATAK</span></h3>
+<h3>a) <span class="f">F = Σ(4,5,10,11,12,14,15) + x(13)</span></h3>
+<div class="row"><div class="km" data-k='{"r":"DC","c":"BA","ones":[4,5,10,11,12,14,15],"x":[13],"g":[["C!B","#2563eb",[4,5,12,13]],["DB","#16a34a",[10,11,14,15]],["DC (dodato)","#dc2626",[12,13,14,15]]],"h":[[12,14]]}'></div>
+<div style="max-width:400px"><p>Minimalna: <span class="f">F = C~B + DB</span>. Polja 12 i 14 (kolone 00 i 10 su susedne preko ivice!) u različitim konturama → hazard. Dodajemo <span class="f">DC</span> (koristi x13):</p><p class="f big">F = C~B + DB + DC</p></div></div>
+<h3>b) <span class="f">F = Σ(0,1,6,9,11,13,15) + x(7)</span></h3>
+<div class="row"><div class="km" data-k='{"r":"DC","c":"BA","ones":[0,1,6,9,11,13,15],"x":[7],"g":[["DA","#2563eb",[9,11,13,15]],["!D!C!B","#16a34a",[0,1]],["!DCB","#d97706",[6,7]],["!C!BA (dodato)","#dc2626",[1,9]]],"h":[[1,9]]}'></div>
+<div style="max-width:400px"><p>Minimalna: <span class="f">F = DA + ~D~C~B + ~DCB</span>. Polja 1 i 9 → hazard. Bez hazarda:</p><p class="f big">F = DA + ~D~C~B + ~DCB + ~C~BA</p></div></div>
+<h3>c) <span class="f">F = Π(0,4,5,13,14,15) + x(7)</span></h3>
+<p>Nule: 0,4,5,13,14,15; x: 7; jedinice: 1,2,3,6,8,9,10,11,12.</p>
+<div class="row"><div class="km" data-k='{"r":"DC","c":"BA","ones":[1,2,3,6,8,9,10,11,12],"x":[7],"g":[["!DB","#2563eb",[2,3,6,7]],["!CA","#16a34a",[1,3,9,11]],["D!B!A","#d97706",[8,12]],["D!C","#9333ea",[8,9,10,11]],["!CB (dodato)","#dc2626",[2,3,10,11]]],"h":[[2,10]]}'></div>
+<div style="max-width:400px"><p>Minimalna: <span class="f">F = ~DB + ~CA + D~B~A + D~C</span>. Polja 2 i 10 u različitim konturama → hazard. Dodajemo <span class="f">~CB</span>:</p><p class="f big">F = ~DB + ~CA + D~B~A + D~C + ~CB</p></div></div>
+</div>
+
+<div class="q"><h3><span class="n">23.</span> Dinamički hazard (višestruka promena nivoa) – ilustracija i uzrok</h3>
+<div class="key"><b>Ukratko:</b> Dinamički hazard je pojava da izlaz, koji pri promeni <b>jedne</b> ulazne promenljive treba da se promeni <b>jednom</b> (npr. 0→1), promeni stanje više puta (0→1→0→1). <b>Uzrok:</b> javlja se u višestepenim KM u kojima promena kritične promenljive utiče na izlaz preko <b>(najmanje) dve putanje različitog kašnjenja</b>: u jednoj (brzoj) se, bez značajnog kašnjenja, pojavi <b>statički hazard (glič)</b>, a u drugoj, sa velikim kašnjenjem (npr. signal prolazi kroz više invertora), <b>posle</b> tog gliča nastupi trajna promena izlaza.
+<br><b>Otklanjanje:</b> (1) ukloniti statički hazard u delu mreže (dodati redundantno kolo); (2) dovesti <b>vremenski identičan</b> signal na sva kola (ujednačiti kašnjenje; izbaciti suvišne invertore ako opterećenje ulaza nije kritično); (3) sinhronizacija (EN blokira izlaz dok traju prelazni procesi).</div>
+<div class="fig" data-w='{"T":10,"s":[{"n":"B","v":0,"t":[1]},{"n":"brza grana","v":0,"t":[3,4]},{"n":"spora grana","v":0,"t":[6]},{"n":"F","v":0,"t":[3,4,6],"h":[[3,6,"0→1→0→1"]]}],"m":[[1,"B: 0→1"]]}'></div>
+<p class="cap2">Primer sa predavanja (zadatak 6): A=C=D=0, B: 0→1. U gornjem delu mreže (kola 1,5,6,9) postoji lažna jedinica; u donjem delu B prolazi kroz 2–3 invertora (zakašnjeni signal B<sub>Z</sub>), pa trajna promena stiže kasno. Izlaz F dva puta promeni stanje pre nego što se ustali na 1. Rešenja sa predavanja: dodati ILI kolo (A+C) u gornji deo; koristiti vremenski identičan B na kolima 5,6,7,8; izbaciti invertore 2 i 4; ili sinhronizacija signalom EN.</p>
+</div>
+
+<h2 id="q24">Multiplekseri i demultiplekseri (24–31)</h2>
+
+<div class="q"><h3><span class="n">24.</span> Multiplekser – uloge, funkcionalna tabela, blok šema, logička šema</h3>
+<div class="key"><b>Ukratko:</b> <b>Multiplekser (MUX, selektor podataka)</b> je KM koja radi kao <b>višepoložajni prekidač</b>: od 2<sup>n</sup> <b>informacionih</b> ulaza (I<sub>0</sub>…) bira jedan i prosleđuje ga na izlaz Y, ako je aktivan signal dozvole EN. Koji ulaz – određuje se kodom na n <b>selekcionih (adresnih)</b> ulaza. <b>Uloge:</b> (1) prosleđivanje izabranog signala – multipleksiran prenos više kanala preko istog medijuma (jedan A/D konvertor ili jedna linija za više signala), konfiguracija programabilnih kola; (2) <b>realizacija logičkih funkcija</b> do n+1 promenljivih.</div>
+<p><b>MUX 4/1:</b> <span class="f big">Y = EN·(~A1~A0·I0 + ~A1A0·I1 + A1~A0·I2 + A1A0·I3)</span></p>
+<div class="row">
+<table class="t"><tr><th>EN</th><th>A1</th><th>A0</th><th>Y</th></tr><tr><td>0</td><td>x</td><td>x</td><td>0</td></tr><tr><td>1</td><td>0</td><td>0</td><td>I0</td></tr><tr><td>1</td><td>0</td><td>1</td><td>I1</td></tr><tr><td>1</td><td>1</td><td>0</td><td>I2</td></tr><tr><td>1</td><td>1</td><td>1</td><td>I3</td></tr></table>
+<div class="fig" data-b='{"title":"MUX 4/1","left":[["I0",""],["I1",""],["I2",""],["I3",""]],"right":[["Y",""]],"bottom":[["A1",""],["A0",""]],"top":[["EN",""]]}'></div>
+<div class="fig" data-bank='{"rows":[{"ins":["EN","!A1","!A0","I0"]},{"ins":["EN","!A1","A0","I1"]},{"ins":["EN","A1","!A0","I2"]},{"ins":["EN","A1","A0","I3"]}],"or":"Y","cap":"Logička šema MUX 4/1: 4 I kola + ILI kolo"}'></div>
+</div>
+</div>
+
+<div class="q"><h3><span class="n">25.</span> MUX 8/1 – blok šema, sinteza, detaljna šema</h3>
+<div class="key"><b>Ukratko:</b> MUX 8/1 ima 8 informacionih ulaza I<sub>0</sub>–I<sub>7</sub>, 3 selekciona A<sub>2</sub>A<sub>1</sub>A<sub>0</sub> (A<sub>0</sub> je LSB), EN i izlaz Y. Sinteza: izlaz je 1 kad je EN=1 i izabrani ulaz je 1 → zbir proizvoda (minterm selekcije · ulaz):
+<span class="f big">Y = EN·(~A2~A1~A0·I0 + ~A2~A1A0·I1 + ~A2A1~A0·I2 + ~A2A1A0·I3 + A2~A1~A0·I4 + A2~A1A0·I5 + A2A1~A0·I6 + A2A1A0·I7)</span>
+Detaljna šema: 3 invertora (za <span class="f">~A2, ~A1, ~A0</span>), 8 petoulaznih I kola (3 selekciona + I<sub>i</sub> + EN) i jedno osmoulazno ILI kolo.</div>
+<div class="row">
+<div class="fig" data-b='{"title":"MUX 8/1","left":[["I0",""],["I1",""],["I2",""],["I3",""],["I4",""],["I5",""],["I6",""],["I7",""]],"right":[["Y",""]],"bottom":[["A2",""],["A1",""],["A0",""]],"top":[["EN",""]]}'></div>
+<div class="fig" data-bank='{"rows":[{"ins":["EN","!A2","!A1","!A0","I0"]},{"ins":["EN","!A2","!A1","A0","I1"]},{"ins":["EN","!A2","A1","!A0","I2"]},{"ins":["EN","!A2","A1","A0","I3"]},{"ins":["EN","A2","!A1","!A0","I4"]},{"ins":["EN","A2","!A1","A0","I5"]},{"ins":["EN","A2","A1","!A0","I6"]},{"ins":["EN","A2","A1","A0","I7"]}],"or":"Y","cap":"Detaljna šema MUX 8/1 (invertori za A se podrazumevaju)"}'></div>
+</div>
+</div>
+
+<div class="q"><h3><span class="n">26.</span> * MUX 64/1 pomoću MUX 16/1 <span class="tag">ZADATAK</span></h3>
+<div class="key"><b>Ukratko:</b> MUX 64/1 ima 64 informaciona ulaza I<sub>0</sub>–I<sub>63</sub>, 6 selekcionih S<sub>5</sub>…S<sub>0</sub> (ld 64 = 6), izlaz Y i EN. Potrebno je <b>5 × MUX 16/1</b>: 4 u prvom stepenu (svaki pokriva 16 ulaza), čiji su selekcioni ulazi paralelno vezani na <b>4 najniža bita S<sub>3</sub>–S<sub>0</sub></b>; njihovi izlazi idu na ulaze I<sub>0</sub>–I<sub>3</sub> petog (izlaznog) MUX-a, koji bira jedan od njih pomoću <b>dva najteža bita S<sub>5</sub>S<sub>4</sub></b> (dovedena na njegove najniže selekcione ulaze; njegovi S<sub>3</sub>=S<sub>2</sub>=0). Nekorišćeni ulazi I<sub>4</sub>–I<sub>15</sub> izlaznog MUX-a vežu se na konstantu (X) – ne smeju da vise. EN ulazi prvog stepena = 1, a EN izlaznog MUX-a je EN celog MUX 64/1.</div>
+<div class="fig"><svg viewBox="0 0 640 400" width="640" id="mux64"></svg></div>
+<p><b>Uopšteno o proširivanju:</b> niži selekcioni bitovi idu na prvi stepen, viši na drugi. Primeri sa predavanja: MUX 8/1 od 2×MUX 4/1 (S<sub>1</sub>S<sub>0</sub> na oba, S<sub>2</sub> bira preko EN-ova: <span class="f">EN<sub>0</sub> = EN·~S2</span>, <span class="f">EN<sub>1</sub> = EN·S2</span>, izlaze spojiti ILI kolom); MUX 32/1 od 5×MUX 8/1; MUX 48/1 od 4×MUX 16/1 (nekorišćeni ulaz I<sub>3</sub> izlaznog MUX-a = X). Izlazni MUX može biti i MUX 4/1 (elegantnije), ali zadatak kaže MUX 16/1.</p>
+</div>
+
+<div class="q"><h3><span class="n">27.</span> Sinteza logičkih mreža pomoću multipleksera – mogući slučajevi</h3>
+<div class="key"><b>Ukratko:</b> Ulazne promenljive funkcije dovode se na selekcione ulaze, a na informacione ulaze konstante ili promenljive. Neka funkcija ima N promenljivih, a MUX M selekcionih ulaza (2<sup>M</sup> informacionih):
+<br>1) <b>N = M</b> (npr. 4 promenljive, MUX 16/1): sve promenljive na selekcione ulaze; na informacione ulaze I<sub>i</sub> dovodimo <b>0 ili 1</b> – vrednost funkcije u redu i tablice istinitosti.
+<br>2) <b>N = M + 1</b> (npr. 4 promenljive, MUX 8/1): M promenljivih na selekcione, a „višak“ promenljiva ide na informacione ulaze: I<sub>i</sub> ∈ {<b>0, 1, X, <span class="f">~X</span></b>}. Ovo je najekonomičnije – maksimalno N<sub>max</sub> = M+1.
+<br>3) <b>N &gt; M + 1</b> (npr. 4 promenljive, MUX 4/1): na informacione ulaze dolaze funkcije od više promenljivih → potrebna <b>dodatna logička kola</b>; neelegantno, „ne isplati se“ – tada se bira veći MUX.</div>
+</div>
+
+<div class="q"><h3><span class="n">28.</span> * Funkcija pomoću MUX 16/1: <span class="f">F(D,C,B,A) = Σ(0,4,5,7,13,14,15)</span> <span class="tag">ZADATAK</span></h3>
+<p>Slučaj N = M: S<sub>3</sub>S<sub>2</sub>S<sub>1</sub>S<sub>0</sub> = DCBA (D na najteži). I<sub>i</sub> = 1 ako je i u skupu, inače 0:</p>
+<p>I<sub>0</sub>=1, I<sub>1</sub>=0, I<sub>2</sub>=0, I<sub>3</sub>=0, I<sub>4</sub>=1, I<sub>5</sub>=1, I<sub>6</sub>=0, I<sub>7</sub>=1, I<sub>8</sub>=0, I<sub>9</sub>=0, I<sub>10</sub>=0, I<sub>11</sub>=0, I<sub>12</sub>=0, I<sub>13</sub>=1, I<sub>14</sub>=1, I<sub>15</sub>=1; EN=1.</p>
+<div class="fig" data-b='{"title":"MUX 16/1","left":[["I0","1"],["I1","0"],["I2","0"],["I3","0"],["I4","1"],["I5","1"],["I6","0"],["I7","1"],["I8","0"],["I9","0"],["I10","0"],["I11","0"],["I12","0"],["I13","1"],["I14","1"],["I15","1"]],"right":[["Y","F"]],"bottom":[["S3","D"],["S2","C"],["S1","B"],["S0","A"]],"top":[["EN","1"]]}'></div>
+<div class="tip"><b>Bonus – ista funkcija sa MUX 8/1</b> (slučaj N=M+1): S<sub>2</sub>S<sub>1</sub>S<sub>0</sub> = DCB, A na informacione ulaze. Gledaš parove redova (A=0, A=1): DCB=000: F(0)=1, F(1)=0 → I<sub>0</sub>=<span class="f">~A</span>; 001: 0,0 → I<sub>1</sub>=0; 010: 1,1 → I<sub>2</sub>=1; 011: 0,1 → I<sub>3</sub>=A; 100: 0,0 → 0; 101: 0,0 → 0; 110: 0,1 → I<sub>6</sub>=A; 111: 1,1 → I<sub>7</sub>=1.</div>
+</div>
+
+<div class="q"><h3><span class="n">29.</span> * <span class="f">F(A,B,C) = (A+B)·C + ~A·~B</span> pomoću MUX 8/1 <span class="tag">ZADATAK</span></h3>
+<p><span class="f">F = AC + BC + ~A~B = Σ(0,1,3,5,7)</span> (vidi 3b). S<sub>2</sub>S<sub>1</sub>S<sub>0</sub> = ABC:</p>
+<div class="fig" data-b='{"title":"MUX 8/1","left":[["I0","1"],["I1","1"],["I2","0"],["I3","1"],["I4","0"],["I5","1"],["I6","0"],["I7","1"]],"right":[["Y","F"]],"bottom":[["S2","A"],["S1","B"],["S0","C"]],"top":[["EN","1"]]}'></div>
+</div>
+
+<div class="q"><h3><span class="n">30.</span> * <span class="f">F(A,B,C) = (A+~B)·C + ~A·B</span> pomoću MUX 4/1 (B i C na selekcione, B teži bit) <span class="tag">ZADATAK</span></h3>
+<p><span class="f">F = Σ(1,2,3,5,7)</span> (vidi 3a). S<sub>1</sub>=B, S<sub>0</sub>=C, a A ide na informacione ulaze. Za svaku kombinaciju BC gledamo F za A=0 i A=1:</p>
+<table class="t"><tr><th>B C</th><th>F (A=0)</th><th>F (A=1)</th><th>ulaz</th></tr>
+<tr><td>0 0</td><td>F(000)=0</td><td>F(100)=0</td><td>I0 = 0</td></tr>
+<tr><td>0 1</td><td>F(001)=1</td><td>F(101)=1</td><td>I1 = 1</td></tr>
+<tr><td>1 0</td><td>F(010)=1</td><td>F(110)=0</td><td>I2 = <span class="f">~A</span></td></tr>
+<tr><td>1 1</td><td>F(011)=1</td><td>F(111)=1</td><td>I3 = 1</td></tr></table>
+<div class="fig" data-b='{"title":"MUX 4/1","left":[["I0","0"],["I1","1"],["I2","!A"],["I3","1"]],"right":[["Y","F"]],"bottom":[["S1","B"],["S0","C"]],"top":[["EN","1"]]}'></div>
+<p>Provera: <span class="f">F = ~BC + B~C~A + BC = C + ~AB</span> ✓.</p>
+</div>
+
+<div class="q"><h3><span class="n">31.</span> Demultiplekser – principsko rešenje, funkcionalna tabela, blok šema, delimična detaljna šema</h3>
+<div class="key"><b>Ukratko:</b> <b>Demultiplekser (DEMUX, DMX 1/n, „distributer“)</b> je KM koja signal sa <b>jednog ulaza</b> Z prosleđuje na <b>jedan od n izlaza</b> Y<sub>0</sub>…Y<sub>n−1</sub> – onaj koji je izabran kodom na m selekcionih ulaza (n = 2<sup>m</sup>), ako je EN aktivan. Radi suprotno od MUX-a. Ostali izlazi su neaktivni (0). Principski: Y<sub>i</sub> = Z · EN · (minterm selekcije i). Kao DEMUX se može koristiti <b>binarni dekoder sa signalom dozvole</b> (Z se dovede na EN). Primena: zajedno sa MUX-om – prenos n = 2<sup>m</sup> signala preko samo <b>m+1 linija</b> (m selekcionih + 1 za podatak).</div>
+<div class="row">
+<table class="t"><tr><th>EN</th><th>S2 S1 S0</th><th>Y0</th><th>Y1</th><th>…</th><th>Y7</th></tr>
+<tr><td>0</td><td>x x x</td><td>0</td><td>0</td><td>…</td><td>0</td></tr>
+<tr><td>1</td><td>0 0 0</td><td>Z</td><td>0</td><td>…</td><td>0</td></tr>
+<tr><td>1</td><td>0 0 1</td><td>0</td><td>Z</td><td>…</td><td>0</td></tr>
+<tr><td>1</td><td>…</td><td colspan="4">…</td></tr>
+<tr><td>1</td><td>1 1 1</td><td>0</td><td>0</td><td>…</td><td>Z</td></tr></table>
+<div class="fig" data-b='{"title":"DMX 1/8","left":[["Z",""]],"right":[["Y0",""],["Y1",""],["Y2",""],["Y3",""],["Y4",""],["Y5",""],["Y6",""],["Y7",""]],"bottom":[["S2",""],["S1",""],["S0",""]],"top":[["EN",""]]}'></div>
+<div class="fig" data-bank='{"rows":[{"ins":["Z","EN","!S2","!S1","!S0"],"out":"Y0"},{"ins":["Z","EN","!S2","!S1","S0"],"out":"Y1"},{"ins":["Z","EN","S2","S1","S0"],"out":"Y7"}],"cap":"Delimična detaljna šema (Y0, Y1 … Y7)"}'></div>
+</div>
+</div>
+
+<div class="q" id="q34"><h3><span class="n">34.</span> Funkcionalni hazard</h3>
+<div class="key"><b>Ukratko:</b> Funkcionalni hazard nastaje usled <b>istovremene promene bar dva ulazna signala</b> (prelaz između nesusednih kombinacija, Hemingovo rastojanje H&gt;1). Ulazni signali u praksi ne stižu tačno istovremeno, pa mreža kratko prolazi kroz <b>međukombinaciju</b>; ako je u njoj vrednost funkcije različita, na izlazu se pojavi lažni impuls. Javlja se <b>i kad su logička kola idealna</b> (t<sub>d</sub>=0) – zavisi od same funkcije, ne od realizacije, pa se ne može ukloniti dodavanjem kola, već <b>sinhronizacijom</b> (ili obezbeđivanjem da se menja samo jedan ulaz, npr. Grejov kod). Pošto ih u složenoj mreži ima mnogo, koriste se simulacije.</div>
+<p><b>Primer sa predavanja:</b> prelaz DCBA 1111 → 1100 (menjaju se B i A), F(1111)=1, F(1100)=1, F(1101)=1, F(1110)=0:</p>
+<ol><li>B i A se menjaju istovremeno: 1111 → 1100, F ostaje 1 – nema hazarda.</li>
+<li>Prvo B, pa A: 1111 → 1101 → 1100; u 1101 je F=1 – nema hazarda.</li>
+<li>Prvo A, pa B: 1111 → <b>1110</b> → 1100; u 1110 je F=0 → izlaz kratko padne na 0 – <b>funkcionalni hazard</b>.</li></ol>
+<div class="fig" data-w='{"T":9,"s":[{"n":"B","v":1,"t":[4]},{"n":"A","v":1,"t":[2]},{"n":"F","v":1,"t":[2,4],"h":[[2,4,"međustanje 1110"]]}],"m":[]}'></div>
+<p class="cap2">Idealna kola (t<sub>d</sub>=0), A se promenio pre B. Ako su kola realna, u istoj mreži se uz funkcionalni može pojaviti i statički logički hazard.</p>
+</div>
+
+<h2 id="q35">Dekoderi (35–42)</h2>
+
+<div class="q"><h3><span class="n">35.</span> Dekoder – uloga, blok šema, potpuni i nepotpuni</h3>
+<div class="key"><b>Ukratko:</b> <b>Dekoder</b> je KM sa više ulaza i više izlaza kod koje svaka dozvoljena kombinacija ulaza aktivira <b>tačno jedan</b> (poseban) izlaz, ako je signal dozvole EN aktivan. Uloga: konverzija (vraćanje) informacije iz kodovanog u originalni oblik, adresiranje (npr. izbor reda u memoriji), realizacija funkcija. <b>Potpuni</b> dekoder: n ulaza, <b>2<sup>n</sup></b> izlaza (npr. DEC 3/8). <b>Nepotpuni</b>: n ulaza, <b>manje od 2<sup>n</sup></b> izlaza (npr. DEC 4/10 – NBCD). Realizuju se I kolima i invertorima (NI kolima i invertorima – dekoder u negativnoj logici); nepotpuni nemaju svih 2<sup>n</sup> izlaznih kola. Ako se ne kaže drugačije: prirodni binarni kod, EN aktivan na 1, neaktivni izlazi su 0.</div>
+<div class="row"><div class="fig" data-b='{"title":"DEC 2/4","left":[["A1",""],["A0",""]],"right":[["Y0",""],["Y1",""],["Y2",""],["Y3",""]],"top":[["EN",""]]}'></div>
+<div class="fig" data-b='{"title":"DEC n/2ⁿ","left":[["A(n-1)",""],["…",""],["A0",""]],"right":[["Y0",""],["…",""],["Y(2ⁿ-1)",""]],"top":[["EN",""]]}'></div></div>
+<p>Primer integrisanog: <b>74HC138</b> (DEC 3/8) – umesto jednog EN ima tri signala selekcije čipa CS1, CS2, CS3 (aktivni kada CS1=1, CS2=0, CS3=0); aktivni izlaz je 0 (negativna logika).</p>
+</div>
+
+<div class="q"><h3><span class="n">36.</span> Dekoder 3/8 bez sinhronizacije</h3>
+<div class="key"><b>Ukratko:</b> 3 ulaza A<sub>2</sub>A<sub>1</sub>A<sub>0</sub>, 8 izlaza; aktivan je izlaz Y<sub>i</sub> čiji indeks i odgovara broju na ulazu. Svaki izlaz je jedan potpuni proizvod (minterm) – ne može se minimizirati: <span class="f">Y0 = ~A2~A1~A0, Y1 = ~A2~A1A0, …, Y7 = A2A1A0</span>. Šema: <b>3 invertora + 8 troulaznih I kola</b>.</div>
+<div class="row">
+<table class="t"><tr><th>A2</th><th>A1</th><th>A0</th><th>Y7</th><th>Y6</th><th>Y5</th><th>Y4</th><th>Y3</th><th>Y2</th><th>Y1</th><th>Y0</th></tr>
+<tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+<tr><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+<tr><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+<tr><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr></table>
+<div class="fig" data-bank='{"rows":[{"ins":["!A2","!A1","!A0"],"out":"Y0"},{"ins":["!A2","!A1","A0"],"out":"Y1"},{"ins":["!A2","A1","!A0"],"out":"Y2"},{"ins":["!A2","A1","A0"],"out":"Y3"},{"ins":["A2","!A1","!A0"],"out":"Y4"},{"ins":["A2","!A1","A0"],"out":"Y5"},{"ins":["A2","A1","!A0"],"out":"Y6"},{"ins":["A2","A1","A0"],"out":"Y7"}],"cap":"DEC 3/8: komplementi dobijeni sa 3 invertora"}'></div>
+</div></div>
+
+<div class="q"><h3><span class="n">37.</span> Dekoder 3/8 sa sinhronizacijom</h3>
+<div class="key"><b>Ukratko:</b> Isto kao 36, ali sa signalom dozvole (sinhronizacionim signalom) EN koji ulazi u svako I kolo – I kola su <b>četvoroulazna</b>: <span class="f">Yi = EN · (minterm i)</span>. Kada je EN=0, svi izlazi su 0; kada je EN=1, aktivan je samo izlaz koji odgovara ulaznom kodu. EN se aktivira tek kad su ulazi i komplementi (posle invertora) stabilni, pa se na izlazima ne pojavljuju lažni impulsi tokom promene adrese.</div>
+<table class="t"><tr><th>EN</th><th>A2 A1 A0</th><th>aktivan izlaz</th></tr><tr><td>0</td><td>x x x</td><td>nijedan (svi 0)</td></tr><tr><td>1</td><td>0 0 0</td><td>Y0</td></tr><tr><td>1</td><td>…</td><td>…</td></tr><tr><td>1</td><td>1 1 1</td><td>Y7</td></tr></table>
+<div class="fig" data-bank='{"rows":[{"ins":["EN","!A2","!A1","!A0"],"out":"Y0"},{"ins":["EN","!A2","!A1","A0"],"out":"Y1"},{"ins":["EN","A2","A1","A0"],"out":"Y7"}],"cap":"(prikazana 3 od 8 kola – ostala analogno)"}'></div>
+<p><b>Zadatak sa vežbi (određivanje EN):</b> ako se adrese menjaju svakih 100 ns, EN se aktivira kad su podaci sigurno postavljeni (najduža putanja kroz invertore, t<sub>dmax</sub>) i deaktivira na vreme da izlaz traje traženo vreme; kašnjenje bafera kroz koji prolazi EN se oduzima.</p>
+</div>
+
+<div class="q"><h3><span class="n">38.</span> * Dekoder 4/16 pomoću dekodera 3/8 <span class="tag">ZADATAK</span></h3>
+<div class="key"><b>Ukratko:</b> Potrebna su <b>2 × DEC 3/8</b> (16 izlaza = 2×8). Tri niža bita A<sub>2</sub>A<sub>1</sub>A<sub>0</sub> vode se paralelno na oba dekodera; najteži bit A<sub>3</sub> bira koji dekoder radi, preko EN ulaza: gornji (izlazi Y<sub>0</sub>–Y<sub>7</sub>) ima <span class="f">EN<sub>0</sub> = EN·~A3</span>, donji (Y<sub>8</sub>–Y<sub>15</sub>) <span class="f">EN<sub>1</sub> = EN·A3</span>. (Bez zajedničkog EN: invertor za <span class="f">~A3</span>; sa EN – dva I kola ili DEC 1/2 sa dozvolom.) Pravilo: <b>niži bitovi na adresne ulaze, viši bitovi kontrolišu EN</b>.</div>
+<div class="fig"><svg viewBox="0 0 560 330" width="560" id="dec416"></svg></div>
+<p>Sa predavanja: DEC 4/16 od DEC 2/4 – 4 dekodera za izlaze (A<sub>1</sub>A<sub>0</sub> paralelno) + 1 dekoder 2/4 koji na osnovu A<sub>3</sub>A<sub>2</sub> preko EN-ova bira jedan od njih (EN tog dekodera = EN celog). DEC 4/12 – 3 izlazna DEC 2/4 + 1 za izbor (njegov 4. izlaz ostaje nepovezan).</p>
+</div>
+
+<div class="q"><h3><span class="n">40.</span> Dekoder NBCD/DC (DEC 4/10)</h3>
+<div class="key"><b>Ukratko:</b> Nepotpuni dekoder: 4 ulaza DCBA (NBCD cifra 0–9), 10 izlaza Y<sub>0</sub>–Y<sub>9</sub> (decimalna cifra). Kombinacije 1010–1111 (10–15) se nikad ne pojavljuju → x-stanja, pa se izlazi mogu <b>minimizirati</b>:
+<span class="f big">Y0 = ~D~C~B~A, Y1 = ~D~C~BA, Y2 = ~CB~A, Y3 = ~CBA, Y4 = C~B~A, Y5 = C~BA, Y6 = CB~A, Y7 = CBA, Y8 = D~A, Y9 = DA</span>
+Šema: invertori + 2 četvoroulazna, 6 troulaznih i 2 dvoulazna I kola (umesto 10 četvoroulaznih).</div>
+<div class="row">
+<table class="t"><tr><th>DC</th><th>D C B A</th><th>aktivan</th></tr>
+<tr><td>0</td><td>0000</td><td>Y0</td></tr><tr><td>1</td><td>0001</td><td>Y1</td></tr><tr><td>2</td><td>0010</td><td>Y2</td></tr><tr><td>3</td><td>0011</td><td>Y3</td></tr><tr><td>4</td><td>0100</td><td>Y4</td></tr><tr><td>5</td><td>0101</td><td>Y5</td></tr><tr><td>6</td><td>0110</td><td>Y6</td></tr><tr><td>7</td><td>0111</td><td>Y7</td></tr><tr><td>8</td><td>1000</td><td>Y8</td></tr><tr><td>9</td><td>1001</td><td>Y9</td></tr><tr><td>—</td><td>1010–1111</td><td>x (zabranjeno)</td></tr></table>
+<div><div class="km" data-k='{"cap":"Primer minimizacije: Y2 (jedinica samo u polju 2)","r":"DC","c":"BA","ones":[2],"x":[10,11,12,13,14,15],"g":[["!CB!A","#2563eb",[2,10]]]}'></div>
+<div class="km" data-k='{"cap":"Y8","r":"DC","c":"BA","ones":[8],"x":[10,11,12,13,14,15],"g":[["D!A","#16a34a",[8,10,12,14]]]}'></div></div>
+</div></div>
+
+<div class="q"><h3><span class="n">41.</span> * Funkcija pomoću dekodera 3/8 <span class="tag">ZADATAK</span></h3>
+<div class="tip"><b>Recept:</b> izlazi dekodera su mintermi → (1) odredi indekse jedinica funkcije (proširi do potpunih proizvoda ili koristi Karnoo); (2) promenljive na adresne ulaze po težini (prva navedena na A<sub>2</sub>); (3) <b>ILI kolo</b> sabira izlaze Y<sub>i</sub> za sve jedinice. (Za dekoder u negativnoj logici – NI kolo umesto ILI.) Ako ima više promenljivih nego adresnih ulaza, „višak“ se uvodi preko EN / dodatnih I kola.</div>
+<h3>a) <span class="f">F(C,B,A) = A~B + AB~C</span></h3>
+<p><span class="f">A~B</span>: A=1, B=0, C bilo šta → CBA = 001 (1), 101 (5). <span class="f">AB~C</span>: CBA = 011 (3). <span class="f">F = Σ(1,3,5)</span> → <span class="f">F = Y1 + Y3 + Y5</span>, sa A<sub>2</sub>A<sub>1</sub>A<sub>0</sub> = CBA.</p>
+<div class="fig" data-dec='{"ins":["C","B","A"],"use":[1,3,5]}'></div>
+<h3>b) <span class="f">F(A,B,C) = ~[A+~C]·B + ~[B·~A]·C</span></h3>
+<p>De Morgan: <span class="f">~[A+~C] = ~A·C</span>, <span class="f">~[B·~A] = ~B + A</span>. <span class="f">F = ~ABC + ~BC + AC</span> → indeksi (ABC): 3; 1, 5; 5, 7 → <span class="f">F = Σ(1,3,5,7)</span> (ispostavi se da je F = C!). Sa A<sub>2</sub>A<sub>1</sub>A<sub>0</sub> = ABC: <span class="f">F = Y1 + Y3 + Y5 + Y7</span>.</p>
+<div class="fig" data-dec='{"ins":["A","B","C"],"use":[1,3,5,7]}'></div>
+</div>
+
+<div class="q"><h3><span class="n">42.</span> Raspodeljena struktura dekoderske mreže</h3>
+<div class="key"><b>Ukratko:</b> Sa porastom broja ulaza n, broj I kola (2<sup>n</sup>) i broj ulaza svakog I kola (n) postaju ograničavajući faktor (kola sa mnogo ulaza su spora, velika potrošnja, veliko opterećenje adresnih linija). Zato se veliki dekoderi realizuju <b>raspodeljeno</b> – kao <b>mreža od više manjih dekodera</b> u dva ili više nivoa: prvi nivo dekoduje deo adrese (npr. više bitove) i preko EN bira jedan od dekodera drugog nivoa koji dekoduju ostatak (npr. DEC 4/16 od DEC 2/4, DEC 6/64 od DEC 2/4). U memorijama se koriste <b>predekoderi</b>: adresa se podeli na grupe od po 2 bita koje se unapred dekoduju, a drugi stepen (npr. 5-ulazna NI kola) daje konačne signale reda WL<sub>i</sub>. <b>Prednosti:</b> manje tranzistora (≈55% za 10-bitni), veća brzina (kašnjenje raste sa kvadratom broja ulaza – prepolovljen broj ulaza ≈ 4× brže), prepolovljeno opterećenje adresnih linija, jednostavniji adresni drajveri.</div>
+</div>
+
+<h2 id="q43">Koderi (43–45)</h2>
+
+<div class="q"><h3><span class="n">43.</span> Koder – uloga, blok šema, potpuni i nepotpuni</h3>
+<div class="key"><b>Ukratko:</b> <b>Koder</b> je KM suprotne uloge od dekodera: koduje ulaznu informaciju – generiše kod (niz 0 i 1) koji predstavlja aktivni ulaz. <b>Potpuni</b> koder: 2<sup>m</sup> ulaza i m izlaza (npr. koder 8/3). <b>Nepotpuni</b>: manje od 2<sup>m</sup> ulaza i m izlaza (npr. koder 10/4 – decimalna cifra u NBCD kod).</div>
+<div class="row"><div class="fig" data-b='{"title":"KODER 8/3","left":[["A0",""],["A1",""],["A2",""],["A3",""],["A4",""],["A5",""],["A6",""],["A7",""]],"right":[["Y2",""],["Y1",""],["Y0",""]]}'></div>
+<div class="fig" data-b='{"title":"KODER 10/4","left":[["0",""],["1",""],["…",""],["9",""]],"right":[["Y3",""],["Y2",""],["Y1",""],["Y0",""]]}'></div></div>
+<p>Koder 10/4: Y<sub>0</sub> = 1+3+5+7+9, Y<sub>1</sub> = 2+3+6+7, Y<sub>2</sub> = 4+5+6+7, Y<sub>3</sub> = 8+9 (ILI kola nad ulazima čija NBCD reprezentacija ima 1 na tom mestu).</p>
+</div>
+
+<div class="q"><h3><span class="n">44.</span> Koder 8/3 – problem osnovne verzije i rešenje</h3>
+<div class="key"><b>Ukratko:</b> Osnovni koder 8/3 (pretpostavlja da je aktivan tačno jedan ulaz): <span class="f">Y0 = A1+A3+A5+A7, Y1 = A2+A3+A6+A7, Y2 = A4+A5+A6+A7</span> – tri četvoroulazna ILI kola (A<sub>0</sub> se ni ne koristi).
+<br><b>Problemi:</b> (1) ako je <b>istovremeno aktivno više ulaza</b>, izlaz je ILI njihovih kodova → <b>pogrešan kod</b> (npr. A<sub>1</sub> i A<sub>2</sub> → 001 + 010 = 011 = „3“, a ulaz 3 nije aktivan); (2) izlaz 000 je isti kada je aktivan A<sub>0</sub> i kada <b>nijedan</b> ulaz nije aktivan.
+<br><b>Rešenje:</b> <b>prioritetni koder</b> – ispred kodera se doda <b>prioritetna mreža</b> koja propušta samo ulaz najvišeg prioriteta, i dodaje se izlaz <b>DV</b> (Data Valid) koji je 1 samo ako je bar jedan ulaz aktivan.</div>
+<table class="t"><tr><th>A7…A0</th><th>Y2 Y1 Y0</th></tr><tr><td>00000001</td><td>000</td></tr><tr><td>00000010</td><td>001</td></tr><tr><td>00000100</td><td>010</td></tr><tr><td>00001000</td><td>011</td></tr><tr><td>00010000</td><td>100</td></tr><tr><td>00100000</td><td>101</td></tr><tr><td>01000000</td><td>110</td></tr><tr><td>10000000</td><td>111</td></tr></table>
+</div>
+
+<div class="q"><h3><span class="n">45.</span> Prioritetni koder – svrha, funkcionalna tabela (4 ulaza), prioritetna mreža</h3>
+<div class="key"><b>Ukratko:</b> <b>Svrha:</b> eliminiše problem običnog kodera koji daje pogrešan kod kad je aktivno više ulaza – prioritetni koder generiše kod <b>najprioritetnijeg</b> (najvećeg) od trenutno aktivnih ulaza. Izlaz <b>DV</b> (važeći kod) = 0 kad nijedan ulaz nije aktivan (tada su izlazi koda proizvoljni), inače DV=1. Realizuje se kao <b>prioritetna mreža + običan koder</b>.
+<br><b>Prioritetna mreža</b> se vezuje ispred običnog kodera; ima isti broj ulaza i izlaza; ako je aktivno više ulaza, aktivan je samo izlaz koji odgovara ulazu najvišeg prioriteta.</div>
+<div class="row">
+<table class="t"><tr><th>X3</th><th>X2</th><th>X1</th><th>X0</th><th>Y1</th><th>Y0</th><th>DV</th></tr>
+<tr><td>0</td><td>0</td><td>0</td><td>0</td><td>x</td><td>x</td><td>0</td></tr>
+<tr><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+<tr><td>0</td><td>0</td><td>1</td><td>x</td><td>0</td><td>1</td><td>1</td></tr>
+<tr><td>0</td><td>1</td><td>x</td><td>x</td><td>1</td><td>0</td><td>1</td></tr>
+<tr><td>1</td><td>x</td><td>x</td><td>x</td><td>1</td><td>1</td><td>1</td></tr></table>
+<div><p><b>Jednačine:</b><br><span class="f">Y1 = X3 + X2</span><br><span class="f">Y0 = X3 + ~X2X1</span><br><span class="f">DV = X3 + X2 + X1 + X0</span></p>
+<p><b>Prioritetna mreža (izlazi Z):</b><br><span class="f">Z3 = X3</span><br><span class="f">Z2 = ~X3X2</span><br><span class="f">Z1 = ~X3~X2X1</span><br><span class="f">Z0 = ~X3~X2~X1X0</span></p></div>
+<div class="fig" data-bank='{"rows":[{"ins":["X3"],"out":"Z3","wire":true},{"ins":["!X3","X2"],"out":"Z2"},{"ins":["!X3","!X2","X1"],"out":"Z1"},{"ins":["!X3","!X2","!X1","X0"],"out":"Z0"}],"cap":"Prioritetna mreža sa 4 ulaza (Z idu na običan koder 4/2)"}'></div>
+</div></div>
+
+<h2 id="q46">Numerički sistemi i kodovi (46–50)</h2>
+
+<div class="q"><h3><span class="n">46.</span> Numerički sistemi – binarni, decimalni, heksadecimalni</h3>
+<div class="key"><b>Ukratko:</b> Brojni sistemi su <b>pozicioni</b>: broj sa osnovom b i ciframa c<sub>i</sub> vredi <span class="f">N = Σ c<sub>i</sub>·b<sup>i</sup></span>. <b>Decimalni</b> (b=10, cifre 0–9) – najpogodniji za ljude i numeričke operacije. <b>Binarni</b> (b=2, cifre 0 i 1 = <b>bit</b>) – najprirodniji za digitalna kola jer se bit lako predstavi sa dva naponska nivoa; grupa bita = binarna reč, 8 bita = <b>bajt</b>. <b>Heksadecimalni</b> (b=16, cifre 0–9 i A–F) – kraći zapis binarnog: svaka heks. cifra = tačno 4 bita.</div>
+<p><b>Dekadni → binarni</b> (deljenje sa 2, ostaci odozdo nagore): 126:2=63 o.0; 63:2=31 o.1; 31→15 o.1; 15→7 o.1; 7→3 o.1; 3→1 o.1; 1→0 o.1 ⇒ <b>126<sub>10</sub> = 1111110<sub>2</sub></b>.</p>
+<p><b>Binarni → dekadni:</b> 1111110<sub>2</sub> = 64+32+16+8+4+2 = 126. <b>Binarni → heks:</b> grupe po 4 bita s desna: 0111 1110 = <b>7E<sub>16</sub></b>. Provera: 7·16 + 14 = 126.</p>
+<table class="t"><tr><th>dec</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td></tr>
+<tr><th>hex</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>A</td><td>B</td><td>C</td><td>D</td><td>E</td><td>F</td></tr></table>
+</div>
+
+<div class="q"><h3><span class="n">47.</span> Osnovni BCD kodovi – NBCD, XS3, Grejov, kružni, Džonsonov</h3>
+<div class="key"><b>Ukratko – uloga:</b> za računanje je najpogodniji decimalni sistem, a za realizaciju binarni → <b>BCD</b> (binarno kodovane decimalne cifre): svaka decimalna cifra se predstavlja grupom bita (tetradom).
+<br>• <b>NBCD (8421)</b> – cifra 0–9 u prirodnom binarnom kodu sa 4 bita; <b>težinski</b> (težine 8,4,2,1).
+<br>• <b>XS3 (višak 3)</b> – cifri se doda 3, pa se koduje u NBCD; <b>nije težinski</b>, <b>samokomplementaran</b> (komplement koda = kod devetke-komplementa), koristan za aritmetiku.
+<br>• <b>Grejov</b> (F. Gray, 1953) – <b>susedni brojevi se razlikuju u samo 1 bitu</b>; nije težinski, nije pogodan za aritmetiku; koristi se za enkodere položaja (sprečava funkcionalni hazard pri prelazu).
+<br>• <b>Kružni</b> – 10 bita, u svakoj kodnoj reči tačno jedna jedinica; težinski (9876543210); lako otkrivanje greške i dekodovanje, ali složenija realizacija (mnogo bita); dobija se kružnim brojačem.
+<br>• <b>Džonsonov</b> – 5 bita, nije težinski, kod sa <b>jediničnim razmakom</b> (susedne reči se razlikuju u 1 bitu).</div>
+<table class="t"><tr><th>DC</th><th>NBCD</th><th>XS3</th><th>Grej</th><th>Džonson</th><th>Kružni</th></tr>
+<tr><td>0</td><td>0000</td><td>0011</td><td>0000</td><td>00000</td><td>0000000001</td></tr>
+<tr><td>1</td><td>0001</td><td>0100</td><td>0001</td><td>00001</td><td>0000000010</td></tr>
+<tr><td>2</td><td>0010</td><td>0101</td><td>0011</td><td>00011</td><td>0000000100</td></tr>
+<tr><td>3</td><td>0011</td><td>0110</td><td>0010</td><td>00111</td><td>0000001000</td></tr>
+<tr><td>4</td><td>0100</td><td>0111</td><td>0110</td><td>01111</td><td>0000010000</td></tr>
+<tr><td>5</td><td>0101</td><td>1000</td><td>0111</td><td>11111</td><td>0000100000</td></tr>
+<tr><td>6</td><td>0110</td><td>1001</td><td>0101</td><td>11110</td><td>0001000000</td></tr>
+<tr><td>7</td><td>0111</td><td>1010</td><td>0100</td><td>11100</td><td>0010000000</td></tr>
+<tr><td>8</td><td>1000</td><td>1011</td><td>1100</td><td>11000</td><td>0100000000</td></tr>
+<tr><td>9</td><td>1001</td><td>1100</td><td>1101</td><td>10000</td><td>1000000000</td></tr></table>
+<p class="cap2">Grejov kod pravilo: <span class="f">g<sub>i</sub> = b<sub>i+1</sub> ⊕ b<sub>i</sub></span>, najteži bit se prepiše.</p>
+</div>
+
+<div class="q"><h3><span class="n">48.</span> * Konvertor koda – binarni (3 bita) u Grejov <span class="tag">ZADATAK</span></h3>
+<div class="key"><b>Uloga:</b> <b>Konvertor koda</b> je KM koja prevodi informaciju iz jednog koda u drugi. Svaki se može napraviti kao kaskada dekoder + koder, ali se obično minimizacijom funkcija dobija jednostavnija mreža. <b>Na kolokvijumu:</b> nacrtaj blok šemu (ulazi, izlazi), funkcionalnu tabelu, pa minimiziraj i realizuj traženi bit.</div>
+<div class="row">
+<table class="t"><tr><th>b2 b1 b0</th><th>g2 g1 g0</th></tr><tr><td>000</td><td>000</td></tr><tr><td>001</td><td>001</td></tr><tr><td>010</td><td>011</td></tr><tr><td>011</td><td>010</td></tr><tr><td>100</td><td>110</td></tr><tr><td>101</td><td>111</td></tr><tr><td>110</td><td>101</td></tr><tr><td>111</td><td>100</td></tr></table>
+<div class="fig" data-b='{"title":"BIN/GREJ","left":[["b2",""],["b1",""],["b0",""]],"right":[["g2",""],["g1",""],["g0",""]]}'></div>
+<div><div class="km" data-k='{"cap":"g1 = Σ(2,3,4,5)","r":"b2","c":"b1b0","ones":[2,3,4,5],"g":[["!b2 b1","#2563eb",[2,3]],["b2 !b1","#16a34a",[4,5]]]}'></div></div>
+</div>
+<p><b>Najteži bit:</b> <span class="f">g2 = b2</span> (samo veza, bez kola). <span class="f">g1 = ~b2·b1 + b2·~b1 = b2 ⊕ b1</span> (jedno EX-ILI kolo), <span class="f">g0 = b1 ⊕ b0</span>.</p>
+<div class="tip"><b>Varijanta NBCD → XS3, najteži bit E3:</b> E3 = 1 za cifre 5–9 (XS3 1000…1100); ulazi 10–15 su x. Karnoo: <span class="f">E3 = D + CB + CA = D + C(B+A)</span>. (Ostali: <span class="f">E0 = ~A</span>, <span class="f">E1 = ~[B⊕A]</span> tj. <span class="f">BA + ~B~A</span>, <span class="f">E2 = ~CB + ~CA + C~B~A</span>.)</div>
+<div class="km" data-k='{"cap":"XS3 bit E3 (NBCD ulaz DCBA)","r":"DC","c":"BA","ones":[5,6,7,8,9],"x":[10,11,12,13,14,15],"g":[["D","#2563eb",[8,9,10,11,12,13,14,15]],["CA","#16a34a",[5,7,13,15]],["CB","#d97706",[7,6,15,14]]]}'></div>
+</div>
+
+<div class="q"><h3><span class="n">49.</span> * Konvertor NBCD / 7 segmenata – minimizacija segmenta g <span class="tag">ZADATAK</span></h3>
+<div class="key"><b>Ukratko:</b> Konvertor (dekoder) NBCD/7S ima 4 ulaza DCBA (cifra 0–9) i 7 izlaza a–g koji pale segmente displeja. Kombinacije 1010–1111 su <b>zabranjena stanja</b> (x). Za svaki segment se napiše kolona tablice i minimizira Karnoovom tablicom koristeći x-stanja.</div>
+<div class="row">
+<svg viewBox="0 0 120 190" width="110"><g fill="none" stroke="var(--ink)" stroke-width="2"><rect x="25" y="15" width="70" height="10" rx="4"/><rect x="25" y="88" width="70" height="10" rx="4" fill="#e11d48" opacity=".7"/><rect x="25" y="160" width="70" height="10" rx="4"/><rect x="12" y="25" width="10" height="62" rx="4"/><rect x="98" y="25" width="10" height="62" rx="4"/><rect x="12" y="98" width="10" height="62" rx="4"/><rect x="98" y="98" width="10" height="62" rx="4"/></g><g class="lb"><text x="56" y="12">a</text><text x="112" y="58">b</text><text x="112" y="132">c</text><text x="56" y="186">d</text><text x="0" y="132">e</text><text x="0" y="58">f</text><text x="56" y="86">g</text></g></svg>
+<table class="t"><tr><th>DC</th><th>DCBA</th><th>a</th><th>b</th><th>c</th><th>d</th><th>e</th><th>f</th><th>g</th></tr>
+<tr><td>0</td><td>0000</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td></tr>
+<tr><td>1</td><td>0001</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>2</td><td>0010</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+<tr><td>3</td><td>0011</td><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+<tr><td>4</td><td>0100</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+<tr><td>5</td><td>0101</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td></tr>
+<tr><td>6</td><td>0110</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+<tr><td>7</td><td>0111</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>8</td><td>1000</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+<tr><td>9</td><td>1001</td><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td></tr></table>
+<div class="km" data-k='{"cap":"g = Σ(2,3,4,5,6,8,9) + x(10–15)","r":"DC","c":"BA","ones":[2,3,4,5,6,8,9],"x":[10,11,12,13,14,15],"g":[["D","#2563eb",[8,9,10,11,12,13,14,15]],["!CB","#16a34a",[2,3,10,11]],["C!B","#d97706",[4,5,12,13]],["B!A","#9333ea",[2,6,10,14]]]}'></div>
+</div>
+<p class="f big">g = D + ~CB + C~B + B~A</p>
+<p>(<span class="f">~CB + C~B = C⊕B</span>, pa i <span class="f">g = D + (C⊕B) + B~A</span>.) Umesto <span class="f">B~A</span> može i <span class="f">C~A</span> (polja 4,6,12,14) – obe su minimalne.</p>
+</div>
+
+<div class="q"><h3><span class="n">50.</span> Kontrola parnosti (4-bitna paralelna poruka)</h3>
+<div class="key"><b>Ukratko:</b> Zaštitno kodovanje bitom parnosti otkriva greške pri prenosu/skladištenju (kad su istovremene greške na dva bita malo verovatne). Na svaku reč od N bita doda se bit parnosti <b>P</b>: ako je broj jedinica u reči paran, P=0; ako je neparan, P=1 → u novoj reči od N+1 bita broj jedinica je uvek <b>paran</b>. <b>Predajnik</b> generiše <span class="f">P = D ⊕ C ⊕ B ⊕ A</span> (3 EX-ILI kola). <b>Prijemnik</b> proverava <span class="f">K = D ⊕ C ⊕ B ⊕ A ⊕ P</span> (4 EX-ILI kola): K=0 → prenos ispravan, K=1 → greška. Otkriva se svaki <b>neparan</b> broj grešaka (1, 3); paran broj grešaka (2) se ne otkriva, i ne zna se koji bit je pogrešan.</div>
+<div class="row">
+<table class="t"><tr><th>DCBA</th><th>P</th><th>DCBA</th><th>P</th></tr>
+<tr><td>0000</td><td>0</td><td>1000</td><td>1</td></tr><tr><td>0001</td><td>1</td><td>1001</td><td>0</td></tr><tr><td>0010</td><td>1</td><td>1010</td><td>0</td></tr><tr><td>0011</td><td>0</td><td>1011</td><td>1</td></tr><tr><td>0100</td><td>1</td><td>1100</td><td>0</td></tr><tr><td>0101</td><td>0</td><td>1101</td><td>1</td></tr><tr><td>0110</td><td>0</td><td>1110</td><td>1</td></tr><tr><td>0111</td><td>1</td><td>1111</td><td>0</td></tr></table>
+<div class="fig"><svg viewBox="0 0 560 210" width="560" id="parity"></svg></div>
+</div>
+<p class="cap2">U Karnoovoj tablici P izgleda kao šahovska tabla – nijedne dve jedinice nisu susedne, pa se ne može minimizirati u I-ILI; zato se koriste EX-ILI kola.</p>
+</div>
+
+<div class="q" id="q49b"><h3><span class="n">49b.</span> Osnovne koncepcije programabilnih logičkih struktura</h3>
+<div class="key"><b>Ukratko:</b> Svaka funkcija se može napisati kao zbir proizvoda → programabilna struktura ima <b>I matricu</b> (pravi proizvode od ulaza i njihovih komplemenata) i <b>ILI matricu</b> (sabira proizvode u izlaze). Veze u matricama se „programiraju“ (osigurači/antiosigurači, EPROM/flash ćelije). Vrste:
+<br>• <b>PROM</b> – I matrica <b>fiksna</b> (potpuni dekoder – svi 2<sup>n</sup> mintermi), ILI matrica <b>programabilna</b>; funkcija se upisuje kao tablica istinitosti.
+<br>• <b>PAL</b> – I matrica <b>programabilna</b>, ILI matrica <b>fiksna</b> (svaki izlaz ima svoj ograničen broj proizvoda); brz i jeftin.
+<br>• <b>PLA</b> – <b>obe matrice programabilne</b>; najfleksibilniji, proizvodi se mogu deliti između izlaza, ali sporiji i skuplji.
+<br>• Složenije: CPLD (više PAL blokova + programabilne veze) i FPGA (logički blokovi sa tablicama, flip-flopovima i programabilnim vezama).</div>
+<table class="t"><tr><th></th><th>I matrica</th><th>ILI matrica</th></tr><tr><td>PROM</td><td>fiksna (dekoder)</td><td>programabilna</td></tr><tr><td>PAL</td><td>programabilna</td><td>fiksna</td></tr><tr><td>PLA</td><td>programabilna</td><td>programabilna</td></tr></table>
+</div>
+
+<div class="q"><h3><span class="n">50b.</span> * PLA mreža – realizacija funkcija pomoću PLA 3/4/2 <span class="tag">ZADATAK</span></h3>
+<div class="key"><b>PLA 3/4/2</b> = 3 ulaza (A, B, C sa komplementima), <b>4 proizvoda</b> (4 I kola u I matrici), 2 izlaza (2 ILI kola). <b>Postupak:</b> minimiziraj obe funkcije; prebroj <b>različite</b> proizvode (zajednički proizvod se pravi samo jednom i deli između izlaza!) – mora ih biti ≤ 4; nacrtaj I matricu (tačka/X = programirana veza) i ILI matricu.</div>
+<p class="warn">Napomena: u PDF-u spiska su crte iznad slova u F₂ izgubljene (piše „B·C + B·C“, što nema smisla). Ovde je uzeto <span class="f">F2 = BC + ~B~C + ~ABC</span>, jer tada tačno staje u 4 proizvoda – proveri sa originalom/profesorom; postupak je isti.</p>
+<p><span class="f">F1 = ~B + BC + ~AC = ~B + C</span> (jer <span class="f">~B + BC = ~B + C</span>, a <span class="f">~AC</span> je onda višak).<br>
+<span class="f">F2 = BC + ~B~C + ~ABC = BC + ~B~C</span> (<span class="f">~ABC</span> je apsorbovan u BC).<br>
+Proizvodi: P1 = <span class="f">~B</span>, P2 = C, P3 = BC, P4 = <span class="f">~B~C</span> → 4 ✓. F1 = P1 + P2, F2 = P3 + P4.</p>
+<div class="fig"><svg viewBox="0 0 520 300" width="520" id="pla"></svg></div>
+</div>
+
+<h2 id="bubaj">Šta MORAŠ da znaš napamet</h2>
+<table class="t">
+<tr><td class="l"><b>De Morgan</b></td><td class="l f">~[AB] = ~A+~B, &nbsp; ~[A+B] = ~A·~B</td></tr>
+<tr><td class="l"><b>Karnoo redosled</b></td><td class="l">00, 01, 11, 10 · indeksi 0 1 3 2 / 4 5 7 6 / 12 13 15 14 / 8 9 11 10</td></tr>
+<tr><td class="l"><b>Konture</b></td><td class="l">1,2,4,8,16 polja; što veće, što manje; x može a ne mora; ivice su susedne</td></tr>
+<tr><td class="l"><b>Π</b></td><td class="l">navodi NULE (KNF); u sumi promenljiva = 1 piše se sa crtom</td></tr>
+<tr><td class="l"><b>NI-NI / NILI-NILI</b></td><td class="l">NI-NI iz DNF, NILI-NILI iz KNF (dvostruka negacija + De Morgan)</td></tr>
+<tr><td class="l"><b>M</b></td><td class="l">ukupan broj ulaza svih kola</td></tr>
+<tr><td class="l"><b>t<sub>p</sub></b></td><td class="l">(t<sub>PHL</sub>+t<sub>PLH</sub>)/2, meri se na 50% amplitude</td></tr>
+<tr><td class="l"><b>Margine</b></td><td class="l">NM1 = V<sub>OHmin</sub> − V<sub>IHmin</sub>; &nbsp; NM0 = V<sub>ILmax</sub> − V<sub>OLmax</sub></td></tr>
+<tr><td class="l"><b>Snaga</b></td><td class="l">P<sub>din</sub> = C<sub>L</sub>V<sub>DD</sub><sup>2</sup>f; P<sub>dp</sub> ≈ ½(t<sub>r</sub>+t<sub>f</sub>)V<sub>DD</sub>I<sub>peak</sub>; statička = curenje</td></tr>
+<tr><td class="l"><b>Faktor grananja</b></td><td class="l">max broj ulaza na jedan izlaz; rešenje = bafer (2 invertora), ujednačene grane</td></tr>
+<tr><td class="l"><b>Hazard 1 / 0</b></td><td class="l">lažna 0 u I-ILI (susedne 1 u različitim konturama) / lažna 1 u ILI-I (susedne 0)</td></tr>
+<tr><td class="l"><b>Dinamički</b></td><td class="l">više promena izlaza; više putanja, jedna sa gličem, druga spora</td></tr>
+<tr><td class="l"><b>Funkcionalni</b></td><td class="l">≥2 ulaza se menjaju; međustanje; i sa idealnim kolima; samo sinhronizacija</td></tr>
+<tr><td class="l"><b>Sinhronizacija EN</b></td><td class="l">I/NI propušta za EN=1; ILI/NILI za EN=0; t<sub>1</sub> iz t<sub>dmax</sub>, t<sub>2</sub> iz t<sub>dmin</sub></td></tr>
+<tr><td class="l"><b>MUX funkcije</b></td><td class="l">N=M: 0/1 · N=M+1: 0,1,X,<span class="f">~X</span> · N&gt;M+1: dodatna kola</td></tr>
+<tr><td class="l"><b>Proširivanje</b></td><td class="l">niži bitovi → prvi stepen (adrese), viši bitovi → drugi stepen / EN</td></tr>
+<tr><td class="l"><b>Dekoder + ILI</b></td><td class="l">F = ILI izlaza Y<sub>i</sub> za sve jedinice</td></tr>
+<tr><td class="l"><b>Koder 8/3</b></td><td class="l">Y0=A1+A3+A5+A7, Y1=A2+A3+A6+A7, Y2=A4+A5+A6+A7; problem → prioritetni + DV</td></tr>
+<tr><td class="l"><b>Parnost</b></td><td class="l">P = D⊕C⊕B⊕A; K = P⊕D⊕C⊕B⊕A, K=1 → greška</td></tr>
+<tr><td class="l"><b>Grej</b></td><td class="l">g<sub>n</sub>=b<sub>n</sub>, g<sub>i</sub>=b<sub>i+1</sub>⊕b<sub>i</sub>; susedni se razlikuju u 1 bitu</td></tr>
+</table>
+<p style="color:var(--mut);margin-top:40px">Sva rešenja zadataka (minimalne forme, forme bez hazarda, MUX i dekoder realizacije) provereni su tablicama istinitosti. Srećno u četvrtak! 🍀</p>
+</main>
+</div>
+
+<script>
+// ---------- overline in text: ~A, ~A1, ~[ ... ] ----------
+const OV=s=>{s=s.replace(/~([A-Za-z](?:\d+)?)/g,'<span class="ov">$1</span>');let p;do{p=s;s=s.replace(/~\[([^\[\]]*)\]/g,'<span class="ov">$1</span>')}while(s!==p);return s;};
+document.querySelectorAll('main p, main li, main td, main th, main .key, main .tip, main h3, main details, main .warn').forEach(e=>{
+  if(e.closest('[data-k],[data-t],[data-w],[data-b],[data-bank],[data-dec],svg'))return;
+  if(e.innerHTML.includes('~')) e.innerHTML=OV(e.innerHTML);
+});
+const EX=s=>OV(String(s).replace(/!/g,'~')); // data attributes use ! for complement
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v);
+
+// ---------- SVG helpers ----------
+function lit(x,y,s,anchor='end',cls='lb'){
+  s=String(s); const toks=[]; let i=0;
+  while(i<s.length){ if(s[i]==='!'){ let j=i+2; while(j<s.length&&/\d/.test(s[j]))j++; toks.push([s.slice(i+1,j),1]); i=j;} else {toks.push([s[i],0]); i++;} }
+  const k=cls==='sm'?0.82:1; const cw=c=>k*(/[A-Z]/.test(c)?8.4:/[a-z0-9]/.test(c)?7:5.5);
+  const tw=t=>[...t].reduce((a,c)=>a+cw(c),0);
+  const W=toks.reduce((a,t)=>a+tw(t[0]),0);
+  let x0=anchor==='end'?x-W:anchor==='middle'?x-W/2:x;
+  const text=toks.map(t=>t[0]).join('');
+  let o=`<text x="${x0}" y="${y}" class="${cls}" textLength="${W}" lengthAdjust="spacingAndGlyphs">${text}</text>`;
+  let cx=x0; toks.forEach(t=>{const w=tw(t[0]); if(t[1]) o+=`<line x1="${cx+1.5}" y1="${y-(cls==='sm'?10:11)}" x2="${cx+w-1.5}" y2="${y-(cls==='sm'?10:11)}" class="ovl"/>`; cx+=w;});
+  return o;
+}
+function gate(kind,x,y,h){
+  let s='',outX,inX=yy=>x;
+  const bub=['nand','nor','not','xnor'].includes(kind);
+  if(kind==='and'||kind==='nand'){const r=h/2;s=`<path class="g" d="M${x},${y}H${x+24}A${r},${r} 0 0 1 ${x+24},${y+h}H${x}Z"/>`;outX=x+24+r;}
+  else if(kind==='or'||kind==='nor'||kind==='xor'||kind==='xnor'){
+    const ox=(kind.startsWith('x'))?8:0, X=x+ox;
+    s=`<path class="g" d="M${X},${y}Q${X+14},${y+h/2} ${X},${y+h}Q${X+42},${y+h} ${X+56},${y+h/2}Q${X+42},${y} ${X},${y}Z"/>`;
+    if(ox)s+=`<path class="w" d="M${x},${y}Q${x+14},${y+h/2} ${x},${y+h}"/>`;
+    outX=X+56; inX=yy=>{const t=(yy-y)/h;return x+28*t*(1-t)};
+  } else if(kind==='not'||kind==='buf'){s=`<path class="g" d="M${x},${y+h/2-13}L${x+26},${y+h/2}L${x},${y+h/2+13}Z"/>`;outX=x+26;}
+  if(bub){s+=`<circle class="g" cx="${outX+4}" cy="${y+h/2}" r="4"/>`;outX+=8;}
+  return {s,outX,outY:y+h/2,inX,pin:(k,n)=>y+h*(k+1)/(n+1)};
+}
+function bends(src,pin,base,step){
+  const dn=[],up=[];src.forEach((y,k)=>(y<=pin[k]?dn:up).push(k));
+  const bx=[];dn.forEach((k,i)=>bx[k]=base+(dn.length-1-i)*step);up.forEach((k,i)=>bx[k]=base+i*step);return bx;
+}
+const svgWrap=(w,h,inner,cap)=>`<svg viewBox="0 0 ${w} ${h}" width="${w}">${inner}</svg>`+(cap?`<div class="cap2">${EX(cap)}</div>`:'');
+
+// ---------- two-level schematic ----------
+function twoLevel(d){
+  const map={'AND-OR':['and','or'],'NAND-NAND':['nand','nand'],'OR-AND':['or','and'],'NOR-NOR':['nor','nor']}[d.type];
+  const inv=d.type==='NAND-NAND'||d.type==='NOR-NOR';
+  const terms=d.terms; let y=10,s='',outs=[];
+  const neg=l=>l.startsWith('!')?l.slice(1):'!'+l;
+  terms.forEach(t=>{
+    if(t.length===1){ const L=inv?neg(t[0]):t[0]; s+=lit(56,y+16,L); outs.push({x:60,y:y+12}); y+=30; return;}
+    const h=Math.max(34,15*t.length+8); const g=gate(map[0],70,y,h); s+=g.s;
+    t.forEach((l,k)=>{const py=g.pin(k,t.length); s+=`<path class="w" d="M62,${py}H${g.inX(py)+(map[0].includes('or')?1:0)}"/>`+lit(58,py+4,l);});
+    outs.push({x:g.outX,y:g.outY}); y+=h+12;
+  });
+  const H=y; const m=outs.length;
+  if(m===1 && !inv){ // single gate only
+    s+=`<path class="w" d="M${outs[0].x},${outs[0].y}H${outs[0].x+30}"/>`+lit(outs[0].x+34,outs[0].y+4,'F','start');
+    return svgWrap(outs[0].x+60,H,s,d.cap);
+  }
+  const gh=Math.max(34,15*m+8); const gy=Math.max(4,H/2-gh/2); const G=gate(map[1],Math.max(...outs.map(o=>o.x))+20+8*m,gy,gh); s+=G.s;
+  const BX=bends(outs.map(o=>o.y),outs.map((o,k)=>G.pin(k,m)),Math.max(...outs.map(o=>o.x))+10,8);
+  outs.forEach((o,k)=>{const py=G.pin(k,m); const bx=BX[k]; s+=`<path class="w" d="M${o.x},${o.y}H${bx}V${py}H${G.inX(py)+1}"/>`});
+  s+=`<path class="w" d="M${G.outX},${G.outY}H${G.outX+24}"/>`+lit(G.outX+28,G.outY+5,'F','start');
+  return svgWrap(G.outX+50,Math.max(H,gy+gh+6),s,d.cap);
+}
+
+// ---------- gate bank (decoder / mux rows) ----------
+function bank(d){
+  let y=8,s='',outs=[];
+  d.rows.forEach(r=>{
+    const n=r.ins.length;
+    if(r.wire){ s+=lit(58,y+16,r.ins[0])+`<path class="w" d="M62,${y+12}H160"/>`+lit(164,y+16,r.out,'start'); outs.push({x:160,y:y+12}); y+=30; return;}
+    const h=Math.max(30,17*n+6); const g=gate('and',70,y,h); s+=g.s;
+    r.ins.forEach((l,k)=>{const py=g.pin(k,n); s+=`<path class="w" d="M64,${py}H70"/>`+lit(60,py+4,l,'end','sm');});
+    if(r.out){s+=`<path class="w" d="M${g.outX},${g.outY}H${g.outX+18}"/>`+lit(g.outX+22,g.outY+4,r.out,'start');}
+    outs.push({x:g.outX,y:g.outY}); y+=h+8;
+  });
+  let W=200;
+  if(d.or){const m=outs.length,gh=Math.max(34,12*m+8),gy=Math.max(2,y/2-gh/2),G=gate('or',Math.max(...outs.map(o=>o.x))+16+6*m,gy,gh); s+=G.s;
+    const BX=bends(outs.map(o=>o.y),outs.map((o,k)=>G.pin(k,m)),Math.max(...outs.map(o=>o.x))+8,6);
+    outs.forEach((o,k)=>{const py=G.pin(k,m),bx=BX[k]; s+=`<path class="w" d="M${o.x},${o.y}H${bx}V${py}H${G.inX(py)+1}"/>`});
+    s+=`<path class="w" d="M${G.outX},${G.outY}H${G.outX+20}"/>`+lit(G.outX+24,G.outY+5,d.or,'start'); W=G.outX+50;}
+  return svgWrap(W,y+4,s,d.cap);
+}
+
+// ---------- block (MUX/DEC/...) ----------
+function block(d){
+  const L=d.left||[],R=d.right||[],B=d.bottom||[],T=d.top||[];
+  const rows=Math.max(L.length,R.length,2), pitch=22, bw=Math.max(110,B.length*30+20), bh=rows*pitch+16;
+  const extL=L.some(p=>p[1])?40:0; const x0=40+extL, y0=34;
+  let s=`<rect class="bx" x="${x0}" y="${y0}" width="${bw}" height="${bh}" rx="3"/>`;
+  s+=`<text class="lb" x="${x0+bw/2}" y="${y0+bh/2+5}" text-anchor="middle" font-weight="700">${d.title}</text>`;
+  const pin=(i,n)=>y0+8+(bh-16)*(i+0.5)/n;
+  L.forEach((p,i)=>{const py=pin(i,L.length); s+=`<path class="w" d="M${x0-22},${py}H${x0}"/>`+lit(x0+4,py+4,p[0],'start','sm'); if(p[1]!=='')s+=lit(x0-26,py+4,p[1]);});
+  R.forEach((p,i)=>{const py=pin(i,R.length); s+=`<path class="w" d="M${x0+bw},${py}H${x0+bw+22}"/>`+lit(x0+bw-4,py+4,p[0],'end','sm'); if(p[1]!=='')s+=lit(x0+bw+26,py+4,p[1],'start');});
+  B.forEach((p,i)=>{const px=x0+bw*(i+0.5)/B.length; s+=`<path class="w" d="M${px},${y0+bh}V${y0+bh+18}"/>`+lit(px,y0+bh-4,p[0],'middle','sm'); if(p[1]!=='')s+=lit(px,y0+bh+32,p[1],'middle');});
+  T.forEach((p,i)=>{const px=x0+bw*(i+0.5)/T.length; s+=`<path class="w" d="M${px},${y0-18}V${y0}"/>`+lit(px,y0+14,p[0],'middle','sm'); if(p[1]!=='')s+=lit(px,y0-22,p[1],'middle');});
+  return svgWrap(x0+bw+70,y0+bh+(B.length?40:12),s);
+}
+
+// ---------- decoder + OR ----------
+function decOr(d){
+  const x0=70,y0=20,bw=100,bh=8*22+16; let s=`<rect class="bx" x="${x0}" y="${y0}" width="${bw}" height="${bh}"/><text class="lb" x="${x0+bw/2}" y="${y0+bh/2}" text-anchor="middle" font-weight="700">DEC 3/8</text>`;
+  ['A2','A1','A0'].forEach((a,i)=>{const py=y0+30+i*40; s+=`<path class="w" d="M${x0-24},${py}H${x0}"/>`+lit(x0+4,py+4,a,'start','sm')+lit(x0-28,py+4,d.ins[i]);});
+  s+=`<path class="w" d="M${x0+bw/2},${y0+bh}V${y0+bh+16}"/>`+lit(x0+bw/2,y0+bh-4,'EN','middle','sm')+lit(x0+bw/2,y0+bh+30,'1','middle');
+  const used=d.use, m=used.length, gh=Math.max(36,14*m+8), gy=y0+bh/2-gh/2, G=gate('or',300,gy,gh); s+=G.s; let k=0;
+  const YP=i=>y0+8+(bh-16)*(i+0.5)/8; const BX=bends(used.map(i=>YP(i)),used.map((i,j)=>G.pin(j,m)),226,9);
+  for(let i=0;i<8;i++){const py=YP(i); s+=lit(x0+bw-4,py+4,'Y'+i,'end','sm');
+    if(used.includes(i)){const pp=G.pin(k,m),bx=BX[k]; s+=`<path class="w" d="M${x0+bw},${py}H${bx}V${pp}H${G.inX(pp)+1}"/><circle cx="${x0+bw}" cy="${py}" r="2" fill="var(--ink)"/>`;k++;}
+    else s+=`<path class="w" d="M${x0+bw},${py}H${x0+bw+14}"/>`;}
+  s+=`<path class="w" d="M${G.outX},${G.outY}H${G.outX+22}"/>`+lit(G.outX+26,G.outY+5,'F','start');
+  return svgWrap(420,y0+bh+40,s);
+}
+
+// ---------- waveform ----------
+function wave(d){
+  const U=46,LW=110,RH=40,T=d.T,sl=(d.slope||0.12);
+  const S=d.s; let s='';
+  const W=LW+T*U+20, H=S.length*RH+30;
+  for(let t=0;t<=T;t++) s+=`<line class="grid" x1="${LW+t*U}" y1="6" x2="${LW+t*U}" y2="${H-18}"/>`;
+  (d.m||[]).forEach(m=>{s+=`<line x1="${LW+m[0]*U}" y1="2" x2="${LW+m[0]*U}" y2="${H-16}" stroke="var(--acc)" stroke-dasharray="5 3"/><text class="sm" x="${LW+m[0]*U+3}" y="${H-4}">${m[1]}</text>`});
+  S.forEach((g,i)=>{
+    const top=12+i*RH, hi=top+4, lo=top+RH-12, X=t=>LW+t*U;
+    s+=lit(LW-12,(hi+lo)/2+5,g.n.split(' ')[0])+(g.n.includes(' ')?`<text class="sm" x="${LW-12}" y="${(hi+lo)/2+17}" text-anchor="end">${g.n.split(' ').slice(1).join(' ')}</text>`:'');
+    (g.h||[]).forEach(h=>{s+=`<rect class="hl" x="${X(h[0])}" y="${top}" width="${(h[1]-h[0])*U}" height="${RH-6}"/><text class="ant" x="${X(h[1])+4}" y="${top+12}">${h[2]}</text>`});
+    if(g.stable){ // bus style
+      let pts=[0,...g.t,T]; for(let k=0;k<pts.length-1;k++){const a=X(pts[k])+(k?6:0),b=X(pts[k+1])-(k<pts.length-2?6:0);
+        s+=`<path class="sig" d="M${a},${hi}H${b}M${a},${lo}H${b}"/>`;
+        if(k<pts.length-2){const c=X(pts[k+1]);s+=`<path class="sig" d="M${c-6},${hi}L${c+6},${lo}M${c-6},${lo}L${c+6},${hi}"/>`;}}
+    } else {
+      let v=g.v,p=`M${X(0)},${v?hi:lo}`;
+      g.t.forEach(t=>{p+=`H${X(t-sl/2)}L${X(t+sl/2)},${v?lo:hi}`;v=1-v;});
+      p+=`H${X(T)}`; s+=`<path class="sig" d="${p}"/>`;
+    }
+    (g.u||[]).forEach(u=>{const a=X(u[0]),b=X(u[1]);s+=`<rect x="${a}" y="${hi}" width="${b-a}" height="${lo-hi}" fill="url(#hatch)" stroke="var(--acc)"/>`});
+  });
+  (d.a||[]).forEach(a=>{const y=12+a[2]*RH+RH-2; s+=`<path class="an" d="M${LW+a[0]*U},${y}H${LW+a[1]*U}M${LW+a[1]*U-5},${y-4}L${LW+a[1]*U},${y}L${LW+a[1]*U-5},${y+4}"/><text class="ant" x="${LW+(a[0]+a[1])/2*U}" y="${y+14}" text-anchor="middle">${a[3].replace('PHL','<tspan font-size="9" dy="3">PHL</tspan>').replace('PLH','<tspan font-size="9" dy="3">PLH</tspan>')}</text>`});
+  const defs=`<defs><pattern id="hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="7" stroke="var(--acc)" stroke-width="1.5"/></pattern></defs>`;
+  return `<svg viewBox="0 0 ${W} ${H+(d.a?10:0)}" width="${W}">${defs}${s}</svg>`;
+}
+
+// ---------- Karnaugh ----------
+function kmap(d){
+  const gray=n=>n===1?['0','1']:['00','01','11','10'];
+  const rv=(d.r.match(/!?[A-Za-z]\d?/g)||[]).length, cv=(d.c.match(/!?[A-Za-z]\d?/g)||[]).length;
+  const rows=gray(rv), cols=gray(cv), ones=d.ones||[], xs=d.x||[], gs=d.g||[], hz=(d.h||[]).flat();
+  let h=(d.cap?`<div class="cap">${EX(d.cap)}</div>`:'')+`<table><tr><th class="corner">${d.r}\\${d.c}</th>${cols.map(c=>`<th>${c}</th>`).join('')}</tr>`;
+  rows.forEach(r=>{h+=`<tr><th>${r}</th>`;cols.forEach(c=>{const i=parseInt(r+c,2);
+    const v=ones.includes(i)?'1':xs.includes(i)?'x':(d.ones?'0':'');
+    const show=(d.ones&&d.ones.length)||xs.length?v:'';
+    const bars=gs.filter(g=>g[2].includes(i)).map(g=>`<i style="background:${g[1]}"></i>`).join('');
+    h+=`<td class="${v==='1'?'v1':v==='x'?'vx':'v0'}${hz.includes(i)?' hz':''}"><span class="i">${i}</span><b>${show}</b><span class="bars">${bars}</span></td>`});h+='</tr>'});
+  h+='</table>';
+  if(gs.length) h+='<div class="lg">'+gs.map(g=>`<div><span class="sw" style="background:${g[1]}"></span><span class="f">${EX(g[0])}</span> <span style="color:var(--mut);font-size:12px">(${g[2].join(',')})</span></div>`).join('')+'</div>';
+  if(d.h) h+=`<div class="lg" style="color:#e11d48">⚠ hazard: ${d.h.map(p=>p.join(' ↔ ')).join(', ')}</div>`;
+  return h;
+}
+
+document.querySelectorAll('[data-k]').forEach(e=>e.innerHTML=kmap(JSON.parse(e.dataset.k)));
+document.querySelectorAll('[data-t]').forEach(e=>e.innerHTML=twoLevel(JSON.parse(e.dataset.t)));
+document.querySelectorAll('[data-w]').forEach(e=>e.innerHTML=wave(JSON.parse(e.dataset.w)));
+document.querySelectorAll('[data-b]').forEach(e=>e.innerHTML=block(JSON.parse(e.dataset.b)));
+document.querySelectorAll('[data-bank]').forEach(e=>e.innerHTML=bank(JSON.parse(e.dataset.bank)));
+document.querySelectorAll('[data-dec]').forEach(e=>e.innerHTML=decOr(JSON.parse(e.dataset.dec)));
+
+// ---------- gates table ----------
+(function(){
+  const G=[['I (AND)','and','F = A·B','0 0 0 1'],['ILI (OR)','or','F = A + B','0 1 1 1'],['NE (invertor)','not','F = ~A','—'],['NI (NAND)','nand','F = ~[A·B]','1 1 1 0'],['NILI (NOR)','nor','F = ~[A+B]','1 0 0 0'],['EX-ILI (XOR)','xor','F = A ⊕ B','0 1 1 0'],['EX-NILI (XNOR)','xnor','F = ~[A ⊕ B]','1 0 0 1']];
+  let h='<table class="t"><tr><th>Kolo</th><th>Simbol</th><th>Izraz</th><th>A=0<br>B=0</th><th>A=0<br>B=1</th><th>A=1<br>B=0</th><th>A=1<br>B=1</th></tr>';
+  G.forEach(g=>{const k=gate(g[1],22,6,30); const one=g[1]==='not';
+    let s=k.s+(one?`<path class="w" d="M6,21H22"/>`:`<path class="w" d="M6,${k.pin(0,2)}H${k.inX(k.pin(0,2))+1}M6,${k.pin(1,2)}H${k.inX(k.pin(1,2))+1}"/>`)+`<path class="w" d="M${k.outX},21H${k.outX+14}"/>`;
+    h+=`<tr><td class="l"><b>${g[0]}</b></td><td><svg viewBox="0 0 100 42" width="100">${s}</svg></td><td class="f">${OV(g[2])}</td>${g[1]==='not'?'<td colspan="4">A=0 → F=1 &nbsp;·&nbsp; A=1 → F=0</td>':g[3].split(' ').map(v=>`<td class="f">F=${v}</td>`).join('')}</tr>`});
+  document.getElementById('gatesTable').innerHTML=h+'</table>';
+  const k=gate('or',22,6,30);
+  document.getElementById('orSym').innerHTML=`<svg viewBox="0 0 120 42" width="120" style="vertical-align:middle">${k.s}<path class="w" d="M6,${k.pin(0,2)}H${k.inX(k.pin(0,2))+1}M6,${k.pin(1,2)}H${k.inX(k.pin(1,2))+1}M${k.outX},21H${k.outX+14}"/><text class="sm" x="0" y="${k.pin(0,2)-2}">A</text><text class="sm" x="0" y="${k.pin(1,2)+10}">B</text><text class="sm" x="${k.outX+16}" y="25">F</text></svg>`;
+})();
+
+// ---------- custom figures ----------
+(function(){ // Q11 diagram
+  const U=70,X=t=>40+t*U,hi=20,lo=80; let s='';
+  const L='ABCDEFGHI'.split('');
+  L.forEach((l,i)=>{s+=`<line class="grid" x1="${X(i+1)}" y1="5" x2="${X(i+1)}" y2="92"/><text class="lb" x="${X(i+1)}" y="112" text-anchor="middle">${l}</text>`});
+  const hatch=(a,b)=>`<rect x="${X(a)}" y="${hi}" width="${(b-a)*U}" height="${lo-hi}" fill="url(#h11)" stroke="none"/>`;
+  s+=hatch(0,1)+hatch(2,3)+hatch(5,6)+hatch(8,9);
+  s+=`<path class="sig" d="M${X(1)},${hi}H${X(2)}M${X(3)},${hi}H${X(4)-8}L${X(4)+8},${lo}H${X(5)}M${X(6)},${hi}L${X(6)+12},${(hi+lo)/2}L${X(6)},${lo}M${X(6)+12},${(hi+lo)/2}L${X(6)+24},${hi}H${X(7)-10}M${X(6)+12},${(hi+lo)/2}L${X(6)+24},${lo}H${X(7)-10}L${X(7)},${hi}H${X(8)}M${X(9)},${hi}L${X(9)+12},${(hi+lo)/2}L${X(9)},${lo}M${X(9)+12},${(hi+lo)/2}L${X(9)+24},${hi}H${X(10)}M${X(9)+12},${(hi+lo)/2}L${X(9)+24},${lo}H${X(10)}"/>`;
+  document.getElementById('q11svg').innerHTML=`<defs><pattern id="h11" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(30)"><line x1="0" y1="0" x2="0" y2="8" stroke="var(--acc)" stroke-width="1.6"/></pattern></defs>`+s;
+})();
+(function(){ // fan-out
+  let s='';const src=[80,107];
+  for(let i=0;i<5;i++){const y=40+i*32; s+=`<rect class="bx" x="200" y="${y-11}" width="44" height="22"/><text class="sm" x="222" y="${y+4}" text-anchor="middle">ulaz</text><path class="w" d="M80,107H140V${y}H200"/>`}
+  s+=`<text class="ant" x="120" y="200">5 &gt; N=4 ✗</text>`;
+  // bolje
+  s+=`<rect class="bx" x="300" y="95" width="44" height="24"/><text class="sm" x="322" y="111" text-anchor="middle">inv</text>`;
+  s+=`<rect class="bx" x="380" y="135" width="50" height="24"/><text class="sm" x="405" y="151" text-anchor="middle">bafer</text><path class="w" d="M344,107H360V147H380"/>`;
+  [50,80].forEach(y=>{s+=`<rect class="bx" x="460" y="${y-11}" width="40" height="22"/><path class="w" d="M344,107H360V${y}H460"/>`});
+  [130,160,190].forEach(y=>{s+=`<rect class="bx" x="460" y="${y-11}" width="40" height="22"/><path class="w" d="M430,147H445V${y}H460"/>`});
+  s+=`<text class="ant" x="300" y="205">grane imaju različito kašnjenje</text>`;
+  s+=`<rect class="bx" x="560" y="95" width="40" height="24"/><text class="sm" x="580" y="111" text-anchor="middle">inv</text>`;
+  [[70,[45,75]],[150,[125,155,185]]].forEach(([by,ys])=>{s+=`<rect class="bx" x="625" y="${by-12}" width="46" height="24"/><text class="sm" x="648" y="${by+4}" text-anchor="middle">bafer</text><path class="w" d="M600,107H612V${by}H625"/>`;ys.forEach(y=>{s+=`<rect class="bx" x="712" y="${y-10}" width="36" height="20"/><path class="w" d="M671,${by}H690V${y}H712"/>`})});
+  s+=`<text class="ant" x="560" y="205" style="fill:var(--acc2)">N zadovoljen, isto kašnjenje ✓</text>`;
+  document.getElementById('fanBad').innerHTML=s;
+})();
+(function(){ // MUX 64/1
+  let s='';
+  for(let k=0;k<4;k++){const y=10+k*95; s+=`<rect class="bx" x="90" y="${y}" width="110" height="78"/><text class="lb" x="145" y="${y+35}" text-anchor="middle" font-weight="700">MUX 16/1</text><text class="sm" x="145" y="${y+52}" text-anchor="middle">S3–S0 ← S3–S0</text>`;
+    s+=`<path class="w" d="M60,${y+39}H90"/><text class="sm" x="56" y="${y+43}" text-anchor="end">I${16*k}–I${16*k+15}</text><path class="w" d="M200,${y+39}H${236+k*14}V${150+k*24}H360"/><text class="sm" x="230" y="${y+12}">EN=1</text>`;}
+  s+=`<rect class="bx" x="360" y="120" width="120" height="140"/><text class="lb" x="420" y="180" text-anchor="middle" font-weight="700">MUX 16/1</text><text class="sm" x="420" y="198" text-anchor="middle">izlazni</text>`;
+  ['I0','I1','I2','I3'].forEach((l,k)=>s+=`<text class="sm" x="364" y="${154+k*24}">${l}</text>`);
+  s+=`<text class="sm" x="364" y="248">I4–I15 = X</text><path class="w" d="M480,190H520"/><text class="lb" x="524" y="194">Y</text>`;
+  s+=`<path class="w" d="M400,260V285M440,260V285"/><text class="sm" x="392" y="300" text-anchor="middle">S1←S5</text><text class="sm" x="446" y="300" text-anchor="middle">S0←S4</text><text class="sm" x="420" y="318" text-anchor="middle">(S3=S2=0)</text>`;
+  s+=`<path class="w" d="M420,95V120"/><text class="sm" x="420" y="90" text-anchor="middle">EN</text>`;
+  document.getElementById('mux64').innerHTML=s;
+})();
+(function(){ // DEC 4/16
+  let s='';const bx=[120,100,80];
+  s+=`<path class="w" d="M120,50V220M100,50V250M80,50V280"/>`;
+  ['A2','A1','A0'].forEach((a,i)=>s+=`<text class="lb" x="${bx[i]}" y="44" text-anchor="middle">${a}</text>`);
+  [[40,'Y0–Y7','EN·A̅3'],[190,'Y8–Y15','EN·A3']].forEach(([y,o,e])=>{
+    s+=`<rect class="bx" x="200" y="${y}" width="110" height="120"/><text class="lb" x="255" y="${y+64}" text-anchor="middle" font-weight="700">DEC 3/8</text>`;
+    ['A2','A1','A0'].forEach((a,i)=>{const py=y+30+i*30; s+=`<path class="w" d="M${bx[i]},${py}H200"/><circle cx="${bx[i]}" cy="${py}" r="2.5" fill="var(--ink)"/><text class="sm" x="204" y="${py+4}">${a}</text>`});
+    s+=`<path class="w" d="M310,${y+60}H350"/><text class="lb" x="356" y="${y+64}">${o}</text><path class="w" d="M255,${y}V${y-12}"/><text class="lb" x="255" y="${y-16}" text-anchor="middle">${e}</text><text class="sm" x="255" y="${y+14}" text-anchor="middle">EN</text>`;
+  });
+  s+=`<text class="sm" x="380" y="170">A3 (najteži bit) bira dekoder,</text><text class="sm" x="380" y="186">A2A1A0 idu paralelno na oba</text>`;
+  document.getElementById('dec416').innerHTML=s;
+})();
+(function(){ // parity
+  let s='';const x=gate('xor',90,10,34),y=gate('xor',90,70,34),z=gate('xor',200,38,34);
+  s+=x.s+y.s+z.s;
+  [['D',x,0],['C',x,1],['B',y,0],['A',y,1]].forEach(([l,g,k])=>{const py=g.pin(k,2);s+=`<path class="w" d="M50,${py}H${g.inX(py)+1}"/>`+lit(44,py+4,l)});
+  s+=`<path class="w" d="M${x.outX},${x.outY}H180V${z.pin(0,2)}H${z.inX(z.pin(0,2))+1}M${y.outX},${y.outY}H180V${z.pin(1,2)}H${z.inX(z.pin(1,2))+1}M${z.outX},${z.outY}H${z.outX+20}"/>`+lit(z.outX+24,z.outY+5,'P','start');
+  s+=`<text class="sm" x="40" y="130">predajnik: P = D⊕C⊕B⊕A</text>`;
+  const r=gate('xor',400,60,34); s+=r.s+`<path class="w" d="M330,${r.pin(0,2)}H${r.inX(r.pin(0,2))+1}M330,${r.pin(1,2)}H${r.inX(r.pin(1,2))+1}M${r.outX},${r.outY}H${r.outX+18}"/>`;
+  s+=`<text class="sm" x="326" y="${r.pin(0,2)+4}" text-anchor="end">D⊕C⊕B⊕A</text><text class="sm" x="326" y="${r.pin(1,2)+4}" text-anchor="end">P (primljen)</text>`+lit(r.outX+22,r.outY+5,'K','start');
+  s+=`<text class="sm" x="330" y="130">prijemnik: K = 0 ispravno,</text><text class="sm" x="330" y="146">K = 1 greška</text><text class="sm" x="330" y="168">(D⊕C⊕B⊕A na prijemu se pravi</text><text class="sm" x="330" y="184">istim kolom od 3 EX-ILI kola)</text>`;
+  document.getElementById('parity').innerHTML=s;
+})();
+(function(){ // PLA
+  let s='';const ins=['A','!A','B','!B','C','!C'];const P=[['!B'],['C'],['B','C'],['!B','!C']];
+  ins.forEach((l,i)=>{const x=60+i*36; s+=`<path class="w" d="M${x},30V250"/>`+lit(x,22,l,'middle')});
+  P.forEach((p,k)=>{const y=60+k*40; s+=`<path class="w" d="M45,${y}H300"/>`+gate('and',300,y-14,28).s+`<text class="sm" x="12" y="${y+4}">P${k+1}</text>`;
+    p.forEach(l=>{const x=60+ins.indexOf(l)*36; s+=`<circle cx="${x}" cy="${y}" r="5" fill="var(--acc)"/>`});
+    s+=`<path class="w" d="M${300+24+14},${y}H360"/>`;});
+  [['F1',[0,1],400],['F2',[2,3],450]].forEach(([n,ks,x])=>{s+=`<path class="w" d="M${x},45V216"/>`; ks.forEach(k=>s+=`<circle cx="${x}" cy="${60+k*40}" r="5" fill="#16a34a"/>`); s+=`<g transform="rotate(90 ${x} 244)">${gate('or',x-28,230,28).s}</g><text class="lb" x="${x}" y="292" text-anchor="middle">${n}</text>`;});
+  s+=`<path class="w" d="M360,60H460M360,100H460M360,140H460M360,180H460"/>`;
+  s+=`<text class="sm" x="60" y="275">I matrica (plave tačke = programirane veze)</text><text class="sm" x="380" y="40">ILI matrica</text>`;
+  document.getElementById('pla').innerHTML=s;
+})();
+</script>
+<script>
+// nested overlines: each outer bar sits one step higher than the bars inside it
+(function(){
+  const lvl=e=>{let m=-1;e.querySelectorAll(':scope .ov').forEach(c=>{if(c.parentElement.closest('.ov')===e)m=Math.max(m,lvl(c));});return m+1;};
+  document.querySelectorAll('.ov').forEach(e=>{
+    if(e.parentElement.closest('.ov'))return; // only top-level bars start here
+    const L=lvl(e); if(!L)return;
+    const set=(n)=>{const k=lvl(n); n.style.paddingTop=(1+k*4)+'px'; n.querySelectorAll('.ov').forEach(c=>{if(c.parentElement.closest('.ov')===n)set(c);});};
+    set(e);
+    const w=document.createElement('span'); w.className='ovwrap'; w.style.paddingTop=(L*4+2)+'px';
+    e.parentNode.insertBefore(w,e); w.appendChild(e);
+  });
+})();
+</script>
+</body>
+</html>
