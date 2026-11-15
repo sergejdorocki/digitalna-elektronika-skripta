@@ -22,6 +22,9 @@ h3{font-size:19px;margin:34px 0 8px}
 .q>h3{margin-top:14px;color:var(--acc)}
 .q>h3 .n{display:inline-block;min-width:34px;font-weight:800}
 .tag{font-size:11px;font-weight:700;padding:2px 7px;border-radius:20px;background:var(--code);color:var(--mut);vertical-align:middle;margin-left:6px}
+.nrm{background:var(--card);border:1px solid var(--keyb);border-left:5px solid var(--acc);padding:6px 16px 10px;border-radius:8px;margin:18px 0 26px}
+.nrm h4{margin:8px 0 6px;color:var(--acc);font-size:16px}
+.mut{color:var(--mut)}
 .key{background:var(--key);border-left:4px solid var(--keyb);padding:10px 14px;border-radius:6px;margin:12px 0}
 .key b:first-child{color:var(--acc)}
 .tip{background:var(--tip);border-left:4px solid var(--tipb);padding:10px 14px;border-radius:6px;margin:12px 0}
@@ -450,8 +453,8 @@ code{background:var(--code);padding:1px 5px;border-radius:4px}
 <li>Napiši novi izraz (minimalni + dodati članovi) i nacrtaj šemu.</li>
 </ol>
 
-<h2 id="a7">7. MUX, DEMUX, dekoder, koder – sve preko stanova i žica</h2>
-<p>Sva četiri kola ćemo objasniti <b>jednom istom slikom</b>: zgrada sa stanovima, lampe u stanovima i tabla sa žicama ispred zgrade. Kad shvatiš zgradu (7.0), svako kolo je samo druga igra u istoj zgradi. Kreni redom i ne preskači 7.0.</p>
+<h2 id="a7">7. MUX, DEMUX, dekoder, koder – slikom i normalno</h2>
+<p>Svako kolo je objašnjeno <b>dva puta</b>. Prvo <b>slikom</b> – zgrada sa stanovima, lampama i tablom sa žicama – da shvatiš šta kolo radi. Odmah posle toga, u plavom okviru <b>„Normalno“</b>, isto to stručno: definicija, logička funkcija, šema od logičkih kola i primena. <b>Na kolokvijumu pišeš ono iz okvira „Normalno“</b>; slika ti služi da razumeš i zapamtiš.</p>
 
 <h3>7.0 Zgrada: stanovi, lampe i žice</h3>
 <p>Zamisli zgradu sa <b>4 stana</b>, numerisana <b>0, 1, 2, 3</b>. U svakom stanu je <b>jedna lampa</b>:</p>
@@ -476,6 +479,13 @@ code{background:var(--code);padding:1px 5px;border-radius:4px}
 • <b>Dekoder</b> – na tabli izabereš stan i u njemu se <b>upali lampa</b>. Uvek svetli tačno jedan stan.<br>
 • <b>Koder</b> – obrnuto: u jednom stanu svetli lampa, a koder ti na žicama <b>ispiše broj tog stana</b>.</div>
 
+<div class="nrm"><h4>Normalno – ovako se kaže na kolokvijumu</h4>
+<p>MUX, DEMUX, dekoder i koder su gotove <b>kombinacione mreže</b> (prodaju se kao integrisana kola srednjeg stepena integracije). Sva četiri rade sa <b>binarnim kodom</b>: grupa od <b>n</b> linija nosi n-bitni binarni broj, a sa n bita se može predstaviti <b>2<sup>n</sup></b> različitih vrednosti (0 … 2<sup>n</sup>−1).</p>
+<p>Kod MUX-a i DEMUX-a taj broj se zove <b>adresa</b> i dovodi se na <b>selekcione (adresne) ulaze</b>. Ulazi preko kojih ide podatak su <b>informacioni ulazi</b>.</p>
+<p>Svaka kombinacija adresnih ulaza je jedan <b>minterm</b>. Za dva adresna ulaza S<sub>1</sub>, S<sub>0</sub>:</p>
+<p class="f">m0 = ~S1~S0 &nbsp;&nbsp; m1 = ~S1S0 &nbsp;&nbsp; m2 = S1~S0 &nbsp;&nbsp; m3 = S1S0</p>
+<p>Za svaku kombinaciju ulaza <b>tačno jedan</b> minterm je 1 (onaj čiji je indeks na adresi), a svi ostali su 0. Na tome se zasnivaju sva četiri kola.</p>
+<p class="mut"><b>Prevod sa slike:</b> broj stana = adresa · tabla = selekcioni ulazi · lampa = jedan informacioni ulaz ili jedan izlaz.</p></div>
 <h3>7.1 MUX – „pogledam lampu u izabranom stanu“</h3>
 <p>Stanari su sami upalili ili ugasili svoje lampe. Ti stojiš ispred zgrade sa <b>jednom žicom</b> u ruci (izlaz Y). Na tabli ukucaš broj stana – tvoja žica se spoji sa lampom <b>tog</b> stana. Na tvojoj žici je onda isto što i na lampi: 1 ako svetli, 0 ako ne svetli. Ostali stanovi te ne zanimaju.</p>
 <table class="t" style="width:auto"><tr><th>u zgradi</th><th>u knjizi (MUX 4/1)</th></tr>
@@ -497,6 +507,14 @@ code{background:var(--code);padding:1px 5px;border-radius:4px}
 <div class="key"><b>Veličine:</b> MUX 4/1 = zgrada sa 4 stana, 2 žice na tabli. MUX 8/1 = 8 stanova, 3 žice. MUX 16/1 = 16 stanova, 4 žice. (2<sup>n</sup> ulaza ↔ n selekcija.)<br>
 <b>Formula MUX 4/1</b> (ako je traže): <span class="f">Y = ~S1~S0·I0 + ~S1S0·I1 + S1~S0·I2 + S1S0·I3</span>. Prvi član znači „tabla je 00 <b>i</b> lampa u stanu 0“, drugi „tabla je 01 <b>i</b> lampa u stanu 1“… Uvek je uključen samo jedan član – onaj čiji stan si izabrao.</div>
 
+<div class="nrm"><h4>Normalno – multiplekser</h4>
+<p><b>Definicija:</b> multiplekser MUX 2<sup>n</sup>/1 je kombinaciona mreža sa <b>2<sup>n</sup> informacionih ulaza</b> (I<sub>0</sub> … I<sub>2<sup>n</sup>−1</sub>), <b>n selekcionih ulaza</b> i <b>jednim izlazom</b> Y. Na izlaz se prosleđuje onaj informacioni ulaz čiji je indeks jednak binarnom broju na selekcionim ulazima. Obično ima i ulaz dozvole EN.</p>
+<p><b>Logička funkcija</b> (MUX 4/1): svaki informacioni ulaz se pomnoži mintermom svoje adrese, pa se sve sabere:</p>
+<p class="f big">Y = EN·(~S1~S0·I0 + ~S1S0·I1 + S1~S0·I2 + S1S0·I3)</p>
+<p>Kraće: <span class="f">Y = EN · Σ m<sub>i</sub>·I<sub>i</sub></span>. Pošto je za datu adresu samo jedan minterm 1, od cele sume „preživi“ samo član sa tim ulazom.</p>
+<p><b>Kako je napravljen:</b> to je <b>I-ILI</b> mreža – za svaki informacioni ulaz po jedno I kolo (ulazi: EN, dva adresna literala, I<sub>i</sub>), pa jedno ILI kolo sa 4 ulaza. Plus 2 invertora koji prave <span class="f">~S1</span> i <span class="f">~S0</span>.</p>
+<div class="fig" data-bank='{"rows":[{"ins":["EN","!S1","!S0","I0"]},{"ins":["EN","!S1","S0","I1"]},{"ins":["EN","S1","!S0","I2"]},{"ins":["EN","S1","S0","I3"]}],"or":"Y","cap":"Logička šema MUX 4/1: 4 I kola + 1 ILI kolo"}'></div>
+<p><b>Primena:</b> izbor jednog od više signala; pretvaranje paralelnog podatka u serijski (adresa se redom menja 0, 1, 2, 3); realizacija logičkih funkcija (7.2).</p></div>
 <h3>7.2 Funkcija pomoću MUX-a (zadaci 28–30)</h3>
 <p><b>Trik:</b> ti si <b>upravnik zgrade</b>. Pre nego što iko dođe, sam podesiš lampe: u stanu k lampa svetli <b>ako je F=1 u redu k</b> tablice istinitosti, a ne svetli ako je F=0. Promenljive funkcije stavljaš na <b>tablu</b>. Kad neko ukuca kombinaciju promenljivih, pogleda lampu baš tog reda – i vidi F.</p>
 <h3>Najlakši primer: 2 promenljive, zgrada sa 4 stana (MUX 4/1)</h3>
@@ -540,6 +558,14 @@ code{background:var(--code);padding:1px 5px;border-radius:4px}
 </div>
 <p><b>Provera:</b> C=0, B=1, A=1 (red 3). Tabla CB = 01 → stan 1 → lampa je vezana za A, a A=1 → svetli → F = 1 ✔ (red 3 je u Σ). C=1, B=0, A=0 (red 4): tabla 10 → stan 2 → lampa = A = 0 → F = 0 ✔.</p>
 
+<div class="nrm"><h4>Normalno – zašto MUX realizuje funkciju</h4>
+<p>Promenljive funkcije dovedemo na selekcione ulaze. Izlaz je tada <span class="f">Y = Σ m<sub>i</sub>·I<sub>i</sub></span>, gde su m<sub>i</sub> mintermi <b>promenljivih funkcije</b>. Ako na ulaze stavimo <b>I<sub>i</sub> = F(i)</b> (vrednost funkcije u i-tom redu tablice istinitosti):</p>
+<p class="f big">Y = Σ m<sub>i</sub>·F(i) = zbir minterma za koje je F = 1 = F</p>
+<p>To je baš potpuna DNF funkcije. Zato <b>MUX 2<sup>n</sup>/1 realizuje bilo koju funkciju od n promenljivih</b>, bez minimizacije.</p>
+<p><b>Jedna promenljiva više</b> (MUX 4/1 za funkciju od 3 promenljive): funkciju razvijemo po promenljivama koje idu na selekciju (C i B):</p>
+<p class="f">F(C,B,A) = ~C~B·F(0,0,A) + ~CB·F(0,1,A) + C~B·F(1,0,A) + CB·F(1,1,A)</p>
+<p>Ovo je isti oblik kao formula MUX-a, pa je <b>I<sub>i</sub> = F(C,B,A) kad su C i B fiksirani na adresu i</b>. Ono što ostane je funkcija samo od A (<b>ostatak funkcije</b>), a funkcija jedne promenljive može biti samo <b>0, 1, A ili <span class="f">~A</span></b>. Za Σ(1,3,5,6,7): F(0,0,A) = A, F(0,1,A) = A, F(1,0,A) = A, F(1,1,A) = 1.</p>
+<p><b>Pravilo za pamćenje:</b> MUX 2<sup>n</sup>/1 realizuje funkciju od n promenljivih direktno (na ulaze 0 i 1), a funkciju od <b>n+1</b> promenljivih ako na informacione ulaze dovodimo i jednu promenljivu i njen komplement.</p></div>
 <h3>7.3 DEMUX – „palim lampu u izabranom stanu“</h3>
 <p>Sad je obrnuto od MUX-a. Lampe ne pale stanari – <b>ti</b> ih pališ. U ruci imaš <b>jedan prekidač Z</b>. Na tabli izabereš stan, i tvoj prekidač se spoji sa lampom <b>tog</b> stana. Ako je Z=1, lampa u tom stanu svetli; ako je Z=0, ne svetli. U <b>svim ostalim</b> stanovima je mrak (0).</p>
 <table class="t" style="width:auto"><tr><th>u zgradi</th><th>u knjizi (DEMUX 1/4)</th></tr>
@@ -560,6 +586,14 @@ code{background:var(--code);padding:1px 5px;border-radius:4px}
 <p><b>Čemu služi:</b> hoćeš da iz jedne zgrade u drugu preneseš sve 4 lampe, a imaš <b>samo jednu žicu</b> između zgrada. U prvoj zgradi MUX redom gleda stan 0, 1, 2, 3 i šalje lampu kroz žicu; u drugoj zgradi DEMUX sa <b>istim brojem na tabli</b> pali isti stan. Tako se lampe „prepišu“ jedna po jedna.</p>
 <div class="tip"><b>MUX ↔ DEMUX:</b> MUX = <b>gledaš</b> lampu izabranog stana (mnogo stanova → tvoja jedna žica). DEMUX = <b>pališ</b> lampu izabranog stana (tvoj jedan prekidač → mnogo stanova). Tabla kod oba radi isto: kaže <i>koji stan</i>.</div>
 
+<div class="nrm"><h4>Normalno – demultiplekser</h4>
+<p><b>Definicija:</b> demultiplekser DEMUX 1/2<sup>n</sup> je kombinaciona mreža sa <b>jednim informacionim ulazom</b> Z, <b>n selekcionih ulaza</b> i <b>2<sup>n</sup> izlaza</b>. Informacioni ulaz se prosleđuje na izlaz čiji je indeks jednak binarnom broju na selekcionim ulazima; svi ostali izlazi su 0. To je inverzna funkcija multipleksera.</p>
+<p><b>Logičke funkcije</b> (DEMUX 1/4) – svaki izlaz je minterm adrese pomnožen podatkom:</p>
+<p class="f big">Y0 = ~S1~S0·Z &nbsp; Y1 = ~S1S0·Z &nbsp; Y2 = S1~S0·Z &nbsp; Y3 = S1S0·Z</p>
+<p>Kraće: <span class="f">Y<sub>i</sub> = m<sub>i</sub>·Z</span> (sa dozvolom: <span class="f">Y<sub>i</sub> = EN·m<sub>i</sub>·Z</span>).</p>
+<p><b>Kako je napravljen:</b> 4 I kola (ulazi: Z, EN, dva adresna literala) i 2 invertora. Nema ILI kola – svako I kolo je jedan izlaz.</p>
+<div class="fig" data-bank='{"rows":[{"ins":["Z","EN","!S1","!S0"],"out":"Y0"},{"ins":["Z","EN","!S1","S0"],"out":"Y1"},{"ins":["Z","EN","S1","!S0"],"out":"Y2"},{"ins":["Z","EN","S1","S0"],"out":"Y3"}],"cap":"Logička šema DEMUX 1/4: 4 I kola"}'></div>
+<p><b>Primena:</b> raspodela jednog signala na više odredišta; pretvaranje serijskog podatka u paralelni; zajedno sa MUX-om – prenos više signala jednom linijom (vremenski multipleks): MUX i DEMUX dobijaju istu adresu u istom trenutku.</p></div>
 <h3>7.4 Dekoder – „u izabranom stanu se upali lampa“</h3>
 <p>Dekoder je DEMUX kome je prekidač <b>zalepljen na 1</b>. Nemaš prekidač u ruci – samo tablu. Ukucaš broj stana i u <b>tom</b> stanu se upali lampa. U ostalim je mrak. Znači, u zgradi <b>uvek svetli tačno jedan stan</b>.</p>
 <table class="t" style="width:auto"><tr><th>u zgradi</th><th>u knjizi (DEC 2/4)</th></tr>
@@ -572,12 +606,54 @@ code{background:var(--code);padding:1px 5px;border-radius:4px}
 </div>
 <p><b>Razlika od DEMUX-a:</b> kod DEMUX-a izabrana lampa svetli <i>samo ako je tvoj prekidač Z=1</i>. Kod dekodera izabrana lampa svetli <b>uvek</b>. (Zato dekoder sa ulazom EN može da glumi DEMUX: EN radi kao prekidač Z.)</p>
 <div class="key"><b>Najvažnije za zadatke:</b> lampa u stanu k (izlaz Y<sub>k</sub>) svetli <b>samo kad je na tabli broj k</b> – tj. samo u redu k tablice istinitosti. To je tačno <b>minterm k</b>. Na primer Y<sub>2</sub> = <span class="f">A1~A0</span> (svetli samo kad je tabla 10).</div>
+<div class="nrm"><h4>Normalno – dekoder</h4>
+<p><b>Definicija:</b> (binarni) dekoder n/2<sup>n</sup> je kombinaciona mreža sa <b>n ulaza</b> i <b>2<sup>n</sup> izlaza</b>, kod koje je za svaku kombinaciju ulaza aktivan <b>tačno jedan izlaz</b> – onaj čiji je indeks jednak binarnom broju na ulazu. Kaže se još i dekoder „1 od 2<sup>n</sup>“.</p>
+<p><b>Logičke funkcije</b> (DEC 2/4) – svaki izlaz je jedan minterm ulaznih promenljivih:</p>
+<p class="f big">Y0 = ~A1~A0 &nbsp; Y1 = ~A1A0 &nbsp; Y2 = A1~A0 &nbsp; Y3 = A1A0</p>
+<p>Kraće: <span class="f">Y<sub>i</sub> = m<sub>i</sub></span> (sa dozvolom <span class="f">Y<sub>i</sub> = EN·m<sub>i</sub></span>). Zato se dekoder zove i <b>generator minterma</b>.</p>
+<p><b>Kako je napravljen:</b> 4 I kola sa 2 ulaza (+EN) i 2 invertora.</p>
+<div class="fig" data-bank='{"rows":[{"ins":["EN","!A1","!A0"],"out":"Y0"},{"ins":["EN","!A1","A0"],"out":"Y1"},{"ins":["EN","A1","!A0"],"out":"Y2"},{"ins":["EN","A1","A0"],"out":"Y3"}],"cap":"Logička šema DEC 2/4: 4 I kola"}'></div>
+<p><b>Dekoder i DEMUX:</b> uporedi <span class="f">Y<sub>i</sub> = EN·m<sub>i</sub></span> (dekoder) i <span class="f">Y<sub>i</sub> = Z·m<sub>i</sub></span> (DEMUX) – isti su ako ulaz dozvole EN koristimo kao informacioni ulaz Z. Zato se isti čip zove „dekoder/demultiplekser“.</p>
+<p><b>Izlazi aktivni na nuli:</b> kod mnogih čipova na izlazima je kružić – izabrani izlaz je tada <b>0</b>, a svi ostali 1 (<span class="f">Y<sub>i</sub> = ~m<sub>i</sub></span>). Pogledaj da li ga šema u zadatku ima.</p>
+<p><b>Primena:</b> izbor jednog od više uređaja ili memorijskih lokacija (adresiranje), pobuda displeja, realizacija logičkih funkcija.</p></div>
+<h3>Dekoder ili DEMUX – u čemu je tačno razlika?</h3>
+<p>Oba kola imaju adresu i 4 izlaza, i oba „izaberu“ jedan izlaz. Razlika je <b>samo u tome šta se pojavi na izabranom izlazu</b>:</p>
+<ul><li><b>dekoder</b> – na izabranom izlazu je <b>uvek 1</b>;</li>
+<li><b>DEMUX</b> – na izabranom izlazu je <b>ono što je na ulazu Z</b> (može biti 0 ili 1).</li></ul>
+<p>Zato dekoder 2/4 ima samo <b>2 ulaza</b> (adresu), a DEMUX 1/4 ima <b>3</b> (adresu + Z).</p>
+<p><b>Isti primer za oba – adresa 10 (izabran je izlaz 2):</b></p>
+<table class="t" style="width:auto"><tr><th>kolo</th><th>Z</th><th>Y<sub>0</sub></th><th>Y<sub>1</sub></th><th>Y<sub>2</sub></th><th>Y<sub>3</sub></th><th></th></tr>
+<tr><td>dekoder</td><td>(nema ga)</td><td>0</td><td>0</td><td><b>1</b></td><td>0</td><td></td></tr>
+<tr><td>DEMUX</td><td>1</td><td>0</td><td>0</td><td><b>1</b></td><td>0</td><td>isto kao dekoder</td></tr>
+<tr><td>DEMUX</td><td>0</td><td>0</td><td>0</td><td><b>0</b></td><td>0</td><td class="warn">tu je razlika!</td></tr></table>
+<div class="row">
+<div class="fig" data-z='{"mode":"dec","lamps":[0,0,1,0],"adr":2,"cap":"dekoder, tabla 10: stan 2 svetli – uvek"}'></div>
+<div class="fig" data-z='{"mode":"demux","lamps":[0,0,0,0],"adr":2,"z":0,"cap":"DEMUX, tabla 10, Z = 0: stan 2 je izabran, ali ne svetli"}'></div>
+</div>
+<p><b>U formulama</b> se vidi isto – DEMUX je dekoder pomnožen sa Z:</p>
+<p class="f">dekoder: Y2 = A1~A0 &nbsp;&nbsp;&nbsp; DEMUX: Y2 = S1~S0·Z</p>
+<p><b>Čemu koje služi:</b></p>
+<ul><li><b>Dekoder</b> odgovara na pitanje <b>„koji je broj na ulazu?“</b> – pretvori broj u jedan aktivan izlaz. Npr. adresa bira koji od 4 uređaja (ili memorijskih čipova) se uključuje.</li>
+<li><b>DEMUX</b> odgovara na pitanje <b>„kuda da pošaljem podatak?“</b> – podatak Z se menja u vremenu, a adresa kaže na koji izlaz ide.</li></ul>
+<p><b>Primer u vremenu</b> – adresa stalno 10, a na Z redom stižu bitovi 1, 0, 1, 1:</p>
+<table class="t" style="width:auto"><tr><th>trenutak</th><th>1.</th><th>2.</th><th>3.</th><th>4.</th></tr>
+<tr><td>Z</td><td>1</td><td>0</td><td>1</td><td>1</td></tr>
+<tr><td>DEMUX Y<sub>2</sub></td><td>1</td><td><b>0</b></td><td>1</td><td>1</td></tr>
+<tr><td>dekoder Y<sub>2</sub></td><td>1</td><td><b>1</b></td><td>1</td><td>1</td></tr></table>
+<p>DEMUX <b>prenosi</b> podatak (Y<sub>2</sub> prati Z), a dekoder samo kaže „izabran je 2“ (Y<sub>2</sub> stalno 1).</p>
+<div class="key"><b>Kako da prepoznaš:</b> ima li kolo poseban ulaz za <b>podatak</b> (Z, D)? <b>Da → DEMUX.</b> Ima samo adresu → <b>dekoder</b>.<br><b>Trik:</b> dekoder sa ulazom EN može da radi kao DEMUX – podatak dovedeš na EN (<span class="f">Y<sub>i</sub> = EN·m<sub>i</sub></span> postane <span class="f">Y<sub>i</sub> = Z·m<sub>i</sub></span>).</div>
 <h3>Funkcija pomoću dekodera (zadatak 41)</h3>
 <p>Zgrada sa 8 stanova (dekoder 3/8), promenljive C, B, A su na tabli. Ispred zgrade staviš <b>jedno zvono</b> (ILI kolo) i povežeš ga sa lampama nekih stanova. Zvono zvoni kad svetli <b>bilo koja</b> od povezanih lampi. Povežeš ga baš sa stanovima iz Σ – onda zvono zvoni tačno kad je F=1.</p>
 <p>Za <span class="f">F(C,B,A) = Σ(1,3,5,6,7)</span> zvono povežeš sa stanovima 1, 3, 5, 6, 7:</p>
 <div class="row"><div class="fig" data-dec='{"ins":["C","B","A"],"use":[1,3,5,6,7]}'></div>
 <div style="max-width:360px"><p class="f big">F = Y1 + Y3 + Y5 + Y6 + Y7</p><p>C, B, A idu na ulaze A<sub>2</sub>, A<sub>1</sub>, A<sub>0</sub> (najteža na najtežu žicu), EN=1.</p><p><b>Provera:</b> C=1, B=0, A=1 → tabla 101 = stan 5 → svetli stan 5 → on je vezan za zvono → F=1 ✔. C=1, B=0, A=0 → stan 4 → svetli stan 4, ali on <b>nije</b> vezan za zvono → F=0 ✔.</p></div></div>
 
+<div class="nrm"><h4>Normalno – realizacija funkcije dekoderom</h4>
+<p>Svaka funkcija se može napisati u potpunoj DNF kao zbir minterma za koje je F = 1. Pošto dekoder daje sve minterme (<span class="f">Y<sub>i</sub> = m<sub>i</sub></span>), funkcija je <b>ILI onih izlaza dekodera čiji su indeksi u Σ</b>:</p>
+<p class="f">F = Σ(1,3,5,6,7) = m1 + m3 + m5 + m6 + m7 = Y1 + Y3 + Y5 + Y6 + Y7</p>
+<p>Potrebno je: dekoder n/2<sup>n</sup> (n = broj promenljivih) i jedno ILI kolo sa onoliko ulaza koliko funkcija ima jedinica.</p>
+<ul><li>Ako su izlazi dekodera <b>aktivni na nuli</b> (<span class="f">Y<sub>i</sub> = ~m<sub>i</sub></span>), umesto ILI koristi se <b>NI</b> kolo: <span class="f">~[~m1·~m3] = m1 + m3</span> (De Morgan).</li>
+<li><b>Prednost:</b> jedan dekoder može istovremeno da realizuje <b>više funkcija</b> istih promenljivih – za svaku funkciju dodaš samo još jedno ILI kolo.</li></ul></div>
 <h3>7.5 Koder – „vidim koji stan svetli, pa ispišem njegov broj“</h3>
 <p>Sad igra ide <b>obrnuto od dekodera</b>. Nema table na ulazu. Stanar u <b>jednom</b> stanu upali lampu. Koder gleda zgradu i na <b>svoje 2 izlazne žice</b> ispiše broj tog stana – binarno.</p>
 <table class="t" style="width:auto"><tr><th>u zgradi</th><th>u knjizi (koder 4/2)</th></tr>
@@ -601,17 +677,39 @@ code{background:var(--code);padding:1px 5px;border-radius:4px}
 <li>ima još jednu izlaznu žicu <b>DV</b> („važeći kod“): DV=1 kad svetli bar jedan stan, DV=0 kad je cela zgrada u mraku. Tako znaš da li je 00 stvarno „stan 0“ ili „niko“.</li>
 </ul>
 
+<div class="nrm"><h4>Normalno – koder</h4>
+<p><b>Definicija:</b> koder 2<sup>n</sup>/n je kombinaciona mreža sa <b>2<sup>n</sup> ulaza</b> i <b>n izlaza</b>. Kad je aktivan (1) tačno jedan ulaz X<sub>i</sub>, na izlazu se dobija <b>binarni kod broja i</b>. To je inverzna funkcija dekodera.</p>
+<p><b>Logičke funkcije</b> (koder 4/2): izlazni bit Y<sub>j</sub> je ILI svih ulaza X<sub>i</sub> čiji indeks i ima jedinicu na mestu j:</p>
+<p class="f big">Y1 = X2 + X3 &nbsp;&nbsp; Y0 = X1 + X3</p>
+<p>(2 = <b>1</b>0 i 3 = <b>1</b>1 imaju jedinicu na mestu 1; 1 = 0<b>1</b> i 3 = 1<b>1</b> na mestu 0.) <b>Kako je napravljen:</b> n ILI kola.</p>
+<p><b>Nedostaci običnog kodera:</b> (1) kad je aktivno više ulaza, izlaz je pogrešan (X<sub>1</sub>=X<sub>2</sub>=1 daje 11); (2) izlaz 00 je isti kad je aktivan X<sub>0</sub> i kad nije aktivan nijedan ulaz.</p>
+<p><b>Prioritetni koder:</b> ulazima je dodeljen prioritet (veći indeks = veći prioritet). Na izlazu je kod <b>aktivnog ulaza najvećeg prioriteta</b>, a dodatni izlaz <b>DV</b> (važeći kod) je 1 kad je aktivan bar jedan ulaz.</p>
+<div class="row">
+<table class="t" style="width:auto"><tr><th>X<sub>3</sub></th><th>X<sub>2</sub></th><th>X<sub>1</sub></th><th>X<sub>0</sub></th><th>Y<sub>1</sub></th><th>Y<sub>0</sub></th><th>DV</th></tr>
+<tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><b>0</b></td></tr>
+<tr><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+<tr><td>0</td><td>0</td><td>1</td><td>x</td><td>0</td><td>1</td><td>1</td></tr>
+<tr><td>0</td><td>1</td><td>x</td><td>x</td><td>1</td><td>0</td><td>1</td></tr>
+<tr><td>1</td><td>x</td><td>x</td><td>x</td><td>1</td><td>1</td><td>1</td></tr></table>
+<div style="max-width:380px"><p>x = svejedno (ulaz manjeg prioriteta se ne gleda).</p>
+<p class="f">Y1 = X3 + X2</p><p class="f">Y0 = X3 + ~X2X1</p><p class="f">DV = X3 + X2 + X1 + X0</p></div>
+</div>
+<p><b>Primena:</b> tastatura (kod pritisnutog tastera), sistem prekida u računaru (koji zahtev je najvažniji).</p></div>
 <h3>7.6 EN – glavni osigurač zgrade</h3>
 <p>Skoro svako od ovih kola ima ulaz <b>EN</b> (enable = dozvola). To je <b>glavni osigurač</b> zgrade. <b>EN=1</b> → struja ima, sve radi kako smo opisali. <b>EN=0</b> → nestala struja: svi izlazi su 0, šta god da je na tabli. U zadacima ga obično samo vežeš na 1.</p>
 <p>Koristi se i da od dve male zgrade napraviš jednu veliku: dve zgrade po 8 stanova (dva MUX 8/1) = 16 stanova (MUX 16/1). Četvrta žica table bira <b>koja zgrada ima struju</b> (preko EN), a ostale 3 žice biraju stan u njoj.</p>
 
+<div class="nrm"><h4>Normalno – ulaz dozvole EN</h4>
+<p><b>EN</b> (enable, ulaz dozvole) je dodatni ulaz koji uključuje ili isključuje kolo. <b>EN = 1</b>: kolo radi po svojoj tablici. <b>EN = 0</b>: izlazi su u neaktivnom stanju (0), bez obzira na ostale ulaze. U logičkim funkcijama se svaki član množi sa EN (vidi formule gore).</p>
+<p><b>Proširivanje:</b> MUX 16/1 od dva MUX 8/1. Adresni ulazi S<sub>2</sub>S<sub>1</sub>S<sub>0</sub> vežu se na oba MUX-a zajedno. Najteži adresni bit S<sub>3</sub> ide na EN drugog MUX-a direktno, a na EN prvog preko invertora (<span class="f">~S3</span>). Izlazi se spoje ILI kolom. Za S<sub>3</sub>=0 radi prvi (ulazi 0–7), za S<sub>3</sub>=1 drugi (ulazi 8–15).</p></div>
+
 <h3>7.7 Sve četiri na jednom mestu</h3>
 <table class="t">
-<tr><th>Kolo</th><th>u zgradi</th><th>ulazi → izlazi</th><th>kako da ga prepoznaš</th></tr>
-<tr><td><b>MUX 4/1</b></td><td>tabla izabere stan, ti <b>gledaš</b> njegovu lampu</td><td>4 lampe + 2 žice table → 1</td><td>mnogo → <b>jedan</b></td></tr>
-<tr><td><b>DEMUX 1/4</b></td><td>tabla izabere stan, ti <b>pališ</b> njegovu lampu prekidačem Z</td><td>1 prekidač + 2 žice table → 4 lampe</td><td><b>jedan</b> → mnogo, ima podatak Z</td></tr>
-<tr><td><b>DEC 2/4</b></td><td>tabla izabere stan, njegova lampa <b>sama svetli</b></td><td>2 žice table → 4 lampe</td><td>broj → <b>jedna lampa</b></td></tr>
-<tr><td><b>Koder 4/2</b></td><td>svetli jedan stan, koder <b>ispiše njegov broj</b></td><td>4 lampe → 2 žice</td><td>jedna lampa → <b>broj</b></td></tr>
+<tr><th>Kolo</th><th>ulazi → izlazi</th><th>logička funkcija</th><th>kako je napravljen</th><th>slikom</th></tr>
+<tr><td><b>MUX 2<sup>n</sup>/1</b></td><td>2<sup>n</sup> informacionih + n selekcionih → 1</td><td class="f">Y = Σ m<sub>i</sub>·I<sub>i</sub></td><td>I kola + jedno ILI</td><td>gledaš lampu izabranog stana</td></tr>
+<tr><td><b>DEMUX 1/2<sup>n</sup></b></td><td>1 informacioni + n selekcionih → 2<sup>n</sup></td><td class="f">Y<sub>i</sub> = m<sub>i</sub>·Z</td><td>samo I kola</td><td>pališ lampu izabranog stana prekidačem Z</td></tr>
+<tr><td><b>DEC n/2<sup>n</sup></b></td><td>n → 2<sup>n</sup></td><td class="f">Y<sub>i</sub> = m<sub>i</sub></td><td>samo I kola</td><td>u izabranom stanu lampa sama svetli</td></tr>
+<tr><td><b>Koder 2<sup>n</sup>/n</b></td><td>2<sup>n</sup> → n</td><td class="f">Y1 = X2+X3, Y0 = X1+X3</td><td>samo ILI kola</td><td>svetli jedan stan → ispiše se njegov broj</td></tr>
 </table>
 
 <h3>7.8 Proveri se</h3>
