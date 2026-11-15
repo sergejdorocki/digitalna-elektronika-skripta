@@ -450,163 +450,178 @@ code{background:var(--code);padding:1px 5px;border-radius:4px}
 <li>Napiši novi izraz (minimalni + dodati članovi) i nacrtaj šemu.</li>
 </ol>
 
-<h2 id="a7">7. MUX, DEMUX, dekoder, koder – od nule, sa brojevima</h2>
-<p>Ova četiri kola izgledaju strašno, a sva rade sa <b>jednom te istom idejom</b>. Kad shvatiš tu ideju (7.0), svako kolo je samo mala varijacija. Kreni redom i ne preskači 7.0.</p>
+<h2 id="a7">7. MUX, DEMUX, dekoder, koder – sve preko stanova i žica</h2>
+<p>Sva četiri kola ćemo objasniti <b>jednom istom slikom</b>: zgrada sa stanovima, lampe u stanovima i tabla sa žicama ispred zgrade. Kad shvatiš zgradu (7.0), svako kolo je samo druga igra u istoj zgradi. Kreni redom i ne preskači 7.0.</p>
 
-<h3>7.0 Jedina ideja koju moraš da znaš: binarni broj = adresa</h3>
-<p>Zamisli zgradu sa <b>4 stana</b>. Stanovi su numerisani 0, 1, 2, 3. Ako hoćeš da kažeš „stan broj 2“, a imaš samo žice koje mogu biti 0 ili 1, broj 2 napišeš <b>binarno</b>: <b>10</b>. Za to ti trebaju <b>2 žice</b> (dva bita).</p>
-<table class="t" style="width:auto"><tr><th>žica 1</th><th>žica 0</th><th>to je broj</th><th>izabran je</th></tr>
-<tr><td>0</td><td>0</td><td>0·2 + 0 = <b>0</b></td><td>stan 0</td></tr>
-<tr><td>0</td><td>1</td><td>0·2 + 1 = <b>1</b></td><td>stan 1</td></tr>
-<tr><td>1</td><td>0</td><td>1·2 + 0 = <b>2</b></td><td>stan 2</td></tr>
-<tr><td>1</td><td>1</td><td>1·2 + 1 = <b>3</b></td><td>stan 3</td></tr></table>
+<h3>7.0 Zgrada: stanovi, lampe i žice</h3>
+<p>Zamisli zgradu sa <b>4 stana</b>, numerisana <b>0, 1, 2, 3</b>. U svakom stanu je <b>jedna lampa</b>:</p>
 <ul>
-<li>2 žice → 4 adrese (0–3). 3 žice → 8 adresa (0–7). 4 žice → 16 adresa. Uvek: <b>n žica → 2<sup>n</sup> adresa</b>.</li>
-<li>Te žice koje nose adresu zovu se <b>selekcioni</b> (ili adresni) ulazi. Obeležavaju se S ili A, sa indeksom: S<sub>1</sub> je „teža“ žica (vredi 2), S<sub>0</sub> je „laka“ (vredi 1).</li>
+<li>lampa <b>svetli</b> = <b>1</b>;</li>
+<li>lampa <b>ne svetli</b> = <b>0</b>.</li>
 </ul>
-<div class="key"><b>Sva četiri kola u jednoj rečenici:</b><br>
-• <b>MUX</b> – adresom biraš <b>sa kog ulaza</b> čitaš.<br>
-• <b>DEMUX</b> – adresom biraš <b>na koji izlaz</b> šalješ.<br>
-• <b>Dekoder</b> – adresu pretvoriš u <b>jednu upaljenu lampicu</b>.<br>
-• <b>Koder</b> – upaljenu lampicu pretvoriš nazad u <b>adresu</b>.</div>
-<p>Svaka žica u svim ovim kolima nosi <b>samo jedan bit</b> – 0 ili 1. Nigde nema „0101“ na jednoj žici.</p>
+<p>Ispred zgrade je <b>tabla</b>. Na njoj biraš stan. Ali tabla nema dugmiće sa brojevima 0–3 – ima samo <b>žice</b>, a svaka žica može biti samo 0 ili 1. Zato broj stana pišeš <b>binarno</b>, i za 4 stana trebaju ti <b>2 žice</b>:</p>
+<table class="t" style="width:auto"><tr><th>žica 1 (vredi 2)</th><th>žica 0 (vredi 1)</th><th>računaš</th><th>izabran je</th></tr>
+<tr><td>0</td><td>0</td><td>0 + 0</td><td><b>stan 0</b></td></tr>
+<tr><td>0</td><td>1</td><td>0 + 1</td><td><b>stan 1</b></td></tr>
+<tr><td>1</td><td>0</td><td>2 + 0</td><td><b>stan 2</b></td></tr>
+<tr><td>1</td><td>1</td><td>2 + 1</td><td><b>stan 3</b></td></tr></table>
+<ul>
+<li>Zgrada sa 4 stana → 2 žice na tabli. Zgrada sa 8 stanova → 3 žice. Sa 16 stanova → 4 žice. Uvek: <b>n žica → 2<sup>n</sup> stanova</b>.</li>
+<li>Žice na tabli se u knjizi zovu <b>selekcioni</b> (adresni) ulazi, oznaka S ili A. Broj stana = <b>adresa</b>.</li>
+<li>Lampe u stanovima su obično <b>ulazi I</b> ili <b>izlazi Y</b> – zavisi od kola.</li>
+</ul>
+<div class="key"><b>Četiri kola = četiri igre u istoj zgradi:</b><br>
+• <b>MUX</b> – na tabli izabereš stan i <b>pogledaš</b> da li mu svetli lampa. (čitaš iz jednog stana)<br>
+• <b>DEMUX</b> – na tabli izabereš stan i tvojim prekidačem <b>pališ/gasiš lampu</b> u tom stanu. (šalješ u jedan stan)<br>
+• <b>Dekoder</b> – na tabli izabereš stan i u njemu se <b>upali lampa</b>. Uvek svetli tačno jedan stan.<br>
+• <b>Koder</b> – obrnuto: u jednom stanu svetli lampa, a koder ti na žicama <b>ispiše broj tog stana</b>.</div>
 
-<h3>7.1 MUX (multiplekser) – „sa kog ulaza čitam?“</h3>
-<p><b>Slika:</b> železnička skretnica. Četiri koloseka ulaze, <b>jedan</b> izlazi. Adresa kaže koji kolosek je spojen sa izlazom. Ostali su u tom trenutku isključeni.</p>
-<p><b>Šta ima MUX 4/1</b> („4 ulaza na 1 izlaz“):</p>
-<ul>
-<li>4 ulaza podataka: I<sub>0</sub>, I<sub>1</sub>, I<sub>2</sub>, I<sub>3</sub> – na svakom je neki bit (0 ili 1);</li>
-<li>2 selekciona ulaza: S<sub>1</sub>, S<sub>0</sub> – adresa (za 4 ulaza trebaju 2 žice, vidi 7.0);</li>
-<li>1 izlaz: Y.</li>
-</ul>
+<h3>7.1 MUX – „pogledam lampu u izabranom stanu“</h3>
+<p>Stanari su sami upalili ili ugasili svoje lampe. Ti stojiš ispred zgrade sa <b>jednom žicom</b> u ruci (izlaz Y). Na tabli ukucaš broj stana – tvoja žica se spoji sa lampom <b>tog</b> stana. Na tvojoj žici je onda isto što i na lampi: 1 ako svetli, 0 ako ne svetli. Ostali stanovi te ne zanimaju.</p>
+<table class="t" style="width:auto"><tr><th>u zgradi</th><th>u knjizi (MUX 4/1)</th></tr>
+<tr><td>lampe u stanovima 0, 1, 2, 3</td><td>ulazi podataka I<sub>0</sub>, I<sub>1</sub>, I<sub>2</sub>, I<sub>3</sub></td></tr>
+<tr><td>2 žice na tabli</td><td>selekcioni ulazi S<sub>1</sub>, S<sub>0</sub></td></tr>
+<tr><td>tvoja jedna žica</td><td>izlaz Y</td></tr></table>
+<p><b>Primer:</b> lampe su stan 0 = 0, stan 1 = 1, stan 2 = 1, stan 3 = 0. Na tabli ukucaš <b>10</b> (stan 2):</p>
 <div class="row">
-<div class="fig" data-b='{"title":"MUX 4/1","left":[["I0",""],["I1",""],["I2",""],["I3",""]],"right":[["Y",""]],"bottom":[["S1",""],["S0",""]],"top":[["EN",""]]}'></div>
-<div style="max-width:470px">
-<p><b>Pravilo rada:</b> Y = onaj ulaz I čiji je broj napisan na S<sub>1</sub>S<sub>0</sub>. MUX ništa ne računa – samo <b>prepiše</b> izabrani bit na izlaz.</p>
+<div class="fig" data-z='{"mode":"mux","lamps":[0,1,1,0],"adr":2,"cap":"MUX: tabla 10 → gledaš stan 2 → Y = 1"}'></div>
+<div class="fig" data-b='{"title":"MUX 4/1","left":[["I0","0"],["I1","1"],["I2","1"],["I3","0"]],"right":[["Y","1"]],"bottom":[["S1","1"],["S0","0"]],"top":[["EN","1"]]}'></div>
 </div>
-</div>
-<p><b>Primer sa brojevima.</b> Na ulaze smo stavili: I<sub>0</sub>=0, I<sub>1</sub>=1, I<sub>2</sub>=1, I<sub>3</sub>=0. Sada menjamo samo adresu:</p>
-<table class="t" style="width:auto"><tr><th>S<sub>1</sub></th><th>S<sub>0</sub></th><th>adresa</th><th>MUX gleda</th><th>Y</th></tr>
-<tr><td>0</td><td>0</td><td>0</td><td>I<sub>0</sub> (= 0)</td><td><b>0</b></td></tr>
-<tr><td>0</td><td>1</td><td>1</td><td>I<sub>1</sub> (= 1)</td><td><b>1</b></td></tr>
-<tr><td>1</td><td>0</td><td>2</td><td>I<sub>2</sub> (= 1)</td><td><b>1</b></td></tr>
-<tr><td>1</td><td>1</td><td>3</td><td>I<sub>3</sub> (= 0)</td><td><b>0</b></td></tr></table>
-<p>Primeti: kolona Y je <b>tačno prepisana</b> kolona ulaza 0, 1, 1, 0. To je cela tajna zadataka sa MUX-om (7.2).</p>
-<div class="key"><b>Veličine:</b> MUX 2/1 → 1 selekcija · MUX 4/1 → 2 · MUX 8/1 → 3 · MUX 16/1 → 4. (2<sup>n</sup> ulaza ↔ n selekcija.)<br>
-<b>Formula MUX 4/1</b> (ako je traže): <span class="f">Y = ~S1~S0·I0 + ~S1S0·I1 + S1~S0·I2 + S1S0·I3</span>. Čitaš je ovako: prvi član je 1 samo kad je adresa 00 – i tada propušta I<sub>0</sub>; drugi samo za adresu 01 – propušta I<sub>1</sub>; itd.</div>
+<p>Sad menjaš samo ono što ukucaš na tabli (lampe se ne diraju):</p>
+<table class="t" style="width:auto"><tr><th>tabla S<sub>1</sub> S<sub>0</sub></th><th>stan</th><th>lampa u tom stanu</th><th>Y (tvoja žica)</th></tr>
+<tr><td>0 0</td><td>0</td><td>ne svetli</td><td><b>0</b></td></tr>
+<tr><td>0 1</td><td>1</td><td>svetli</td><td><b>1</b></td></tr>
+<tr><td>1 0</td><td>2</td><td>svetli</td><td><b>1</b></td></tr>
+<tr><td>1 1</td><td>3</td><td>ne svetli</td><td><b>0</b></td></tr></table>
+<p>Primeti: kolona Y je <b>tačno prepisane lampe</b> 0, 1, 1, 0. MUX ništa ne računa – samo ti pokaže lampu stana koji si izabrao.</p>
+<div class="key"><b>Veličine:</b> MUX 4/1 = zgrada sa 4 stana, 2 žice na tabli. MUX 8/1 = 8 stanova, 3 žice. MUX 16/1 = 16 stanova, 4 žice. (2<sup>n</sup> ulaza ↔ n selekcija.)<br>
+<b>Formula MUX 4/1</b> (ako je traže): <span class="f">Y = ~S1~S0·I0 + ~S1S0·I1 + S1~S0·I2 + S1S0·I3</span>. Prvi član znači „tabla je 00 <b>i</b> lampa u stanu 0“, drugi „tabla je 01 <b>i</b> lampa u stanu 1“… Uvek je uključen samo jedan član – onaj čiji stan si izabrao.</div>
 
 <h3>7.2 Funkcija pomoću MUX-a (zadaci 28–30)</h3>
-<p><b>Trik:</b> promenljive funkcije staviš na <b>selekcione</b> ulaze. Onda svaki red tablice istinitosti „izabere“ jedan ulaz I. Na taj ulaz unapred staviš <b>F iz tog reda</b>. MUX će uvek prepisati baš to – znači izlaz je F.</p>
-<h3>Najlakši primer: 2 promenljive, MUX 4/1</h3>
-<p>Funkcija <span class="f">F(B,A) = Σ(1,2)</span> – F=1 u redovima 1 i 2.</p>
+<p><b>Trik:</b> ti si <b>upravnik zgrade</b>. Pre nego što iko dođe, sam podesiš lampe: u stanu k lampa svetli <b>ako je F=1 u redu k</b> tablice istinitosti, a ne svetli ako je F=0. Promenljive funkcije stavljaš na <b>tablu</b>. Kad neko ukuca kombinaciju promenljivih, pogleda lampu baš tog reda – i vidi F.</p>
+<h3>Najlakši primer: 2 promenljive, zgrada sa 4 stana (MUX 4/1)</h3>
+<p>Funkcija <span class="f">F(B,A) = Σ(1,2)</span> – F=1 u redovima 1 i 2. Znači: lampe svetle u stanovima 1 i 2, u stanovima 0 i 3 ne svetle.</p>
 <div class="row">
-<table class="t" style="width:auto"><tr><th>red</th><th>B</th><th>A</th><th>F</th><th>→ stavi na</th></tr>
+<table class="t" style="width:auto"><tr><th>red = stan</th><th>B</th><th>A</th><th>F</th><th>lampa</th></tr>
 <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>I<sub>0</sub> = 0</td></tr>
 <tr><td>1</td><td>0</td><td>1</td><td>1</td><td>I<sub>1</sub> = 1</td></tr>
 <tr><td>2</td><td>1</td><td>0</td><td>1</td><td>I<sub>2</sub> = 1</td></tr>
 <tr><td>3</td><td>1</td><td>1</td><td>0</td><td>I<sub>3</sub> = 0</td></tr></table>
+<div class="fig" data-z='{"mode":"mux","lamps":[0,1,1,0],"adr":1,"cap":"B=0, A=1 na tabli → stan 1 → F = 1"}'></div>
 <div class="fig" data-b='{"title":"MUX 4/1","left":[["I0","0"],["I1","1"],["I2","1"],["I3","0"]],"right":[["Y","F"]],"bottom":[["S1","B"],["S0","A"]],"top":[["EN","1"]]}'></div>
 </div>
-<p><b>Provera:</b> uzmi B=1, A=0. Adresa = 10 = 2 → MUX gleda I<sub>2</sub> = 1 → Y = 1. U tablici red 2 ima F=1 ✔. Isto je ono iz 7.1 – samo što su sad adrese tvoje promenljive.</p>
+<p><b>Provera:</b> neko ukuca B=1, A=1 → tabla 11 → stan 3 → lampa ne svetli → F = 0. U tablici red 3 ima F=0 ✔.</p>
 
-<h3>3 promenljive, MUX 8/1 (isti trik, samo duže)</h3>
-<p><span class="f">F(C,B,A) = Σ(1,3,5,6,7)</span>. Selekcija: C→S<sub>2</sub>, B→S<sub>1</sub>, A→S<sub>0</sub> (najteža promenljiva na najtežu žicu). Na ulaz I<sub>k</sub> staviš F iz reda k:</p>
+<h3>3 promenljive, zgrada sa 8 stanova (MUX 8/1)</h3>
+<p><span class="f">F(C,B,A) = Σ(1,3,5,6,7)</span>. Tabla ima 3 žice: C→S<sub>2</sub> (vredi 4), B→S<sub>1</sub> (vredi 2), A→S<sub>0</sub> (vredi 1). Upališ lampe u stanovima 1, 3, 5, 6, 7:</p>
 <div class="row">
-<table class="t" style="width:auto"><tr><th>red</th><th>C</th><th>B</th><th>A</th><th>F</th><th>→ ulaz</th></tr>
+<table class="t" style="width:auto"><tr><th>stan</th><th>C</th><th>B</th><th>A</th><th>F</th><th>lampa</th></tr>
 <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>I<sub>0</sub>=0</td></tr><tr><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>I<sub>1</sub>=1</td></tr><tr><td>2</td><td>0</td><td>1</td><td>0</td><td>0</td><td>I<sub>2</sub>=0</td></tr><tr><td>3</td><td>0</td><td>1</td><td>1</td><td>1</td><td>I<sub>3</sub>=1</td></tr><tr><td>4</td><td>1</td><td>0</td><td>0</td><td>0</td><td>I<sub>4</sub>=0</td></tr><tr><td>5</td><td>1</td><td>0</td><td>1</td><td>1</td><td>I<sub>5</sub>=1</td></tr><tr><td>6</td><td>1</td><td>1</td><td>0</td><td>1</td><td>I<sub>6</sub>=1</td></tr><tr><td>7</td><td>1</td><td>1</td><td>1</td><td>1</td><td>I<sub>7</sub>=1</td></tr></table>
 <div class="fig" data-b='{"title":"MUX 8/1","left":[["I0","0"],["I1","1"],["I2","0"],["I3","1"],["I4","0"],["I5","1"],["I6","1"],["I7","1"]],"right":[["Y","F"]],"bottom":[["S2","C"],["S1","B"],["S0","A"]],"top":[["EN","1"]]}'></div>
 </div>
-<p>Ništa se ne minimizuje, nema Karnoa – samo <b>prepišeš kolonu F</b> na ulaze. EN=1 da bi MUX radio.</p>
+<p>Ništa se ne minimizuje, nema Karnoa – samo <b>prepišeš kolonu F</b> na lampe. EN=1 (glavni osigurač uključen, vidi 7.6).</p>
 
-<h3>3 promenljive, a imaš samo MUX 4/1 (najčešće na kolokvijumu)</h3>
-<p>MUX 4/1 ima samo 2 selekcije, a promenljivih je 3. Zato na selekciju staviš <b>dve</b> (C i B), a treća (A) ide <b>na ulaze podataka</b>.</p>
-<p><b>Korak 1.</b> Podeli tablicu u <b>parove redova</b>. U svakom paru C i B su isti, a A je prvo 0 pa 1:</p>
-<table class="t" style="width:auto"><tr><th>C B (adresa)</th><th>par redova</th><th>F kad A=0</th><th>F kad A=1</th><th>šta je F u paru?</th><th>→ ulaz</th></tr>
-<tr><td>0 0 → 0</td><td>0, 1</td><td>0</td><td>1</td><td>F je isto što i A</td><td>I<sub>0</sub> = <b>A</b></td></tr>
-<tr><td>0 1 → 1</td><td>2, 3</td><td>0</td><td>1</td><td>F je isto što i A</td><td>I<sub>1</sub> = <b>A</b></td></tr>
-<tr><td>1 0 → 2</td><td>4, 5</td><td>0</td><td>1</td><td>F je isto što i A</td><td>I<sub>2</sub> = <b>A</b></td></tr>
-<tr><td>1 1 → 3</td><td>6, 7</td><td>1</td><td>1</td><td>F je uvek 1</td><td>I<sub>3</sub> = <b>1</b></td></tr></table>
-<p><b>Korak 2.</b> Za svaki par pogledaj dve vrednosti F (za A=0 i za A=1) i izaberi jedno od samo <b>4 moguća</b> odgovora:</p>
-<div class="key"><b>F u paru (A=0 / A=1) → šta staviš na ulaz:</b><br>
-0 / 0 → <b>0</b> (F je uvek 0)<br>
-1 / 1 → <b>1</b> (F je uvek 1)<br>
-0 / 1 → <b>A</b> (F prati A)<br>
-1 / 0 → <span class="f">~A</span> (F je obrnuto od A)</div>
+<h3>3 promenljive, a zgrada ima samo 4 stana (MUX 4/1 – najčešće na kolokvijumu)</h3>
+<p>Problem: promenljive su tri (C, B, A), a tabla ima samo <b>2 žice</b>. Rešenje: na tablu staviš <b>C i B</b>. Treću, <b>A</b>, ne staviš na tablu – nego je <b>uvedeš u stanove</b>: lampa u stanu više ne mora biti fiksno upaljena ili ugašena, nego može biti <b>vezana za prekidač A</b>.</p>
+<p>Svaki stan sad „pokriva“ <b>dva reda</b> tablice istinitosti – jedan sa A=0 i jedan sa A=1 (C i B su u oba ista, to je adresa stana):</p>
+<table class="t" style="width:auto"><tr><th>tabla C B</th><th>stan</th><th>redovi</th><th>F kad A=0</th><th>F kad A=1</th><th>kako vežeš lampu</th></tr>
+<tr><td>0 0</td><td>0</td><td>0, 1</td><td>0</td><td>1</td><td>lampa = <b>A</b> (svetli kad je A=1)</td></tr>
+<tr><td>0 1</td><td>1</td><td>2, 3</td><td>0</td><td>1</td><td>lampa = <b>A</b></td></tr>
+<tr><td>1 0</td><td>2</td><td>4, 5</td><td>0</td><td>1</td><td>lampa = <b>A</b></td></tr>
+<tr><td>1 1</td><td>3</td><td>6, 7</td><td>1</td><td>1</td><td>lampa = <b>1</b> (uvek svetli)</td></tr></table>
+<div class="key"><b>Za svaki stan ima samo 4 mogućnosti</b> (F za A=0 / A=1 → kako vežeš lampu):<br>
+0 / 0 → lampa <b>uvek ugašena</b> → ulaz <b>0</b><br>
+1 / 1 → lampa <b>uvek upaljena</b> → ulaz <b>1</b><br>
+0 / 1 → lampa <b>prati A</b> → ulaz <b>A</b><br>
+1 / 0 → lampa radi <b>obrnuto od A</b> → ulaz <span class="f">~A</span></div>
 <div class="row">
+<div class="fig" data-z='{"mode":"mux","lamps":["A","A","A",1],"adr":1,"cap":"lampe vezane za A; tabla CB = 01 → stan 1 → F = A"}'></div>
 <div class="fig" data-b='{"title":"MUX 4/1","left":[["I0","A"],["I1","A"],["I2","A"],["I3","1"]],"right":[["Y","F"]],"bottom":[["S1","C"],["S0","B"]],"top":[["EN","1"]]}'></div>
-<div style="max-width:420px"><p><b>Provera:</b> C=0, B=1, A=1 (red 3). Adresa CB = 01 = 1 → MUX gleda I<sub>1</sub> = A = 1 → F = 1 ✔ (red 3 je u Σ).</p><p>C=1, B=0, A=0 (red 4). Adresa 10 = 2 → I<sub>2</sub> = A = 0 → F = 0 ✔.</p></div>
 </div>
+<p><b>Provera:</b> C=0, B=1, A=1 (red 3). Tabla CB = 01 → stan 1 → lampa je vezana za A, a A=1 → svetli → F = 1 ✔ (red 3 je u Σ). C=1, B=0, A=0 (red 4): tabla 10 → stan 2 → lampa = A = 0 → F = 0 ✔.</p>
 
-<h3>7.3 DEMUX (demultiplekser) – „na koji izlaz šaljem?“</h3>
-<p><b>Slika:</b> obrnuta skretnica, ili poštar. Ima <b>jedan</b> ulaz podataka Z (jedno pismo) i 4 izlaza (4 sandučeta). Adresa kaže u koje sanduče ide Z. Sva ostala sandučad su prazna – na njima je <b>0</b>.</p>
+<h3>7.3 DEMUX – „palim lampu u izabranom stanu“</h3>
+<p>Sad je obrnuto od MUX-a. Lampe ne pale stanari – <b>ti</b> ih pališ. U ruci imaš <b>jedan prekidač Z</b>. Na tabli izabereš stan, i tvoj prekidač se spoji sa lampom <b>tog</b> stana. Ako je Z=1, lampa u tom stanu svetli; ako je Z=0, ne svetli. U <b>svim ostalim</b> stanovima je mrak (0).</p>
+<table class="t" style="width:auto"><tr><th>u zgradi</th><th>u knjizi (DEMUX 1/4)</th></tr>
+<tr><td>tvoj prekidač</td><td>ulaz podatka Z</td></tr>
+<tr><td>2 žice na tabli</td><td>selekcioni ulazi S<sub>1</sub>, S<sub>0</sub></td></tr>
+<tr><td>lampe u stanovima 0–3</td><td>izlazi Y<sub>0</sub>, Y<sub>1</sub>, Y<sub>2</sub>, Y<sub>3</sub></td></tr></table>
 <div class="row">
-<div class="fig" data-b='{"title":"DEMUX 1/4","left":[["Z",""]],"right":[["Y0",""],["Y1",""],["Y2",""],["Y3",""]],"bottom":[["S1",""],["S0",""]]}'></div>
+<div class="fig" data-z='{"mode":"demux","lamps":[0,0,1,0],"adr":2,"z":1,"cap":"DEMUX: tabla 10, Z = 1 → svetli samo stan 2"}'></div>
 <table class="t" style="width:auto"><tr><th>S<sub>1</sub></th><th>S<sub>0</sub></th><th>Y<sub>0</sub></th><th>Y<sub>1</sub></th><th>Y<sub>2</sub></th><th>Y<sub>3</sub></th></tr>
 <tr><td>0</td><td>0</td><td><b>Z</b></td><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>0</td><td><b>Z</b></td><td>0</td><td>0</td></tr><tr><td>1</td><td>0</td><td>0</td><td>0</td><td><b>Z</b></td><td>0</td></tr><tr><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td><b>Z</b></td></tr></table>
 </div>
-<p><b>Primer sa brojevima:</b></p>
+<p><b>Primeri:</b></p>
 <ul>
-<li>Z=1, adresa S<sub>1</sub>S<sub>0</sub>=10 (=2) → Y<sub>2</sub>=<b>1</b>, a Y<sub>0</sub>=Y<sub>1</sub>=Y<sub>3</sub>=0.</li>
-<li>Z=0, ista adresa 10 → Y<sub>2</sub>=<b>0</b> (stiglo je „pismo“ sa nulom), ostali opet 0 → svi izlazi su 0.</li>
-<li>Z=1, adresa 11 (=3) → Y<sub>3</sub>=1, ostali 0.</li>
+<li>Z=1, tabla 10 (stan 2) → u stanu 2 svetli: Y<sub>2</sub>=<b>1</b>; Y<sub>0</sub>=Y<sub>1</sub>=Y<sub>3</sub>=0.</li>
+<li>Z=0, tabla 10 → tvoj prekidač je spojen sa stanom 2, ali je ugašen → Y<sub>2</sub>=0, i ostali 0 → <b>mrak u celoj zgradi</b>.</li>
+<li>Z=1, tabla 11 (stan 3) → svetli samo stan 3: Y<sub>3</sub>=1.</li>
 </ul>
-<p><b>Čemu služi:</b> MUX i DEMUX zajedno šalju više signala <b>jednom žicom</b>. Na početku žice MUX redom bira signal 0, 1, 2, 3; na kraju DEMUX sa istom adresom svaki signal vraća na svoje mesto.</p>
-<div class="tip"><b>MUX ↔ DEMUX:</b> MUX = mnogo ulaza → <b>1</b> izlaz. DEMUX = <b>1</b> ulaz → mnogo izlaza. Adresa kod oba radi isto: kaže <i>koji</i>.</div>
+<p><b>Čemu služi:</b> hoćeš da iz jedne zgrade u drugu preneseš sve 4 lampe, a imaš <b>samo jednu žicu</b> između zgrada. U prvoj zgradi MUX redom gleda stan 0, 1, 2, 3 i šalje lampu kroz žicu; u drugoj zgradi DEMUX sa <b>istim brojem na tabli</b> pali isti stan. Tako se lampe „prepišu“ jedna po jedna.</p>
+<div class="tip"><b>MUX ↔ DEMUX:</b> MUX = <b>gledaš</b> lampu izabranog stana (mnogo stanova → tvoja jedna žica). DEMUX = <b>pališ</b> lampu izabranog stana (tvoj jedan prekidač → mnogo stanova). Tabla kod oba radi isto: kaže <i>koji stan</i>.</div>
 
-<h3>7.4 Dekoder (DEC) – „adresa → jedna upaljena lampica“</h3>
-<p><b>Slika:</b> lift. Ukucaš sprat (binarno), i upali se <b>samo jedna</b> lampica – lampica tog sprata. Dekoder 2/4: 2 ulaza (adresa), 4 izlaza (lampice).</p>
+<h3>7.4 Dekoder – „u izabranom stanu se upali lampa“</h3>
+<p>Dekoder je DEMUX kome je prekidač <b>zalepljen na 1</b>. Nemaš prekidač u ruci – samo tablu. Ukucaš broj stana i u <b>tom</b> stanu se upali lampa. U ostalim je mrak. Znači, u zgradi <b>uvek svetli tačno jedan stan</b>.</p>
+<table class="t" style="width:auto"><tr><th>u zgradi</th><th>u knjizi (DEC 2/4)</th></tr>
+<tr><td>2 žice na tabli</td><td>ulazi A<sub>1</sub>, A<sub>0</sub></td></tr>
+<tr><td>lampe u stanovima 0–3</td><td>izlazi Y<sub>0</sub>, Y<sub>1</sub>, Y<sub>2</sub>, Y<sub>3</sub></td></tr></table>
 <div class="row">
-<div class="fig" data-b='{"title":"DEC 2/4","left":[["A1",""],["A0",""]],"right":[["Y0",""],["Y1",""],["Y2",""],["Y3",""]],"top":[["EN",""]]}'></div>
-<table class="t" style="width:auto"><tr><th>A<sub>1</sub></th><th>A<sub>0</sub></th><th>broj</th><th>Y<sub>0</sub></th><th>Y<sub>1</sub></th><th>Y<sub>2</sub></th><th>Y<sub>3</sub></th></tr>
+<div class="fig" data-z='{"mode":"dec","lamps":[0,0,0,1],"adr":3,"cap":"dekoder: tabla 11 → svetli samo stan 3"}'></div>
+<table class="t" style="width:auto"><tr><th>A<sub>1</sub></th><th>A<sub>0</sub></th><th>stan</th><th>Y<sub>0</sub></th><th>Y<sub>1</sub></th><th>Y<sub>2</sub></th><th>Y<sub>3</sub></th></tr>
 <tr><td>0</td><td>0</td><td>0</td><td><b>1</b></td><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>1</td><td>0</td><td><b>1</b></td><td>0</td><td>0</td></tr><tr><td>1</td><td>0</td><td>2</td><td>0</td><td>0</td><td><b>1</b></td><td>0</td></tr><tr><td>1</td><td>1</td><td>3</td><td>0</td><td>0</td><td>0</td><td><b>1</b></td></tr></table>
 </div>
-<p><b>Primer:</b> A<sub>1</sub>=1, A<sub>0</sub>=1 → broj 3 → Y<sub>3</sub>=1, svi ostali 0. U svakom redu tablice je <b>tačno jedna jedinica</b>.</p>
-<p><b>Razlika od DEMUX-a:</b> DEMUX šalje <i>podatak Z</i> (može biti 0 ili 1). Dekoder na izabrani izlaz <b>uvek</b> stavi 1. Dekoder je kao DEMUX kome je Z zalepljen na 1. (Obrnuto: dekoder sa EN ulazom radi kao DEMUX – Z dovedeš na EN.)</p>
-<div class="key"><b>Najvažnije za zadatke:</b> izlaz Y<sub>k</sub> je 1 <b>samo u redu k</b> tablice istinitosti. To je tačno <b>minterm k</b>. Na primer Y<sub>2</sub> = <span class="f">A1~A0</span> (1 samo kad je A<sub>1</sub>=1 i A<sub>0</sub>=0).</div>
+<p><b>Razlika od DEMUX-a:</b> kod DEMUX-a izabrana lampa svetli <i>samo ako je tvoj prekidač Z=1</i>. Kod dekodera izabrana lampa svetli <b>uvek</b>. (Zato dekoder sa ulazom EN može da glumi DEMUX: EN radi kao prekidač Z.)</p>
+<div class="key"><b>Najvažnije za zadatke:</b> lampa u stanu k (izlaz Y<sub>k</sub>) svetli <b>samo kad je na tabli broj k</b> – tj. samo u redu k tablice istinitosti. To je tačno <b>minterm k</b>. Na primer Y<sub>2</sub> = <span class="f">A1~A0</span> (svetli samo kad je tabla 10).</div>
 <h3>Funkcija pomoću dekodera (zadatak 41)</h3>
-<p>F je 1 u nekim redovima (to je Σ). Dekoder ima po jedan izlaz za svaki red, koji je 1 baš u tom redu. Znači: uzmeš izlaze iz Σ i spojiš ih <b>jednim ILI kolom</b> – ILI daje 1 kad je bar jedan od njih 1, tj. kad si u nekom od tih redova.</p>
-<p>Za <span class="f">F(C,B,A) = Σ(1,3,5,6,7)</span> treba dekoder 3/8 (3 promenljive → 8 izlaza):</p>
+<p>Zgrada sa 8 stanova (dekoder 3/8), promenljive C, B, A su na tabli. Ispred zgrade staviš <b>jedno zvono</b> (ILI kolo) i povežeš ga sa lampama nekih stanova. Zvono zvoni kad svetli <b>bilo koja</b> od povezanih lampi. Povežeš ga baš sa stanovima iz Σ – onda zvono zvoni tačno kad je F=1.</p>
+<p>Za <span class="f">F(C,B,A) = Σ(1,3,5,6,7)</span> zvono povežeš sa stanovima 1, 3, 5, 6, 7:</p>
 <div class="row"><div class="fig" data-dec='{"ins":["C","B","A"],"use":[1,3,5,6,7]}'></div>
-<div style="max-width:360px"><p class="f big">F = Y1 + Y3 + Y5 + Y6 + Y7</p><p>C, B, A idu na ulaze A<sub>2</sub>, A<sub>1</sub>, A<sub>0</sub> (najteža na najteži), EN=1.</p><p><b>Provera:</b> C=1, B=0, A=1 → broj 101 = 5 → upali se Y<sub>5</sub> → on je spojen na ILI → F=1 ✔. C=1, B=0, A=0 → broj 4 → Y<sub>4</sub>, a njega nismo spojili → F=0 ✔.</p></div></div>
+<div style="max-width:360px"><p class="f big">F = Y1 + Y3 + Y5 + Y6 + Y7</p><p>C, B, A idu na ulaze A<sub>2</sub>, A<sub>1</sub>, A<sub>0</sub> (najteža na najtežu žicu), EN=1.</p><p><b>Provera:</b> C=1, B=0, A=1 → tabla 101 = stan 5 → svetli stan 5 → on je vezan za zvono → F=1 ✔. C=1, B=0, A=0 → stan 4 → svetli stan 4, ali on <b>nije</b> vezan za zvono → F=0 ✔.</p></div></div>
 
-<h3>7.5 Koder – „upaljena lampica → adresa“ (obrnuto od dekodera)</h3>
-<p><b>Slika:</b> tastatura sa 4 tastera (X<sub>0</sub>…X<sub>3</sub>). Pritisneš jedan, a koder na 2 izlaza ispiše <b>binarni broj</b> tog tastera.</p>
+<h3>7.5 Koder – „vidim koji stan svetli, pa ispišem njegov broj“</h3>
+<p>Sad igra ide <b>obrnuto od dekodera</b>. Nema table na ulazu. Stanar u <b>jednom</b> stanu upali lampu. Koder gleda zgradu i na <b>svoje 2 izlazne žice</b> ispiše broj tog stana – binarno.</p>
+<table class="t" style="width:auto"><tr><th>u zgradi</th><th>u knjizi (koder 4/2)</th></tr>
+<tr><td>lampe u stanovima 0–3</td><td>ulazi X<sub>0</sub>, X<sub>1</sub>, X<sub>2</sub>, X<sub>3</sub></td></tr>
+<tr><td>2 žice na kojima piše broj stana</td><td>izlazi Y<sub>1</sub>, Y<sub>0</sub></td></tr></table>
 <div class="row">
-<div class="fig" data-b='{"title":"Koder 4/2","left":[["X0",""],["X1",""],["X2",""],["X3",""]],"right":[["Y1",""],["Y0",""]]}'></div>
-<table class="t" style="width:auto"><tr><th>pritisnut</th><th>X<sub>3</sub></th><th>X<sub>2</sub></th><th>X<sub>1</sub></th><th>X<sub>0</sub></th><th>Y<sub>1</sub></th><th>Y<sub>0</sub></th></tr>
-<tr><td>taster 0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
-<tr><td>taster 1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
-<tr><td>taster 2</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
-<tr><td>taster 3</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td></tr></table>
+<div class="fig" data-z='{"mode":"kod","lamps":[0,0,1,0],"out":"10","outcap":"= stan 2","cap":"koder: svetli stan 2 → ispiše 10"}'></div>
+<table class="t" style="width:auto"><tr><th>svetli</th><th>X<sub>3</sub></th><th>X<sub>2</sub></th><th>X<sub>1</sub></th><th>X<sub>0</sub></th><th>Y<sub>1</sub></th><th>Y<sub>0</sub></th></tr>
+<tr><td>stan 0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+<tr><td>stan 1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+<tr><td>stan 2</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+<tr><td>stan 3</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td></tr></table>
 </div>
-<p><b>Kako je napravljen (ako pitaju):</b> Y<sub>1</sub> treba da bude 1 za tastere 2 i 3 → <span class="f">Y1 = X2 + X3</span>. Y<sub>0</sub> treba da bude 1 za tastere 1 i 3 → <span class="f">Y0 = X1 + X3</span>. Samo dva ILI kola.</p>
-<p><b>Problem:</b> šta ako pritisneš <b>dva tastera</b>, npr. 1 i 2? Y<sub>1</sub> = X<sub>2</sub>+X<sub>3</sub> = 1, Y<sub>0</sub> = X<sub>1</sub>+X<sub>3</sub> = 1 → izlaz 11 = <b>3</b>. A taster 3 niko nije pritisnuo! Takođe, kad ništa nije pritisnuto, izlaz je 00 – isto kao „taster 0“, pa se ne razlikuje.</p>
+<p><b>Kako je napravljen (ako pitaju):</b> žica Y<sub>1</sub> (vredi 2) treba da bude 1 kad svetli stan 2 ili stan 3 → <span class="f">Y1 = X2 + X3</span>. Žica Y<sub>0</sub> (vredi 1) treba da bude 1 kad svetli stan 1 ili stan 3 → <span class="f">Y0 = X1 + X3</span>. Samo dva ILI kola.</p>
+<p><b>Problem 1 – svetle dva stana.</b> Recimo stan 1 i stan 2. Y<sub>1</sub> = X<sub>2</sub>+X<sub>3</sub> = 1, Y<sub>0</sub> = X<sub>1</sub>+X<sub>3</sub> = 1 → koder ispiše 11 = <b>stan 3</b>. A u stanu 3 je mrak! Pogrešno.</p>
+<div class="fig" data-z='{"mode":"kod","lamps":[0,1,1,0],"out":"11","outcap":"= stan 3 ✘ pogrešno","cap":"običan koder: svetle stan 1 i 2 → ispiše 11"}'></div>
+<p><b>Problem 2 – nigde ne svetli.</b> Koder ispiše 00 – isto kao kad svetli stan 0. Ne znaš da li je „stan 0“ ili „niko“.</p>
 <p><b>Rešenje – prioritetni koder</b> (pitanje 45):</p>
 <ul>
-<li>kad je pritisnuto više tastera, ispiše broj <b>najvećeg</b> (najvažnijeg). Tasteri 1 i 2 → ispiše <b>2</b> (10);</li>
-<li>ima dodatni izlaz <b>DV</b> („važeći kod“): DV=1 kad je pritisnut bar jedan taster, DV=0 kad nije nijedan. Tako znaš da li je 00 stvarno „taster 0“ ili „ništa“.</li>
+<li>kad svetli više stanova, ispiše broj <b>najvišeg</b> stana. Svetle 1 i 2 → ispiše <b>10</b> (stan 2);</li>
+<li>ima još jednu izlaznu žicu <b>DV</b> („važeći kod“): DV=1 kad svetli bar jedan stan, DV=0 kad je cela zgrada u mraku. Tako znaš da li je 00 stvarno „stan 0“ ili „niko“.</li>
 </ul>
 
-<h3>7.6 EN – prekidač „radi / ne radi“</h3>
-<p>Skoro svako od ovih kola ima ulaz <b>EN</b> (enable = dozvola). <b>EN=1</b> → kolo radi normalno. <b>EN=0</b> → kolo „spava“: svi izlazi su 0, šta god da je na ulazima. U zadacima ga obično samo vežeš na 1. Koristi se i da od dva mala čipa napraviš jedan veći (npr. dva MUX 8/1 → MUX 16/1: peta adresna žica preko EN bira koji od dva čipa radi).</p>
+<h3>7.6 EN – glavni osigurač zgrade</h3>
+<p>Skoro svako od ovih kola ima ulaz <b>EN</b> (enable = dozvola). To je <b>glavni osigurač</b> zgrade. <b>EN=1</b> → struja ima, sve radi kako smo opisali. <b>EN=0</b> → nestala struja: svi izlazi su 0, šta god da je na tabli. U zadacima ga obično samo vežeš na 1.</p>
+<p>Koristi se i da od dve male zgrade napraviš jednu veliku: dve zgrade po 8 stanova (dva MUX 8/1) = 16 stanova (MUX 16/1). Četvrta žica table bira <b>koja zgrada ima struju</b> (preko EN), a ostale 3 žice biraju stan u njoj.</p>
 
 <h3>7.7 Sve četiri na jednom mestu</h3>
 <table class="t">
-<tr><th>Kolo</th><th>ulazi</th><th>izlazi</th><th>šta radi</th><th>kako da ga prepoznaš</th></tr>
-<tr><td><b>MUX 4/1</b></td><td>4 podatka + 2 adrese</td><td>1</td><td>prepiše na izlaz ulaz sa te adrese</td><td>mnogo → <b>jedan</b></td></tr>
-<tr><td><b>DEMUX 1/4</b></td><td>1 podatak + 2 adrese</td><td>4</td><td>pošalje podatak na izlaz sa te adrese</td><td><b>jedan</b> → mnogo, nosi podatak Z</td></tr>
-<tr><td><b>DEC 2/4</b></td><td>2 adrese</td><td>4</td><td>upali (1) samo izlaz sa te adrese</td><td>broj → <b>jedna jedinica</b></td></tr>
-<tr><td><b>Koder 4/2</b></td><td>4 (jedan je 1)</td><td>2</td><td>ispiše broj ulaza koji je 1</td><td>jedna jedinica → <b>broj</b></td></tr>
+<tr><th>Kolo</th><th>u zgradi</th><th>ulazi → izlazi</th><th>kako da ga prepoznaš</th></tr>
+<tr><td><b>MUX 4/1</b></td><td>tabla izabere stan, ti <b>gledaš</b> njegovu lampu</td><td>4 lampe + 2 žice table → 1</td><td>mnogo → <b>jedan</b></td></tr>
+<tr><td><b>DEMUX 1/4</b></td><td>tabla izabere stan, ti <b>pališ</b> njegovu lampu prekidačem Z</td><td>1 prekidač + 2 žice table → 4 lampe</td><td><b>jedan</b> → mnogo, ima podatak Z</td></tr>
+<tr><td><b>DEC 2/4</b></td><td>tabla izabere stan, njegova lampa <b>sama svetli</b></td><td>2 žice table → 4 lampe</td><td>broj → <b>jedna lampa</b></td></tr>
+<tr><td><b>Koder 4/2</b></td><td>svetli jedan stan, koder <b>ispiše njegov broj</b></td><td>4 lampe → 2 žice</td><td>jedna lampa → <b>broj</b></td></tr>
 </table>
 
 <h3>7.8 Proveri se</h3>
-<details><summary>1. MUX 4/1: I<sub>0</sub>=1, I<sub>1</sub>=0, I<sub>2</sub>=0, I<sub>3</sub>=1, adresa S<sub>1</sub>S<sub>0</sub>=11. Koliko je Y?</summary><p>Adresa 11 = 3 → MUX gleda I<sub>3</sub> = 1 → <b>Y = 1</b>.</p></details>
-<details><summary>2. DEMUX 1/4: Z=1, adresa 01. Šta je na izlazima?</summary><p>Adresa 01 = 1 → Y<sub>1</sub>=1, a Y<sub>0</sub>=Y<sub>2</sub>=Y<sub>3</sub>=0.</p></details>
-<details><summary>3. Dekoder 3/8: ulazi A<sub>2</sub>A<sub>1</sub>A<sub>0</sub> = 110. Koji izlaz je 1?</summary><p>110 = 4+2 = 6 → <b>Y<sub>6</sub>=1</b>, svih ostalih 7 izlaza je 0.</p></details>
-<details><summary>4. Koder 4/2: pritisnut je samo taster 2. Šta je na izlazu?</summary><p>Broj 2 binarno = 10 → Y<sub>1</sub>=1, Y<sub>0</sub>=0.</p></details>
-<details><summary>5. Realizuj F(B,A) = Σ(0,3) MUX-om 4/1 (B→S<sub>1</sub>, A→S<sub>0</sub>).</summary><p>Prepišeš kolonu F: red 0 → 1, red 1 → 0, red 2 → 0, red 3 → 1. Dakle I<sub>0</sub>=1, I<sub>1</sub>=0, I<sub>2</sub>=0, I<sub>3</sub>=1.</p></details>
-<details><summary>6. Realizuj F(C,B,A) = Σ(0,2,6,7) MUX-om 4/1 (C→S<sub>1</sub>, B→S<sub>0</sub>, A na ulaze).</summary><p>Parovi: CB=00 (redovi 0,1): F=1/0 → I<sub>0</sub>=<span class="f">~A</span>. CB=01 (2,3): 1/0 → I<sub>1</sub>=<span class="f">~A</span>. CB=10 (4,5): 0/0 → I<sub>2</sub>=0. CB=11 (6,7): 1/1 → I<sub>3</sub>=1.</p></details>
-<details><summary>7. Realizuj istu funkciju Σ(0,2,6,7) dekoderom 3/8.</summary><p>Dekoder 3/8, C,B,A na A<sub>2</sub>,A<sub>1</sub>,A<sub>0</sub>, EN=1, i jedno ILI kolo: <span class="f">F = Y0 + Y2 + Y6 + Y7</span>.</p></details>
+<details><summary>1. MUX 4/1: lampe stan 0=1, stan 1=0, stan 2=0, stan 3=1. Na tabli je 11. Koliko je Y?</summary><p>Tabla 11 = stan 3 → lampa u stanu 3 svetli → <b>Y = 1</b>.</p></details>
+<details><summary>2. DEMUX 1/4: prekidač Z=1, tabla 01. Gde svetli?</summary><p>Tabla 01 = stan 1 → svetli samo stan 1: Y<sub>1</sub>=1, a Y<sub>0</sub>=Y<sub>2</sub>=Y<sub>3</sub>=0.</p></details>
+<details><summary>3. Dekoder 3/8 (zgrada sa 8 stanova): na tabli je 110. Koji stan svetli?</summary><p>110 = 4+2 = 6 → svetli <b>stan 6</b> (Y<sub>6</sub>=1), ostalih 7 stanova je u mraku.</p></details>
+<details><summary>4. Koder 4/2: svetli samo stan 2. Šta koder ispiše?</summary><p>Stan 2 binarno = 10 → Y<sub>1</sub>=1, Y<sub>0</sub>=0.</p></details>
+<details><summary>5. Realizuj F(B,A) = Σ(0,3) MUX-om 4/1 (B, A na tablu).</summary><p>Upališ lampe u stanovima 0 i 3, a u 1 i 2 ne: I<sub>0</sub>=1, I<sub>1</sub>=0, I<sub>2</sub>=0, I<sub>3</sub>=1.</p></details>
+<details><summary>6. Realizuj F(C,B,A) = Σ(0,2,6,7) MUX-om 4/1 (C, B na tablu, A u stanove).</summary><p>Stan 0 (redovi 0,1): F=1/0 → lampa obrnuto od A → I<sub>0</sub>=<span class="f">~A</span>. Stan 1 (redovi 2,3): 1/0 → I<sub>1</sub>=<span class="f">~A</span>. Stan 2 (redovi 4,5): 0/0 → uvek ugašena → I<sub>2</sub>=0. Stan 3 (redovi 6,7): 1/1 → uvek svetli → I<sub>3</sub>=1.</p></details>
+<details><summary>7. Realizuj istu funkciju Σ(0,2,6,7) dekoderom 3/8.</summary><p>Zgrada sa 8 stanova, C,B,A na tabli (A<sub>2</sub>,A<sub>1</sub>,A<sub>0</sub>), EN=1. Zvono (ILI) vežeš sa stanovima 0, 2, 6, 7: <span class="f">F = Y0 + Y2 + Y6 + Y7</span>.</p></details>
 
 
 <h2 id="a8">8. Kolo je stvarna stvar: napon, struja, brzina, potrošnja (za pitanja 5–11)</h2>
@@ -1283,7 +1298,7 @@ Proizvodi: P1 = <span class="f">~B</span>, P2 = C, P3 = BC, P4 = <span class="f"
 // ---------- overline in text: ~A, ~A1, ~[ ... ] ----------
 const OV=s=>{s=s.replace(/~([A-Za-z](?:\d+)?)/g,'<span class="ov">$1</span>');let p;do{p=s;s=s.replace(/~\[([^\[\]]*)\]/g,'<span class="ov">$1</span>')}while(s!==p);return s;};
 document.querySelectorAll('main p, main li, main td, main th, main .key, main .tip, main h3, main details, main .warn').forEach(e=>{
-  if(e.closest('[data-k],[data-t],[data-w],[data-b],[data-bank],[data-dec],svg'))return;
+  if(e.closest('[data-k],[data-t],[data-w],[data-b],[data-bank],[data-dec],[data-z],svg'))return;
   if(e.innerHTML.includes('~')) e.innerHTML=OV(e.innerHTML);
 });
 const EX=s=>OV(String(s).replace(/!/g,'~')); // data attributes use ! for complement
@@ -1443,6 +1458,55 @@ document.querySelectorAll('[data-w]').forEach(e=>e.innerHTML=wave(JSON.parse(e.d
 document.querySelectorAll('[data-b]').forEach(e=>e.innerHTML=block(JSON.parse(e.dataset.b)));
 document.querySelectorAll('[data-bank]').forEach(e=>e.innerHTML=bank(JSON.parse(e.dataset.bank)));
 document.querySelectorAll('[data-dec]').forEach(e=>e.innerHTML=decOr(JSON.parse(e.dataset.dec)));
+// ---------- zgrada (stanovi i zice) ----------
+function zgrada(d){
+  const N=d.n||4, RH=44, bx=170, by=26, bw=120, bh=N*RH+8, mode=d.mode, adr=d.adr;
+  const ry=i=>by+6+(N-1-i)*RH, lampX=bx+bw-26;
+  let s=`<path class="w" d="M${bx-6},${by} L${bx+bw/2},${by-20} L${bx+bw+6},${by}"/>`;
+  s+=`<rect class="bx" x="${bx}" y="${by}" width="${bw}" height="${bh}" rx="2"/>`;
+  for(let i=0;i<N;i++){
+    const y=ry(i), on=d.lamps?d.lamps[i]:0, sel=(i===adr);
+    s+=`<rect x="${bx+8}" y="${y}" width="${bw-16}" height="${RH-8}" rx="3" fill="var(--code)" stroke="${sel?'var(--acc)':'var(--line)'}" stroke-width="${sel?3:1}"/>`;
+    s+=`<text class="lb" x="${bx+16}" y="${y+23}">stan ${i}</text>`;
+    const fill=on===1?'#facc15':(on===0?'var(--card)':'var(--key)');
+    s+=`<circle cx="${lampX}" cy="${y+18}" r="11" fill="${fill}" stroke="var(--ink)" stroke-width="1.4"/>`;
+    if(typeof on==='string')s+=`<text class="sm" x="${lampX}" y="${y+22}" text-anchor="middle" style="fill:var(--ink);font-weight:700${on[0]=='~'?';text-decoration:overline':''}">${on.replace('~','')}</text>`;
+  }
+  const midY=by+bh/2;
+  if(mode!=='kod'){
+    const bits=adr.toString(2).padStart(Math.log2(N),'0');
+    s+=`<rect class="bx" x="10" y="${midY-34}" width="104" height="68" rx="6"/>`;
+    s+=`<text class="sm" x="62" y="${midY-18}" text-anchor="middle">tabla (adresa)</text>`;
+    s+=`<text class="lb" x="62" y="${midY+6}" text-anchor="middle" style="font-size:20px;font-weight:700;letter-spacing:6px">${bits}</text>`;
+    s+=`<text class="sm" x="62" y="${midY+25}" text-anchor="middle">= stan ${adr}</text>`;
+    s+=`<path class="w" d="M114,${midY-6}H${bx}M114,${midY+6}H${bx}"/>`;
+    s+=`<text class="sm" x="${(114+bx)/2}" y="${midY-12}" text-anchor="middle">${Math.log2(N)} žice</text>`;
+  }
+  const ay=ry(adr||0)+18, ox=bx+bw+40;
+  if(mode==='mux'){
+    s+=`<path class="sig" d="M${lampX+11},${ay}H${ox+16}"/>`;
+    s+=`<text class="lb" x="${ox+22}" y="${ay+5}" style="font-weight:700">Y = ${d.lamps[adr]}</text>`;
+    s+=`<text class="sm" x="${ox+22}" y="${ay+21}">tvoja žica čita</text>`;
+  }else if(mode==='demux'){
+    s+=`<rect class="bx" x="${ox+16}" y="${ay-16}" width="64" height="32" rx="5"/>`;
+    s+=`<text class="lb" x="${ox+48}" y="${ay+5}" text-anchor="middle" style="font-weight:700">Z = ${d.z}</text>`;
+    s+=`<path class="sig" d="M${ox+16},${ay}H${lampX+11}"/>`;
+    s+=`<text class="sm" x="${ox+48}" y="${ay+32}" text-anchor="middle">tvoj prekidač</text>`;
+  }else if(mode==='dec'){
+    s+=`<path class="sig" d="M${lampX+11},${ay}H${ox+16}"/>`;
+    s+=`<text class="lb" x="${ox+22}" y="${ay+5}" style="font-weight:700">uvek 1</text>`;
+  }else if(mode==='kod'){
+    const on=d.lamps.map((v,i)=>v===1?i:-1).filter(i=>i>=0);
+    s+=`<rect class="bx" x="${ox+16}" y="${midY-34}" width="110" height="68" rx="6"/>`;
+    s+=`<text class="sm" x="${ox+71}" y="${midY-18}" text-anchor="middle">koder ispiše</text>`;
+    s+=`<text class="lb" x="${ox+71}" y="${midY+6}" text-anchor="middle" style="font-size:20px;font-weight:700;letter-spacing:6px">${d.out}</text>`;
+    s+=`<text class="sm" x="${ox+71}" y="${midY+25}" text-anchor="middle">${d.outcap||''}</text>`;
+    on.forEach(i=>{s+=`<path class="sig" d="M${lampX+11},${ry(i)+18}H${ox}V${midY}H${ox+16}"/>`;});
+  }
+  return svgWrap(ox+140,by+bh+10,s,d.cap);
+}
+document.querySelectorAll('[data-z]').forEach(e=>e.innerHTML=zgrada(JSON.parse(e.dataset.z)));
+
 
 // ---------- gates table ----------
 (function(){
