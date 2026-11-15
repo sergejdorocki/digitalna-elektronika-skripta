@@ -450,85 +450,163 @@ code{background:var(--code);padding:1px 5px;border-radius:4px}
 <li>Napiši novi izraz (minimalni + dodati članovi) i nacrtaj šemu.</li>
 </ol>
 
-<h2 id="a7">7. MUX, DEMUX, dekoder, koder – polako, jedan po jedan</h2>
-<p>Ovo su četiri „gotova“ kola (kombinacione mreže) koja se kupuju kao čipovi. Svako ima ulaze za <b>podatke</b> i ulaze kojima <b>biraš</b> šta će da radi. Za svako: čemu služi → tablica → primer → kako se koristi u zadatku.</p>
+<h2 id="a7">7. MUX, DEMUX, dekoder, koder – od nule, sa brojevima</h2>
+<p>Ova četiri kola izgledaju strašno, a sva rade sa <b>jednom te istom idejom</b>. Kad shvatiš tu ideju (7.0), svako kolo je samo mala varijacija. Kreni redom i ne preskači 7.0.</p>
 
-<h3>7.1 Multiplekser (MUX) – „biraš jedan od više ulaza“</h3>
-<p><b>Slika iz života:</b> TV daljinski. Imaš više kanala (ulaza), a na ekranu (izlazu) je samo jedan – onaj čiji <b>broj</b> ukucaš. Kod MUX-a „broj kanala“ zadaješ binarno, na <b>selekcionim ulazima</b>.</p>
-<p><b>Najmanji: MUX 2/1</b> – 2 ulaza podataka (I<sub>0</sub>, I<sub>1</sub>), 1 selekcioni ulaz (S), 1 izlaz (Y).</p>
-<div class="row">
-<table class="t" style="width:auto"><tr><th>S</th><th>Y (izlaz)</th></tr><tr><td>0</td><td>Y = I<sub>0</sub></td></tr><tr><td>1</td><td>Y = I<sub>1</sub></td></tr></table>
-<div style="max-width:440px"><p><b>Primer:</b> I<sub>0</sub>=1, I<sub>1</sub>=0.<br>• Ako je S=0 → izlaz „gleda“ I<sub>0</sub> → <b>Y=1</b>.<br>• Ako je S=1 → izlaz „gleda“ I<sub>1</sub> → <b>Y=0</b>.</p><p>Izlaz je i dalje <b>samo jedan bit</b> (0 ili 1) – MUX ga samo „prepiše“ sa izabranog ulaza.</p></div>
-</div>
-<p><b>MUX 4/1</b> – 4 ulaza (I<sub>0</sub>…I<sub>3</sub>), pa treba <b>2</b> selekciona ulaza (A<sub>1</sub>A<sub>0</sub>), jer sa 2 bita možeš napisati brojeve 0, 1, 2, 3.</p>
-<div class="row">
-<div class="fig" data-b='{"title":"MUX 4/1","left":[["I0",""],["I1",""],["I2",""],["I3",""]],"right":[["Y",""]],"bottom":[["A1",""],["A0",""]],"top":[["EN",""]]}'></div>
-<table class="t" style="width:auto"><tr><th>A<sub>1</sub></th><th>A<sub>0</sub></th><th>broj</th><th>Y</th></tr><tr><td>0</td><td>0</td><td>0</td><td>I<sub>0</sub></td></tr><tr><td>0</td><td>1</td><td>1</td><td>I<sub>1</sub></td></tr><tr><td>1</td><td>0</td><td>2</td><td>I<sub>2</sub></td></tr><tr><td>1</td><td>1</td><td>3</td><td>I<sub>3</sub></td></tr></table>
-</div>
-<div class="key"><b>Pravilo:</b> MUX sa <b>2<sup>n</sup></b> ulaza podataka ima <b>n</b> selekcionih ulaza. MUX 2/1 → n=1, MUX 4/1 → n=2, MUX 8/1 → n=3, MUX 16/1 → n=4.<br><b>Formula (MUX 4/1):</b> <span class="f">Y = ~A1~A0·I0 + ~A1A0·I1 + A1~A0·I2 + A1A0·I3</span> – svaki član „propusti“ svoj ulaz samo kad je na selekciji njegov broj.</div>
+<h3>7.0 Jedina ideja koju moraš da znaš: binarni broj = adresa</h3>
+<p>Zamisli zgradu sa <b>4 stana</b>. Stanovi su numerisani 0, 1, 2, 3. Ako hoćeš da kažeš „stan broj 2“, a imaš samo žice koje mogu biti 0 ili 1, broj 2 napišeš <b>binarno</b>: <b>10</b>. Za to ti trebaju <b>2 žice</b> (dva bita).</p>
+<table class="t" style="width:auto"><tr><th>žica 1</th><th>žica 0</th><th>to je broj</th><th>izabran je</th></tr>
+<tr><td>0</td><td>0</td><td>0·2 + 0 = <b>0</b></td><td>stan 0</td></tr>
+<tr><td>0</td><td>1</td><td>0·2 + 1 = <b>1</b></td><td>stan 1</td></tr>
+<tr><td>1</td><td>0</td><td>1·2 + 0 = <b>2</b></td><td>stan 2</td></tr>
+<tr><td>1</td><td>1</td><td>1·2 + 1 = <b>3</b></td><td>stan 3</td></tr></table>
+<ul>
+<li>2 žice → 4 adrese (0–3). 3 žice → 8 adresa (0–7). 4 žice → 16 adresa. Uvek: <b>n žica → 2<sup>n</sup> adresa</b>.</li>
+<li>Te žice koje nose adresu zovu se <b>selekcioni</b> (ili adresni) ulazi. Obeležavaju se S ili A, sa indeksom: S<sub>1</sub> je „teža“ žica (vredi 2), S<sub>0</sub> je „laka“ (vredi 1).</li>
+</ul>
+<div class="key"><b>Sva četiri kola u jednoj rečenici:</b><br>
+• <b>MUX</b> – adresom biraš <b>sa kog ulaza</b> čitaš.<br>
+• <b>DEMUX</b> – adresom biraš <b>na koji izlaz</b> šalješ.<br>
+• <b>Dekoder</b> – adresu pretvoriš u <b>jednu upaljenu lampicu</b>.<br>
+• <b>Koder</b> – upaljenu lampicu pretvoriš nazad u <b>adresu</b>.</div>
+<p>Svaka žica u svim ovim kolima nosi <b>samo jedan bit</b> – 0 ili 1. Nigde nema „0101“ na jednoj žici.</p>
 
-<h3>7.2 Kako se MUX-om realizuje funkcija (zadaci 28–30!)</h3>
-<p><b>Ideja:</b> promenljive funkcije (C, B, A) dovedeš na <b>selekcione</b> ulaze. Tada svaka kombinacija ulaza „izabere“ jedan ulaz podataka – a na taj ulaz unapred staviš <b>vrednost F za tu kombinaciju</b> (0 ili 1). Izlaz MUX-a je onda tačno F.</p>
-<p>Uzmimo funkciju iz sekcije 4: <span class="f">F(C,B,A) = Σ(1,3,5,6,7)</span>.</p>
-<h3>Način 1: MUX 8/1 (onoliko selekcija koliko promenljivih)</h3>
+<h3>7.1 MUX (multiplekser) – „sa kog ulaza čitam?“</h3>
+<p><b>Slika:</b> železnička skretnica. Četiri koloseka ulaze, <b>jedan</b> izlazi. Adresa kaže koji kolosek je spojen sa izlazom. Ostali su u tom trenutku isključeni.</p>
+<p><b>Šta ima MUX 4/1</b> („4 ulaza na 1 izlaz“):</p>
+<ul>
+<li>4 ulaza podataka: I<sub>0</sub>, I<sub>1</sub>, I<sub>2</sub>, I<sub>3</sub> – na svakom je neki bit (0 ili 1);</li>
+<li>2 selekciona ulaza: S<sub>1</sub>, S<sub>0</sub> – adresa (za 4 ulaza trebaju 2 žice, vidi 7.0);</li>
+<li>1 izlaz: Y.</li>
+</ul>
 <div class="row">
-<table class="t" style="width:auto"><tr><th>ind.</th><th>C</th><th>B</th><th>A</th><th>F</th><th>→ ulaz</th></tr>
+<div class="fig" data-b='{"title":"MUX 4/1","left":[["I0",""],["I1",""],["I2",""],["I3",""]],"right":[["Y",""]],"bottom":[["S1",""],["S0",""]],"top":[["EN",""]]}'></div>
+<div style="max-width:470px">
+<p><b>Pravilo rada:</b> Y = onaj ulaz I čiji je broj napisan na S<sub>1</sub>S<sub>0</sub>. MUX ništa ne računa – samo <b>prepiše</b> izabrani bit na izlaz.</p>
+</div>
+</div>
+<p><b>Primer sa brojevima.</b> Na ulaze smo stavili: I<sub>0</sub>=0, I<sub>1</sub>=1, I<sub>2</sub>=1, I<sub>3</sub>=0. Sada menjamo samo adresu:</p>
+<table class="t" style="width:auto"><tr><th>S<sub>1</sub></th><th>S<sub>0</sub></th><th>adresa</th><th>MUX gleda</th><th>Y</th></tr>
+<tr><td>0</td><td>0</td><td>0</td><td>I<sub>0</sub> (= 0)</td><td><b>0</b></td></tr>
+<tr><td>0</td><td>1</td><td>1</td><td>I<sub>1</sub> (= 1)</td><td><b>1</b></td></tr>
+<tr><td>1</td><td>0</td><td>2</td><td>I<sub>2</sub> (= 1)</td><td><b>1</b></td></tr>
+<tr><td>1</td><td>1</td><td>3</td><td>I<sub>3</sub> (= 0)</td><td><b>0</b></td></tr></table>
+<p>Primeti: kolona Y je <b>tačno prepisana</b> kolona ulaza 0, 1, 1, 0. To je cela tajna zadataka sa MUX-om (7.2).</p>
+<div class="key"><b>Veličine:</b> MUX 2/1 → 1 selekcija · MUX 4/1 → 2 · MUX 8/1 → 3 · MUX 16/1 → 4. (2<sup>n</sup> ulaza ↔ n selekcija.)<br>
+<b>Formula MUX 4/1</b> (ako je traže): <span class="f">Y = ~S1~S0·I0 + ~S1S0·I1 + S1~S0·I2 + S1S0·I3</span>. Čitaš je ovako: prvi član je 1 samo kad je adresa 00 – i tada propušta I<sub>0</sub>; drugi samo za adresu 01 – propušta I<sub>1</sub>; itd.</div>
+
+<h3>7.2 Funkcija pomoću MUX-a (zadaci 28–30)</h3>
+<p><b>Trik:</b> promenljive funkcije staviš na <b>selekcione</b> ulaze. Onda svaki red tablice istinitosti „izabere“ jedan ulaz I. Na taj ulaz unapred staviš <b>F iz tog reda</b>. MUX će uvek prepisati baš to – znači izlaz je F.</p>
+<h3>Najlakši primer: 2 promenljive, MUX 4/1</h3>
+<p>Funkcija <span class="f">F(B,A) = Σ(1,2)</span> – F=1 u redovima 1 i 2.</p>
+<div class="row">
+<table class="t" style="width:auto"><tr><th>red</th><th>B</th><th>A</th><th>F</th><th>→ stavi na</th></tr>
+<tr><td>0</td><td>0</td><td>0</td><td>0</td><td>I<sub>0</sub> = 0</td></tr>
+<tr><td>1</td><td>0</td><td>1</td><td>1</td><td>I<sub>1</sub> = 1</td></tr>
+<tr><td>2</td><td>1</td><td>0</td><td>1</td><td>I<sub>2</sub> = 1</td></tr>
+<tr><td>3</td><td>1</td><td>1</td><td>0</td><td>I<sub>3</sub> = 0</td></tr></table>
+<div class="fig" data-b='{"title":"MUX 4/1","left":[["I0","0"],["I1","1"],["I2","1"],["I3","0"]],"right":[["Y","F"]],"bottom":[["S1","B"],["S0","A"]],"top":[["EN","1"]]}'></div>
+</div>
+<p><b>Provera:</b> uzmi B=1, A=0. Adresa = 10 = 2 → MUX gleda I<sub>2</sub> = 1 → Y = 1. U tablici red 2 ima F=1 ✔. Isto je ono iz 7.1 – samo što su sad adrese tvoje promenljive.</p>
+
+<h3>3 promenljive, MUX 8/1 (isti trik, samo duže)</h3>
+<p><span class="f">F(C,B,A) = Σ(1,3,5,6,7)</span>. Selekcija: C→S<sub>2</sub>, B→S<sub>1</sub>, A→S<sub>0</sub> (najteža promenljiva na najtežu žicu). Na ulaz I<sub>k</sub> staviš F iz reda k:</p>
+<div class="row">
+<table class="t" style="width:auto"><tr><th>red</th><th>C</th><th>B</th><th>A</th><th>F</th><th>→ ulaz</th></tr>
 <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>I<sub>0</sub>=0</td></tr><tr><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>I<sub>1</sub>=1</td></tr><tr><td>2</td><td>0</td><td>1</td><td>0</td><td>0</td><td>I<sub>2</sub>=0</td></tr><tr><td>3</td><td>0</td><td>1</td><td>1</td><td>1</td><td>I<sub>3</sub>=1</td></tr><tr><td>4</td><td>1</td><td>0</td><td>0</td><td>0</td><td>I<sub>4</sub>=0</td></tr><tr><td>5</td><td>1</td><td>0</td><td>1</td><td>1</td><td>I<sub>5</sub>=1</td></tr><tr><td>6</td><td>1</td><td>1</td><td>0</td><td>1</td><td>I<sub>6</sub>=1</td></tr><tr><td>7</td><td>1</td><td>1</td><td>1</td><td>1</td><td>I<sub>7</sub>=1</td></tr></table>
 <div class="fig" data-b='{"title":"MUX 8/1","left":[["I0","0"],["I1","1"],["I2","0"],["I3","1"],["I4","0"],["I5","1"],["I6","1"],["I7","1"]],"right":[["Y","F"]],"bottom":[["S2","C"],["S1","B"],["S0","A"]],"top":[["EN","1"]]}'></div>
 </div>
-<p>Postupak: <b>ulaz I<sub>k</sub> = vrednost F u redu k</b>. Ništa se ne minimizuje – samo prepišeš kolonu F. (Pazi: najteža promenljiva C ide na najteži selekcioni ulaz S<sub>2</sub>; EN=1 da MUX radi.)</p>
+<p>Ništa se ne minimizuje, nema Karnoa – samo <b>prepišeš kolonu F</b> na ulaze. EN=1 da bi MUX radio.</p>
 
-<h3>Način 2: MUX 4/1 (jedna promenljiva manje na selekciji)</h3>
-<p>Na selekciju stavimo samo C i B. Tada svaki ulaz I<sub>k</sub> „pokriva“ <b>dva reda</b> tablice (A=0 i A=1), pa na njega ne ide broj nego <b>0, 1, A ili <span class="f">~A</span></b>:</p>
+<h3>3 promenljive, a imaš samo MUX 4/1 (najčešće na kolokvijumu)</h3>
+<p>MUX 4/1 ima samo 2 selekcije, a promenljivih je 3. Zato na selekciju staviš <b>dve</b> (C i B), a treća (A) ide <b>na ulaze podataka</b>.</p>
+<p><b>Korak 1.</b> Podeli tablicu u <b>parove redova</b>. U svakom paru C i B su isti, a A je prvo 0 pa 1:</p>
+<table class="t" style="width:auto"><tr><th>C B (adresa)</th><th>par redova</th><th>F kad A=0</th><th>F kad A=1</th><th>šta je F u paru?</th><th>→ ulaz</th></tr>
+<tr><td>0 0 → 0</td><td>0, 1</td><td>0</td><td>1</td><td>F je isto što i A</td><td>I<sub>0</sub> = <b>A</b></td></tr>
+<tr><td>0 1 → 1</td><td>2, 3</td><td>0</td><td>1</td><td>F je isto što i A</td><td>I<sub>1</sub> = <b>A</b></td></tr>
+<tr><td>1 0 → 2</td><td>4, 5</td><td>0</td><td>1</td><td>F je isto što i A</td><td>I<sub>2</sub> = <b>A</b></td></tr>
+<tr><td>1 1 → 3</td><td>6, 7</td><td>1</td><td>1</td><td>F je uvek 1</td><td>I<sub>3</sub> = <b>1</b></td></tr></table>
+<p><b>Korak 2.</b> Za svaki par pogledaj dve vrednosti F (za A=0 i za A=1) i izaberi jedno od samo <b>4 moguća</b> odgovora:</p>
+<div class="key"><b>F u paru (A=0 / A=1) → šta staviš na ulaz:</b><br>
+0 / 0 → <b>0</b> (F je uvek 0)<br>
+1 / 1 → <b>1</b> (F je uvek 1)<br>
+0 / 1 → <b>A</b> (F prati A)<br>
+1 / 0 → <span class="f">~A</span> (F je obrnuto od A)</div>
 <div class="row">
-<table class="t" style="width:auto"><tr><th>C B</th><th>redovi</th><th>F kad A=0</th><th>F kad A=1</th><th>→ ulaz</th></tr>
-<tr><td>0 0</td><td>0, 1</td><td>0</td><td>1</td><td>I<sub>0</sub> = A</td></tr>
-<tr><td>0 1</td><td>2, 3</td><td>0</td><td>1</td><td>I<sub>1</sub> = A</td></tr>
-<tr><td>1 0</td><td>4, 5</td><td>0</td><td>1</td><td>I<sub>2</sub> = A</td></tr>
-<tr><td>1 1</td><td>6, 7</td><td>1</td><td>1</td><td>I<sub>3</sub> = 1</td></tr></table>
 <div class="fig" data-b='{"title":"MUX 4/1","left":[["I0","A"],["I1","A"],["I2","A"],["I3","1"]],"right":[["Y","F"]],"bottom":[["S1","C"],["S0","B"]],"top":[["EN","1"]]}'></div>
+<div style="max-width:420px"><p><b>Provera:</b> C=0, B=1, A=1 (red 3). Adresa CB = 01 = 1 → MUX gleda I<sub>1</sub> = A = 1 → F = 1 ✔ (red 3 je u Σ).</p><p>C=1, B=0, A=0 (red 4). Adresa 10 = 2 → I<sub>2</sub> = A = 0 → F = 0 ✔.</p></div>
 </div>
-<div class="key"><b>Tablica za pamćenje</b> (F u paru redova A=0 / A=1 → šta staviš na ulaz):<br>0 / 0 → <b>0</b> &nbsp;·&nbsp; 1 / 1 → <b>1</b> &nbsp;·&nbsp; 0 / 1 → <b>A</b> &nbsp;·&nbsp; 1 / 0 → <span class="f">~A</span></div>
 
-<h3>7.3 Demultiplekser (DEMUX) – „jedan ulaz šalješ na izabrani izlaz“</h3>
-<p><b>Slika iz života:</b> poštar. Ima jedno pismo (ulaz Z) i mnogo sandučića (izlaza Y<sub>0</sub>, Y<sub>1</sub>, …). Adresa (selekcioni ulazi) kaže u koji sandučić ide. Ostali sandučići ostaju prazni (0).</p>
+<h3>7.3 DEMUX (demultiplekser) – „na koji izlaz šaljem?“</h3>
+<p><b>Slika:</b> obrnuta skretnica, ili poštar. Ima <b>jedan</b> ulaz podataka Z (jedno pismo) i 4 izlaza (4 sandučeta). Adresa kaže u koje sanduče ide Z. Sva ostala sandučad su prazna – na njima je <b>0</b>.</p>
 <div class="row">
+<div class="fig" data-b='{"title":"DEMUX 1/4","left":[["Z",""]],"right":[["Y0",""],["Y1",""],["Y2",""],["Y3",""]],"bottom":[["S1",""],["S0",""]]}'></div>
 <table class="t" style="width:auto"><tr><th>S<sub>1</sub></th><th>S<sub>0</sub></th><th>Y<sub>0</sub></th><th>Y<sub>1</sub></th><th>Y<sub>2</sub></th><th>Y<sub>3</sub></th></tr>
 <tr><td>0</td><td>0</td><td><b>Z</b></td><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>0</td><td><b>Z</b></td><td>0</td><td>0</td></tr><tr><td>1</td><td>0</td><td>0</td><td>0</td><td><b>Z</b></td><td>0</td></tr><tr><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td><b>Z</b></td></tr></table>
-<div style="max-width:400px"><p><b>Primer:</b> Z=1, S<sub>1</sub>S<sub>0</sub>=10 (broj 2) → Y<sub>2</sub>=1, svi ostali izlazi = 0.</p><p>MUX skuplja mnogo → jedan, DEMUX deli jedan → mnogo. Zajedno se koriste da se mnogo signala pošalje <b>jednom žicom</b>: MUX ih šalje redom, DEMUX ih na drugom kraju raspoređuje.</p></div>
 </div>
+<p><b>Primer sa brojevima:</b></p>
+<ul>
+<li>Z=1, adresa S<sub>1</sub>S<sub>0</sub>=10 (=2) → Y<sub>2</sub>=<b>1</b>, a Y<sub>0</sub>=Y<sub>1</sub>=Y<sub>3</sub>=0.</li>
+<li>Z=0, ista adresa 10 → Y<sub>2</sub>=<b>0</b> (stiglo je „pismo“ sa nulom), ostali opet 0 → svi izlazi su 0.</li>
+<li>Z=1, adresa 11 (=3) → Y<sub>3</sub>=1, ostali 0.</li>
+</ul>
+<p><b>Čemu služi:</b> MUX i DEMUX zajedno šalju više signala <b>jednom žicom</b>. Na početku žice MUX redom bira signal 0, 1, 2, 3; na kraju DEMUX sa istom adresom svaki signal vraća na svoje mesto.</p>
+<div class="tip"><b>MUX ↔ DEMUX:</b> MUX = mnogo ulaza → <b>1</b> izlaz. DEMUX = <b>1</b> ulaz → mnogo izlaza. Adresa kod oba radi isto: kaže <i>koji</i>.</div>
 
-<h3>7.4 Dekoder (DEC) – „pali tačno jedan izlaz: onaj čiji je broj na ulazu“</h3>
-<p><b>Slika iz života:</b> lift. Ukucaš broj sprata (binarno, na ulaze), i upali se <b>samo ta jedna</b> lampica. DEC n/2<sup>n</sup>: n ulaza, 2<sup>n</sup> izlaza.</p>
+<h3>7.4 Dekoder (DEC) – „adresa → jedna upaljena lampica“</h3>
+<p><b>Slika:</b> lift. Ukucaš sprat (binarno), i upali se <b>samo jedna</b> lampica – lampica tog sprata. Dekoder 2/4: 2 ulaza (adresa), 4 izlaza (lampice).</p>
 <div class="row">
 <div class="fig" data-b='{"title":"DEC 2/4","left":[["A1",""],["A0",""]],"right":[["Y0",""],["Y1",""],["Y2",""],["Y3",""]],"top":[["EN",""]]}'></div>
-<table class="t" style="width:auto"><tr><th>A<sub>1</sub></th><th>A<sub>0</sub></th><th>Y<sub>0</sub></th><th>Y<sub>1</sub></th><th>Y<sub>2</sub></th><th>Y<sub>3</sub></th></tr>
-<tr><td>0</td><td>0</td><td><b>1</b></td><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>0</td><td><b>1</b></td><td>0</td><td>0</td></tr><tr><td>1</td><td>0</td><td>0</td><td>0</td><td><b>1</b></td><td>0</td></tr><tr><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td><b>1</b></td></tr></table>
+<table class="t" style="width:auto"><tr><th>A<sub>1</sub></th><th>A<sub>0</sub></th><th>broj</th><th>Y<sub>0</sub></th><th>Y<sub>1</sub></th><th>Y<sub>2</sub></th><th>Y<sub>3</sub></th></tr>
+<tr><td>0</td><td>0</td><td>0</td><td><b>1</b></td><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>1</td><td>0</td><td><b>1</b></td><td>0</td><td>0</td></tr><tr><td>1</td><td>0</td><td>2</td><td>0</td><td>0</td><td><b>1</b></td><td>0</td></tr><tr><td>1</td><td>1</td><td>3</td><td>0</td><td>0</td><td>0</td><td><b>1</b></td></tr></table>
 </div>
-<p><b>Razlika od DEMUX-a:</b> DEMUX šalje <i>podatak Z</i> (koji može biti 0 ili 1) na izabrani izlaz; dekoder na izabrani izlaz uvek stavlja <b>1</b>. (Zato se dekoder sa EN ulazom može koristiti kao DEMUX: Z dovedeš na EN.)</p>
-<div class="key"><b>Najvažnije:</b> izlaz Y<sub>k</sub> je 1 <b>samo</b> u redu k → to je baš <b>minterm k</b>. Npr. Y<sub>5</sub> = <span class="f">A2~A1A0</span>.</div>
-<h3>Kako se dekoderom realizuje funkcija (zadatak 41)</h3>
-<p>Pošto je F = zbir jedinica (minterma), a dekoder ti daje sve minterme, samo uzmeš izlaze čiji su indeksi u Σ i spojiš ih <b>jednim ILI kolom</b>. Za <span class="f">F = Σ(1,3,5,6,7)</span>:</p>
+<p><b>Primer:</b> A<sub>1</sub>=1, A<sub>0</sub>=1 → broj 3 → Y<sub>3</sub>=1, svi ostali 0. U svakom redu tablice je <b>tačno jedna jedinica</b>.</p>
+<p><b>Razlika od DEMUX-a:</b> DEMUX šalje <i>podatak Z</i> (može biti 0 ili 1). Dekoder na izabrani izlaz <b>uvek</b> stavi 1. Dekoder je kao DEMUX kome je Z zalepljen na 1. (Obrnuto: dekoder sa EN ulazom radi kao DEMUX – Z dovedeš na EN.)</p>
+<div class="key"><b>Najvažnije za zadatke:</b> izlaz Y<sub>k</sub> je 1 <b>samo u redu k</b> tablice istinitosti. To je tačno <b>minterm k</b>. Na primer Y<sub>2</sub> = <span class="f">A1~A0</span> (1 samo kad je A<sub>1</sub>=1 i A<sub>0</sub>=0).</div>
+<h3>Funkcija pomoću dekodera (zadatak 41)</h3>
+<p>F je 1 u nekim redovima (to je Σ). Dekoder ima po jedan izlaz za svaki red, koji je 1 baš u tom redu. Znači: uzmeš izlaze iz Σ i spojiš ih <b>jednim ILI kolom</b> – ILI daje 1 kad je bar jedan od njih 1, tj. kad si u nekom od tih redova.</p>
+<p>Za <span class="f">F(C,B,A) = Σ(1,3,5,6,7)</span> treba dekoder 3/8 (3 promenljive → 8 izlaza):</p>
 <div class="row"><div class="fig" data-dec='{"ins":["C","B","A"],"use":[1,3,5,6,7]}'></div>
-<div style="max-width:360px"><p class="f big">F = Y1 + Y3 + Y5 + Y6 + Y7</p><p>Promenljive C, B, A idu na ulaze A<sub>2</sub>, A<sub>1</sub>, A<sub>0</sub> (najteža na najteži), EN=1.</p></div></div>
+<div style="max-width:360px"><p class="f big">F = Y1 + Y3 + Y5 + Y6 + Y7</p><p>C, B, A idu na ulaze A<sub>2</sub>, A<sub>1</sub>, A<sub>0</sub> (najteža na najteži), EN=1.</p><p><b>Provera:</b> C=1, B=0, A=1 → broj 101 = 5 → upali se Y<sub>5</sub> → on je spojen na ILI → F=1 ✔. C=1, B=0, A=0 → broj 4 → Y<sub>4</sub>, a njega nismo spojili → F=0 ✔.</p></div></div>
 
-<h3>7.5 Koder – obrnuto od dekodera</h3>
-<p><b>Slika iz života:</b> tastatura. Pritisneš jedan taster (jedan od ulaza je 1), a koder na izlaz ispiše <b>binarni broj</b> tog tastera.</p>
+<h3>7.5 Koder – „upaljena lampica → adresa“ (obrnuto od dekodera)</h3>
+<p><b>Slika:</b> tastatura sa 4 tastera (X<sub>0</sub>…X<sub>3</sub>). Pritisneš jedan, a koder na 2 izlaza ispiše <b>binarni broj</b> tog tastera.</p>
 <div class="row">
-<table class="t" style="width:auto"><tr><th>aktivan ulaz</th><th>Y<sub>1</sub></th><th>Y<sub>0</sub></th></tr><tr><td>X<sub>0</sub></td><td>0</td><td>0</td></tr><tr><td>X<sub>1</sub></td><td>0</td><td>1</td></tr><tr><td>X<sub>2</sub></td><td>1</td><td>0</td></tr><tr><td>X<sub>3</sub></td><td>1</td><td>1</td></tr></table>
-<div style="max-width:440px"><p>Koder 4/2: 4 ulaza, 2 izlaza. <b>Problem:</b> ako su istovremeno pritisnuta dva tastera, dobije se pogrešan broj. Rešenje je <b>prioritetni koder</b> – on ispiše broj <b>najvećeg</b> aktivnog ulaza i ima izlaz DV („važeći kod“) koji je 0 kad nijedan ulaz nije aktivan (pitanje 45).</p></div>
+<div class="fig" data-b='{"title":"Koder 4/2","left":[["X0",""],["X1",""],["X2",""],["X3",""]],"right":[["Y1",""],["Y0",""]]}'></div>
+<table class="t" style="width:auto"><tr><th>pritisnut</th><th>X<sub>3</sub></th><th>X<sub>2</sub></th><th>X<sub>1</sub></th><th>X<sub>0</sub></th><th>Y<sub>1</sub></th><th>Y<sub>0</sub></th></tr>
+<tr><td>taster 0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+<tr><td>taster 1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+<tr><td>taster 2</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+<tr><td>taster 3</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td></tr></table>
 </div>
+<p><b>Kako je napravljen (ako pitaju):</b> Y<sub>1</sub> treba da bude 1 za tastere 2 i 3 → <span class="f">Y1 = X2 + X3</span>. Y<sub>0</sub> treba da bude 1 za tastere 1 i 3 → <span class="f">Y0 = X1 + X3</span>. Samo dva ILI kola.</p>
+<p><b>Problem:</b> šta ako pritisneš <b>dva tastera</b>, npr. 1 i 2? Y<sub>1</sub> = X<sub>2</sub>+X<sub>3</sub> = 1, Y<sub>0</sub> = X<sub>1</sub>+X<sub>3</sub> = 1 → izlaz 11 = <b>3</b>. A taster 3 niko nije pritisnuo! Takođe, kad ništa nije pritisnuto, izlaz je 00 – isto kao „taster 0“, pa se ne razlikuje.</p>
+<p><b>Rešenje – prioritetni koder</b> (pitanje 45):</p>
+<ul>
+<li>kad je pritisnuto više tastera, ispiše broj <b>najvećeg</b> (najvažnijeg). Tasteri 1 i 2 → ispiše <b>2</b> (10);</li>
+<li>ima dodatni izlaz <b>DV</b> („važeći kod“): DV=1 kad je pritisnut bar jedan taster, DV=0 kad nije nijedan. Tako znaš da li je 00 stvarno „taster 0“ ili „ništa“.</li>
+</ul>
 
-<h3>7.6 EN – signal dozvole</h3>
-<p>Skoro svako od ovih kola ima ulaz <b>EN</b> (enable = dozvola). <b>EN=1</b> → kolo radi normalno. <b>EN=0</b> → kolo „spava“: izlazi su 0 bez obzira na ulaze. U zadacima ga obično samo vežeš na 1. Koristi se i za spajanje više malih čipova u jedan veći (npr. dva MUX 8/1 → MUX 16/1).</p>
+<h3>7.6 EN – prekidač „radi / ne radi“</h3>
+<p>Skoro svako od ovih kola ima ulaz <b>EN</b> (enable = dozvola). <b>EN=1</b> → kolo radi normalno. <b>EN=0</b> → kolo „spava“: svi izlazi su 0, šta god da je na ulazima. U zadacima ga obično samo vežeš na 1. Koristi se i da od dva mala čipa napraviš jedan veći (npr. dva MUX 8/1 → MUX 16/1: peta adresna žica preko EN bira koji od dva čipa radi).</p>
 
+<h3>7.7 Sve četiri na jednom mestu</h3>
 <table class="t">
-<tr><th>Kolo</th><th>Ulazi → izlazi</th><th>Šta radi u jednoj rečenici</th></tr>
-<tr><td><b>MUX 2<sup>n</sup>/1</b></td><td>2<sup>n</sup> podataka + n selekcija → 1</td><td>prepiše na izlaz ulaz čiji je broj na selekciji</td></tr>
-<tr><td><b>DEMUX 1/2<sup>n</sup></b></td><td>1 podatak + n selekcija → 2<sup>n</sup></td><td>pošalje ulaz na izlaz čiji je broj na selekciji</td></tr>
-<tr><td><b>DEC n/2<sup>n</sup></b></td><td>n → 2<sup>n</sup></td><td>upali (1) samo izlaz čiji je broj na ulazu</td></tr>
-<tr><td><b>Koder 2<sup>n</sup>/n</b></td><td>2<sup>n</sup> → n</td><td>ispiše binarni broj aktivnog ulaza</td></tr>
+<tr><th>Kolo</th><th>ulazi</th><th>izlazi</th><th>šta radi</th><th>kako da ga prepoznaš</th></tr>
+<tr><td><b>MUX 4/1</b></td><td>4 podatka + 2 adrese</td><td>1</td><td>prepiše na izlaz ulaz sa te adrese</td><td>mnogo → <b>jedan</b></td></tr>
+<tr><td><b>DEMUX 1/4</b></td><td>1 podatak + 2 adrese</td><td>4</td><td>pošalje podatak na izlaz sa te adrese</td><td><b>jedan</b> → mnogo, nosi podatak Z</td></tr>
+<tr><td><b>DEC 2/4</b></td><td>2 adrese</td><td>4</td><td>upali (1) samo izlaz sa te adrese</td><td>broj → <b>jedna jedinica</b></td></tr>
+<tr><td><b>Koder 4/2</b></td><td>4 (jedan je 1)</td><td>2</td><td>ispiše broj ulaza koji je 1</td><td>jedna jedinica → <b>broj</b></td></tr>
 </table>
+
+<h3>7.8 Proveri se</h3>
+<details><summary>1. MUX 4/1: I<sub>0</sub>=1, I<sub>1</sub>=0, I<sub>2</sub>=0, I<sub>3</sub>=1, adresa S<sub>1</sub>S<sub>0</sub>=11. Koliko je Y?</summary><p>Adresa 11 = 3 → MUX gleda I<sub>3</sub> = 1 → <b>Y = 1</b>.</p></details>
+<details><summary>2. DEMUX 1/4: Z=1, adresa 01. Šta je na izlazima?</summary><p>Adresa 01 = 1 → Y<sub>1</sub>=1, a Y<sub>0</sub>=Y<sub>2</sub>=Y<sub>3</sub>=0.</p></details>
+<details><summary>3. Dekoder 3/8: ulazi A<sub>2</sub>A<sub>1</sub>A<sub>0</sub> = 110. Koji izlaz je 1?</summary><p>110 = 4+2 = 6 → <b>Y<sub>6</sub>=1</b>, svih ostalih 7 izlaza je 0.</p></details>
+<details><summary>4. Koder 4/2: pritisnut je samo taster 2. Šta je na izlazu?</summary><p>Broj 2 binarno = 10 → Y<sub>1</sub>=1, Y<sub>0</sub>=0.</p></details>
+<details><summary>5. Realizuj F(B,A) = Σ(0,3) MUX-om 4/1 (B→S<sub>1</sub>, A→S<sub>0</sub>).</summary><p>Prepišeš kolonu F: red 0 → 1, red 1 → 0, red 2 → 0, red 3 → 1. Dakle I<sub>0</sub>=1, I<sub>1</sub>=0, I<sub>2</sub>=0, I<sub>3</sub>=1.</p></details>
+<details><summary>6. Realizuj F(C,B,A) = Σ(0,2,6,7) MUX-om 4/1 (C→S<sub>1</sub>, B→S<sub>0</sub>, A na ulaze).</summary><p>Parovi: CB=00 (redovi 0,1): F=1/0 → I<sub>0</sub>=<span class="f">~A</span>. CB=01 (2,3): 1/0 → I<sub>1</sub>=<span class="f">~A</span>. CB=10 (4,5): 0/0 → I<sub>2</sub>=0. CB=11 (6,7): 1/1 → I<sub>3</sub>=1.</p></details>
+<details><summary>7. Realizuj istu funkciju Σ(0,2,6,7) dekoderom 3/8.</summary><p>Dekoder 3/8, C,B,A na A<sub>2</sub>,A<sub>1</sub>,A<sub>0</sub>, EN=1, i jedno ILI kolo: <span class="f">F = Y0 + Y2 + Y6 + Y7</span>.</p></details>
 
 
 <h2 id="a8">8. Kolo je stvarna stvar: napon, struja, brzina, potrošnja (za pitanja 5–11)</h2>
