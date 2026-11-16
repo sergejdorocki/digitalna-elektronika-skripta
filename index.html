@@ -937,11 +937,77 @@ code{background:var(--code);padding:1px 5px;border-radius:4px}
 </div>
 
 <div class="q"><h3><span class="n">10.</span> Disipacija snage (potrošnja) u digitalnim kolima – komponente</h3>
-<div class="key"><b>Ukratko (CMOS):</b> Ukupna potrošnja ima tri komponente:
-<br>1) <b>Statička potrošnja</b> – skoro nula, jer PMOS i NMOS nikad ne vode istovremeno u ustaljenom stanju; postoje samo <b>struje curenja</b> I<sub>leak</sub> (0,1–0,5 nA na 27 °C) kroz inverzno polarisane spojeve. Rastu sa temperaturom (na 85 °C ≈ 60× veće) → hlađenje je važno. P<sub>stat</sub> = I<sub>leak</sub>·V<sub>DD</sub>.
-<br>2) <b>Dinamička potrošnja zbog punjenja i pražnjenja kapacitivnosti opterećenja</b> C<sub>L</sub> – najveća komponenta. Pri svakoj promeni izlaza C<sub>L</sub> se puni preko PMOS-a (pola energije se skladišti u C<sub>L</sub>, pola se gubi na PMOS-u) ili prazni preko NMOS-a. <span class="f">P<sub>din</sub> = C<sub>L</sub>·V<sub>DD</sub><sup>2</sup>·f</span> – ne zavisi od dimenzija tranzistora.
-<br>3) <b>Potrošnja zbog struje direktne putanje</b> (kratkog spoja) – tokom konačnog vremena porasta/pada ulaza oba tranzistora kratko vode, pa teče struja od napajanja ka masi: <span class="f">P<sub>dp</sub> ≈ ½·(t<sub>r</sub>+t<sub>f</sub>)·V<sub>DD</sub>·I<sub>peak</sub>·f</span>.
-<br><b>P<sub>uk</sub> = P<sub>din</sub> + P<sub>dp</sub> + P<sub>stat</sub></b>. Smanjenje: <b>prvo smanjiti napon napajanja</b> (kvadratna zavisnost; danas 0,6–0,9 V), smanjiti broj promena stanja, kapacitivnosti i frekvenciju.</div>
+<div class="key"><b>Ukratko (CMOS) – ovo pišeš na kolokvijumu:</b> Ukupna potrošnja CMOS kola ima tri komponente:
+<br>1) <b>Statička potrošnja</b> – skoro nula, jer u ustaljenom stanju PMOS i NMOS nikad ne vode istovremeno. Postoje samo <b>struje curenja</b> I<sub>leak</sub> (0,1–0,5 nA na 27 °C), koje rastu sa temperaturom (na 85 °C oko 60 puta veće) → zato je važno hlađenje.
+<br>2) <b>Dinamička potrošnja zbog punjenja i pražnjenja kapacitivnosti opterećenja C<sub>L</sub></b> – najveća komponenta. Pri svakoj promeni izlaza C<sub>L</sub> se puni preko PMOS-a ili prazni preko NMOS-a: <span class="f">P<sub>din</sub> = C<sub>L</sub>·V<sub>DD</sub><sup>2</sup>·f</span>. Ne zavisi od dimenzija tranzistora.
+<br>3) <b>Potrošnja zbog struje direktne putanje</b> – dok se ulaz menja, oba tranzistora kratko vode istovremeno, pa struja teče direktno od napajanja ka masi: <span class="f">P<sub>dp</sub> = ½·(t<sub>r</sub>+t<sub>f</sub>)·V<sub>DD</sub>·I<sub>peak</sub></span>.
+<br><b>Ukupno: P = P<sub>stat</sub> + P<sub>din</sub> + P<sub>dp</sub>.</b> Potrošnja se smanjuje: <b>pre svega smanjenjem napona napajanja</b> (danas 0,6–0,9 V), smanjenjem broja promena stanja, kapacitivnosti i frekvencije.</div>
+
+<h3>Objašnjenje od nule</h3>
+<p><b>Šta je „disipacija snage“?</b> To je električna energija koju kolo „pojede“ iz napajanja i pretvori u <b>toplotu</b>. Zato se procesori greju i zato baterija telefona traje ograničeno. Pitanje je: <i>na šta to kolo troši struju</i>? Odgovor: na tri stvari.</p>
+
+<h3>Prvo: šta su tranzistor, NMOS i PMOS?</h3>
+<p><b>Tranzistor</b> je sićušni <b>elektronski prekidač</b>. Običan prekidač za svetlo uključiš prstom; tranzistor se uključuje i isključuje <b>naponom</b> – na njegov upravljački priključak (zove se <b>gejt</b>) dovedeš 0 ili 1, i on se zbog toga uključi ili isključi. Kad je uključen, struja može da prođe kroz njega (kao zatvoren prekidač); kad je isključen, ne može.</p>
+<p>U digitalnim kolima se koriste <b>MOS tranzistori</b>, i to dve vrste. Razlikuju se samo po tome <b>na koju vrednost se uključuju</b>:</p>
+<table class="t" style="width:auto"><tr><th>tranzistor</th><th>gejt = 0</th><th>gejt = 1</th><th>kako da zapamtiš</th></tr>
+<tr><td><b>NMOS</b></td><td>isključen</td><td><b>uključen</b></td><td>N – „normalan“: uključi se na 1</td></tr>
+<tr><td><b>PMOS</b></td><td><b>uključen</b></td><td>isključen</td><td>P – „protivno“: uključi se na 0</td></tr></table>
+<p><b>CMOS</b> znači <b>komplementarni MOS</b> – kolo u kome su PMOS i NMOS uvek u <b>paru</b>, i rade „obrnuto“ jedan od drugog. Danas se skoro sva digitalna kola (procesori, telefoni) prave u CMOS tehnici.</p>
+<p><b>Najprostije CMOS kolo – invertor (NE kolo):</b> PMOS je gore, između napajanja i izlaza; NMOS je dole, između izlaza i mase. Gejtovi oba tranzistora su spojeni na isti ulaz X.</p>
+<div class="fig"><svg viewBox="0 0 560 250" width="560">
+<text class="lb" x="120" y="18" text-anchor="middle" font-weight="700">V<tspan dy="4" font-size="10">DD</tspan><tspan dy="-4"> = napajanje (1)</tspan></text>
+<path class="w" d="M120,24V48"/>
+<rect class="bx" x="70" y="48" width="100" height="44" rx="6"/><text class="lb" x="120" y="68" text-anchor="middle" font-weight="700">PMOS</text><text class="sm" x="120" y="84" text-anchor="middle">gornji prekidač</text>
+<path class="w" d="M120,92V138"/><circle cx="120" cy="115" r="4" fill="var(--ink)"/>
+<path class="w" d="M120,115H210"/><text class="lb" x="216" y="120" font-weight="700">izlaz Y</text>
+<rect class="bx" x="70" y="138" width="100" height="44" rx="6"/><text class="lb" x="120" y="158" text-anchor="middle" font-weight="700">NMOS</text><text class="sm" x="120" y="174" text-anchor="middle">donji prekidač</text>
+<path class="w" d="M120,182V206M100,206H140M106,212H134M113,218H127"/><text class="lb" x="120" y="238" text-anchor="middle">masa (0 V = 0)</text>
+<path class="w" d="M20,115H45M45,70V160M45,70H70M45,160H70"/><text class="lb" x="10" y="108">ulaz X</text>
+<text class="sm" x="300" y="60">ulaz X = 0 → PMOS uključen, NMOS isključen</text>
+<text class="sm" x="300" y="76">→ izlaz spojen na napajanje → <tspan font-weight="700">Y = 1</tspan></text>
+<text class="sm" x="300" y="150">ulaz X = 1 → NMOS uključen, PMOS isključen</text>
+<text class="sm" x="300" y="166">→ izlaz spojen na masu → <tspan font-weight="700">Y = 0</tspan></text>
+</svg></div>
+<table class="t" style="width:auto"><tr><th>ulaz X</th><th>PMOS</th><th>NMOS</th><th>izlaz je spojen sa</th><th>Y</th></tr>
+<tr><td>0</td><td><b>uključen</b></td><td>isključen</td><td>napajanjem</td><td><b>1</b></td></tr>
+<tr><td>1</td><td>isključen</td><td><b>uključen</b></td><td>masom</td><td><b>0</b></td></tr></table>
+<p>Izlaz je uvek obrnut od ulaza – zato je ovo NE kolo. I najvažnije za potrošnju: <b>uvek je uključen samo jedan</b> od dva tranzistora, pa struja nema kuda da teče direktno od napajanja do mase.</p>
+<p>U svakom trenutku kad kolo „miruje“ uključen je <b>samo jedan</b> od njih. Na izlaz kola su zakačeni ulazi sledećih kola i žice, i sve to zajedno se ponaša kao mali <b>kondenzator C<sub>L</sub></b> („kapacitivnost opterećenja“). Kondenzator zamisli kao <b>malu kanticu za struju</b>: kad je izlaz 1, kantica je puna; kad je izlaz 0, prazna je.</p>
+
+<table class="t">
+<tr><th>Komponenta</th><th>Slika (kanta i voda)</th><th>Kada nastaje</th><th>Koliko je velika</th></tr>
+<tr><td><b>1. Statička</b><br>(struja curenja)</td><td>slavina je zatvorena, ali malo <b>kaplje</b></td><td>stalno, i kad se ništa ne menja</td><td>skoro nula (nanoamperi), ali raste sa temperaturom</td></tr>
+<tr><td><b>2. Dinamička</b><br>(punjenje i pražnjenje C<sub>L</sub>)</td><td>svaki put kad izlaz pređe 0→1 <b>napuniš kanticu</b>, a kad pređe 1→0 <b>proliješ je</b> u odvod</td><td>pri svakoj promeni izlaza</td><td><b>najveća</b></td></tr>
+<tr><td><b>3. Direktna putanja</b></td><td>dok se prekidači prebacuju, na tren su <b>oba otvorena</b> – voda teče pravo iz cevi u odvod</td><td>kratko, tokom svake promene ulaza</td><td>mala, ali postoji</td></tr>
+</table>
+
+<h3>1. Statička potrošnja – „kapanje“</h3>
+<p>Kad se kolo ne menja, jedan prekidač je uključen a drugi isključen, pa <b>nema puta</b> kojim bi struja tekla od napajanja do mase. Zato je statička potrošnja CMOS kola <b>skoro nula</b> – to je najveća prednost CMOS-a. Ipak, isključeni tranzistor nije savršen: kroz njega „curi“ sasvim mala struja, <b>struja curenja I<sub>leak</sub></b> – oko 0,1 do 0,5 nA na sobnoj temperaturi (27 °C).</p>
+<p>Ta struja nastaje od nosilaca naelektrisanja koje stvara toplota, pa <b>raste sa temperaturom</b>: na 85 °C je oko <b>60 puta veća</b>. Zato je jedan od ciljeva da kolo radi na nižoj temperaturi (hlađenje).</p>
+
+<h3>2. Dinamička potrošnja – „punjenje kantice“ (najveća)</h3>
+<p>Svaki put kad izlaz pređe sa 0 na 1, kondenzator C<sub>L</sub> mora da se napuni iz napajanja preko PMOS-a. Kad izlaz pređe sa 1 na 0, kondenzator se isprazni u masu preko NMOS-a. Energija koju je napajanje dalo je potrošena: pola se izgubi kao toplota u PMOS-u još pri punjenju, a pola (ona koja je bila u kondenzatoru) pri pražnjenju u NMOS-u.</p>
+<p class="f big">P<sub>din</sub> = C<sub>L</sub> · V<sub>DD</sub><sup>2</sup> · f</p>
+<p>Formulu čitaš kao kanticu:</p>
+<ul><li><b>C<sub>L</sub></b> – koliko je kantica velika (veća kapacitivnost → više struje po punjenju);</li>
+<li><b>V<sub>DD</sub></b> – napon napajanja, i to <b>na kvadrat</b>;</li>
+<li><b>f</b> – koliko puta u sekundi se kantica puni i prazni (frekvencija rada).</li></ul>
+<p><b>Primer da vidiš zašto je napon najvažniji:</b> ako napon smanjiš sa 1,2 V na 0,6 V (upola), potrošnja pada <b>4 puta</b> (jer 0,5² = 0,25). Ako upola smanjiš frekvenciju, potrošnja padne samo 2 puta. Zato se danas kola prave za napajanja od samo 0,6–0,9 V.</p>
+<p>Zanimljivo: ova potrošnja <b>ne zavisi od veličine tranzistora</b> – bez obzira koliko je PMOS „jak“, pola energije se na njemu izgubi.</p>
+
+<h3>3. Potrošnja zbog struje direktne putanje – „oba prekidača otvorena“</h3>
+<p>Ulazni signal ne skače sa 0 na 1 trenutno – treba mu neko vreme da poraste (t<sub>r</sub>) ili padne (t<sub>f</sub>). Dok je napon ulaza negde „na sredini“, oba tranzistora su delimično uključena. Tada postoji <b>direktan put</b> od napajanja do mase kroz oba tranzistora i struja teče njime – to je skoro kratak spoj, ali traje vrlo kratko.</p>
+<p class="f big">P<sub>dp</sub> = ½ · (t<sub>r</sub> + t<sub>f</sub>) · V<sub>DD</sub> · I<sub>peak</sub></p>
+<p>Ovo je formula sa predavanja (pretpostavka: struja ima oblik trougla sa vrhom I<sub>peak</sub>, pa je „površina trougla“ ½·osnova·visina). Što su promene ulaza <b>sporije</b> (veće t<sub>r</sub>, t<sub>f</sub>), to je ova potrošnja veća.</p>
+
+<h3>Ukupno i kako se smanjuje</h3>
+<p class="f big">P = P<sub>stat</sub> + P<sub>din</sub> + P<sub>dp</sub></p>
+<p>Kako smanjiti potrošnju (redom po važnosti, kao na predavanju):</p>
+<ol><li><b>smanjiti napon napajanja</b> – prvi izbor, jer je zavisnost kvadratna;</li>
+<li>smanjiti <b>broj promena stanja</b> (manje punjenja kantice);</li>
+<li>smanjiti <b>kapacitivnosti</b> (manja kantica);</li>
+<li>smanjiti <b>frekvenciju</b> ako može.</li></ol>
+<div class="tip"><b>Kako da zapamtiš:</b> tri reči – <b>curenje, punjenje, kratak spoj</b>. Curenje je skoro nula, punjenje je najveće (C·V²·f), kratak spoj je kratak.</div>
 </div>
 
 <div class="q"><h3><span class="n">11.</span> * Vremenski odziv – interpretacija vremenskog dijagrama <span class="tag">ZADATAK</span></h3>
