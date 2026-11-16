@@ -1134,26 +1134,84 @@ Detaljna šema: 3 invertora (za <span class="f">~A2, ~A1, ~A0</span>), 8 petoula
 </div>
 
 <div class="q"><h3><span class="n">28.</span> * Funkcija pomoću MUX 16/1: <span class="f">F(D,C,B,A) = Σ(0,4,5,7,13,14,15)</span> <span class="tag">ZADATAK</span></h3>
-<p>Slučaj N = M: S<sub>3</sub>S<sub>2</sub>S<sub>1</sub>S<sub>0</sub> = DCBA (D na najteži). I<sub>i</sub> = 1 ako je i u skupu, inače 0:</p>
-<p>I<sub>0</sub>=1, I<sub>1</sub>=0, I<sub>2</sub>=0, I<sub>3</sub>=0, I<sub>4</sub>=1, I<sub>5</sub>=1, I<sub>6</sub>=0, I<sub>7</sub>=1, I<sub>8</sub>=0, I<sub>9</sub>=0, I<sub>10</sub>=0, I<sub>11</sub>=0, I<sub>12</sub>=0, I<sub>13</sub>=1, I<sub>14</sub>=1, I<sub>15</sub>=1; EN=1.</p>
-<div class="fig" data-b='{"title":"MUX 16/1","left":[["I0","1"],["I1","0"],["I2","0"],["I3","0"],["I4","1"],["I5","1"],["I6","0"],["I7","1"],["I8","0"],["I9","0"],["I10","0"],["I11","0"],["I12","0"],["I13","1"],["I14","1"],["I15","1"]],"right":[["Y","F"]],"bottom":[["S3","D"],["S2","C"],["S1","B"],["S0","A"]],"top":[["EN","1"]]}'></div>
-<div class="tip"><b>Bonus – ista funkcija sa MUX 8/1</b> (slučaj N=M+1): S<sub>2</sub>S<sub>1</sub>S<sub>0</sub> = DCB, A na informacione ulaze. Gledaš parove redova (A=0, A=1): DCB=000: F(0)=1, F(1)=0 → I<sub>0</sub>=<span class="f">~A</span>; 001: 0,0 → I<sub>1</sub>=0; 010: 1,1 → I<sub>2</sub>=1; 011: 0,1 → I<sub>3</sub>=A; 100: 0,0 → 0; 101: 0,0 → 0; 110: 0,1 → I<sub>6</sub>=A; 111: 1,1 → I<sub>7</sub>=1.</div>
+<p><b>Šta se traži:</b> da napraviš kolo koje daje funkciju F, a imaš na raspolaganju jedan multiplekser MUX 16/1.</p>
+<p><b>Podsetnik – šta radi MUX 16/1:</b> ima 16 informacionih ulaza (I<sub>0</sub> … I<sub>15</sub>), 4 selekciona ulaza (S<sub>3</sub> S<sub>2</sub> S<sub>1</sub> S<sub>0</sub>) i jedan izlaz Y. Na izlaz <b>prepiše</b> onaj ulaz čiji je broj napisan na selekcionim ulazima. Npr. S = 0101 = 5 → Y = I<sub>5</sub>.</p>
+<p><b>Ideja rešenja:</b> promenljive D, C, B, A dovedemo na selekcione ulaze. Tada za svaki red tablice istinitosti MUX gleda baš ulaz sa <b>brojem tog reda</b>. Ako na taj ulaz unapred stavimo vrednost F iz tog reda, na izlazu je uvek tačno F.</p>
+<p><b>Korak 1 – poveži promenljive na selekciju.</b> Funkcija je F(D,C,B,A), pa je D najteži bit (vredi 8) → <b>S<sub>3</sub> = D, S<sub>2</sub> = C, S<sub>1</sub> = B, S<sub>0</sub> = A</b>. EN = 1 (da MUX radi).</p>
+<p><b>Korak 2 – napiši tablicu istinitosti.</b> F = 1 u redovima 0, 4, 5, 7, 13, 14, 15, a u svim ostalim F = 0. Poslednja kolona je odmah i rešenje: ulaz I<sub>k</sub> = F iz reda k.</p>
+<table class="t" style="width:auto"><tr><th>red k</th><th>D</th><th>C</th><th>B</th><th>A</th><th>F</th><th>→ ulaz</th></tr><tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><b>1</b></td><td>I<sub>0</sub> = 1</td></tr><tr><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td><b>0</b></td><td>I<sub>1</sub> = 0</td></tr><tr><td>2</td><td>0</td><td>0</td><td>1</td><td>0</td><td><b>0</b></td><td>I<sub>2</sub> = 0</td></tr><tr><td>3</td><td>0</td><td>0</td><td>1</td><td>1</td><td><b>0</b></td><td>I<sub>3</sub> = 0</td></tr><tr><td>4</td><td>0</td><td>1</td><td>0</td><td>0</td><td><b>1</b></td><td>I<sub>4</sub> = 1</td></tr><tr><td>5</td><td>0</td><td>1</td><td>0</td><td>1</td><td><b>1</b></td><td>I<sub>5</sub> = 1</td></tr><tr><td>6</td><td>0</td><td>1</td><td>1</td><td>0</td><td><b>0</b></td><td>I<sub>6</sub> = 0</td></tr><tr><td>7</td><td>0</td><td>1</td><td>1</td><td>1</td><td><b>1</b></td><td>I<sub>7</sub> = 1</td></tr><tr><td>8</td><td>1</td><td>0</td><td>0</td><td>0</td><td><b>0</b></td><td>I<sub>8</sub> = 0</td></tr><tr><td>9</td><td>1</td><td>0</td><td>0</td><td>1</td><td><b>0</b></td><td>I<sub>9</sub> = 0</td></tr><tr><td>10</td><td>1</td><td>0</td><td>1</td><td>0</td><td><b>0</b></td><td>I<sub>10</sub> = 0</td></tr><tr><td>11</td><td>1</td><td>0</td><td>1</td><td>1</td><td><b>0</b></td><td>I<sub>11</sub> = 0</td></tr><tr><td>12</td><td>1</td><td>1</td><td>0</td><td>0</td><td><b>0</b></td><td>I<sub>12</sub> = 0</td></tr><tr><td>13</td><td>1</td><td>1</td><td>0</td><td>1</td><td><b>1</b></td><td>I<sub>13</sub> = 1</td></tr><tr><td>14</td><td>1</td><td>1</td><td>1</td><td>0</td><td><b>1</b></td><td>I<sub>14</sub> = 1</td></tr><tr><td>15</td><td>1</td><td>1</td><td>1</td><td>1</td><td><b>1</b></td><td>I<sub>15</sub> = 1</td></tr></table>
+<p><b>Korak 3 – nacrtaj MUX</b> i na svaki ulaz upiši 0 ili 1 iz poslednje kolone:</p>
+<div class="fig" data-b='{"title":"MUX 16/1","left":[["I0", "1"], ["I1", "0"], ["I2", "0"], ["I3", "0"], ["I4", "1"], ["I5", "1"], ["I6", "0"], ["I7", "1"], ["I8", "0"], ["I9", "0"], ["I10", "0"], ["I11", "0"], ["I12", "0"], ["I13", "1"], ["I14", "1"], ["I15", "1"]],"right":[["Y","F"]],"bottom":[["S3","D"],["S2","C"],["S1","B"],["S0","A"]],"top":[["EN","1"]]}'></div>
+<p><b>Korak 4 – provera.</b> Uzmi D=1, C=1, B=0, A=1 → na selekciji je 1101 = 8+4+1 = <b>13</b> → MUX gleda I<sub>13</sub> = 1 → F = 1. U Σ ima 13 ✔. Uzmi 0110 = 6 → I<sub>6</sub> = 0, a 6 nije u Σ ✔.</p>
+<div class="tip"><b>Na kolokvijumu napišeš:</b> „Promenljive DCBA dovodimo na selekcione ulaze S<sub>3</sub>S<sub>2</sub>S<sub>1</sub>S<sub>0</sub> (D na najteži), EN=1. Na informacioni ulaz I<sub>k</sub> dovodimo vrednost funkcije u k-tom redu: I<sub>k</sub>=1 za k ∈ {0,4,5,7,13,14,15}, ostali I<sub>k</sub>=0.“ + crtež. Ništa se ne minimizuje – samo prepišeš kolonu F.</div>
+<h3>Bonus – ista funkcija sa MUX 8/1 (ako traže manji MUX)</h3>
+<p>MUX 8/1 ima samo 3 selekciona ulaza. Na njih staviš <b>D, C, B</b> (S<sub>2</sub>=D, S<sub>1</sub>=C, S<sub>0</sub>=B), a <b>A</b> ide na informacione ulaze. Svaka adresa DCB sada „pokriva“ dva reda: jedan sa A=0 i jedan sa A=1. Pošto je A najlakši bit, to su dva <b>susedna</b> reda (0 i 1, 2 i 3, …):</p>
+<table class="t" style="width:auto"><tr><th>adresa DCB</th><th>redovi</th><th>F kad A=0</th><th>F kad A=1</th><th>ulaz</th></tr><tr><td>000</td><td>0, 1</td><td>1</td><td>0</td><td>I<sub>0</sub> = <b>~A</b></td></tr><tr><td>001</td><td>2, 3</td><td>0</td><td>0</td><td>I<sub>1</sub> = <b>0</b></td></tr><tr><td>010</td><td>4, 5</td><td>1</td><td>1</td><td>I<sub>2</sub> = <b>1</b></td></tr><tr><td>011</td><td>6, 7</td><td>0</td><td>1</td><td>I<sub>3</sub> = <b>A</b></td></tr><tr><td>100</td><td>8, 9</td><td>0</td><td>0</td><td>I<sub>4</sub> = <b>0</b></td></tr><tr><td>101</td><td>10, 11</td><td>0</td><td>0</td><td>I<sub>5</sub> = <b>0</b></td></tr><tr><td>110</td><td>12, 13</td><td>0</td><td>1</td><td>I<sub>6</sub> = <b>A</b></td></tr><tr><td>111</td><td>14, 15</td><td>1</td><td>1</td><td>I<sub>7</sub> = <b>1</b></td></tr></table>
+<div class="key"><b>Ključ – šta staviš na ulaz</b> (F kad je A=0 / F kad je A=1):<br>0 / 0 → <b>0</b> (F je u oba reda 0)<br>1 / 1 → <b>1</b> (F je u oba reda 1)<br>0 / 1 → <b>A</b> (F je isto što i A)<br>1 / 0 → <span class="f">~A</span> (F je obrnuto od A)</div>
+<div class="fig" data-b='{"title":"MUX 8/1","left":[["I0", "!A"], ["I1", "0"], ["I2", "1"], ["I3", "A"], ["I4", "0"], ["I5", "0"], ["I6", "A"], ["I7", "1"]],"right":[["Y","F"]],"bottom":[["S2","D"],["S1","C"],["S0","B"]],"top":[["EN","1"]]}'></div>
 </div>
 
 <div class="q"><h3><span class="n">29.</span> * <span class="f">F(A,B,C) = (A+B)·C + ~A·~B</span> pomoću MUX 8/1 <span class="tag">ZADATAK</span></h3>
-<p><span class="f">F = AC + BC + ~A~B = Σ(0,1,3,5,7)</span> (vidi 3b). S<sub>2</sub>S<sub>1</sub>S<sub>0</sub> = ABC:</p>
-<div class="fig" data-b='{"title":"MUX 8/1","left":[["I0","1"],["I1","1"],["I2","0"],["I3","1"],["I4","0"],["I5","1"],["I6","0"],["I7","1"]],"right":[["Y","F"]],"bottom":[["S2","A"],["S1","B"],["S0","C"]],"top":[["EN","1"]]}'></div>
+<p><b>Šta se traži:</b> da napraviš kolo koje daje ovu funkciju F, a imaš jedan multiplekser MUX 8/1.</p>
+<p><b>Podsetnik – šta radi MUX 8/1:</b> ima 8 informacionih ulaza (I<sub>0</sub> … I<sub>7</sub>), 3 selekciona ulaza (S<sub>2</sub> S<sub>1</sub> S<sub>0</sub>) i jedan izlaz Y. Na izlaz <b>prepiše</b> onaj ulaz čiji je broj napisan na selekciji. Npr. S<sub>2</sub>S<sub>1</sub>S<sub>0</sub> = 101 = 5 → Y = I<sub>5</sub>.</p>
+<p><b>Ideja rešenja:</b> promenljive A, B, C dovedemo na selekciju. Tada za svaku kombinaciju A, B, C MUX gleda ulaz sa brojem tog reda tablice istinitosti. Na taj ulaz unapred stavimo <b>F iz tog reda</b> – i izlaz je uvek F. Znači, ceo zadatak je: <b>napravi tablicu istinitosti i prepiši kolonu F na ulaze.</b></p>
+
+<p><b>Korak 1 – izmnoži zagradu</b> (C pomnožiš sa svakim članom u zagradi):</p>
+<p class="f big">F = (A+B)·C + ~A~B = AC + BC + ~A~B</p>
+
+<p><b>Korak 2 – nađi u kojim redovima je F = 1.</b> Funkcija je F(A,B,C), pa red pišeš kao <b>A B C</b>: A vredi 4, B vredi 2, C vredi 1. Proizvod je 1 samo kad je svako slovo u njemu 1 (slovo bez crte = 1, slovo sa crtom = 0). Slovo kojeg nema u proizvodu može biti bilo šta (?):</p>
+<table class="t" style="width:auto"><tr><th>proizvod</th><th>uslov</th><th>A B C</th><th>redovi</th></tr>
+<tr><td class="f">AC</td><td>A=1, C=1</td><td>1 ? 1</td><td>101=5, 111=7</td></tr>
+<tr><td class="f">BC</td><td>B=1, C=1</td><td>? 1 1</td><td>011=3, 111=7</td></tr>
+<tr><td class="f">~A~B</td><td>A=0, B=0</td><td>0 0 ?</td><td>000=0, 001=1</td></tr></table>
+<p>Skupiš sve (7 se ponavlja): <span class="f">F = Σ(0,1,3,5,7)</span>. U redovima 2, 4, 6 je F = 0.</p>
+
+<p><b>Korak 3 – tablica istinitosti.</b> Za svaki red izračunaš sva tri proizvoda; F = 1 ako je bar jedan od njih 1 (jer ih sabiramo = ILI). Poslednja kolona je već rešenje:</p>
+<table class="t" style="width:auto"><tr><th>red k</th><th>A</th><th>B</th><th>C</th><th class="f">AC</th><th class="f">BC</th><th class="f">~A~B</th><th>F</th><th>→ ulaz</th></tr><tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td><b>1</b></td><td>I<sub>0</sub> = 1</td></tr><tr><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td><b>1</b></td><td>I<sub>1</sub> = 1</td></tr><tr><td>2</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td><b>0</b></td><td>I<sub>2</sub> = 0</td></tr><tr><td>3</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td><b>1</b></td><td>I<sub>3</sub> = 1</td></tr><tr><td>4</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><b>0</b></td><td>I<sub>4</sub> = 0</td></tr><tr><td>5</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td><b>1</b></td><td>I<sub>5</sub> = 1</td></tr><tr><td>6</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td><b>0</b></td><td>I<sub>6</sub> = 0</td></tr><tr><td>7</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td><b>1</b></td><td>I<sub>7</sub> = 1</td></tr></table>
+
+<p><b>Korak 4 – poveži MUX:</b></p>
+<ul><li><b>selekcija:</b> S<sub>2</sub> = A, S<sub>1</sub> = B, S<sub>0</sub> = C – A na najteži ulaz, jer je A najteži bit u F(A,B,C);</li>
+<li><b>ulazi:</b> I<sub>k</sub> = F iz reda k → I<sub>0</sub>=1, I<sub>1</sub>=1, I<sub>2</sub>=0, I<sub>3</sub>=1, I<sub>4</sub>=0, I<sub>5</sub>=1, I<sub>6</sub>=0, I<sub>7</sub>=1;</li>
+<li><b>EN = 1</b> (da MUX radi), izlaz Y = F.</li></ul>
+<div class="fig" data-b='{"title":"MUX 8/1","left":[["I0", "1"], ["I1", "1"], ["I2", "0"], ["I3", "1"], ["I4", "0"], ["I5", "1"], ["I6", "0"], ["I7", "1"]],"right":[["Y","F"]],"bottom":[["S2","A"],["S1","B"],["S0","C"]],"top":[["EN","1"]]}'></div>
+
+<p><b>Korak 5 – provera na dva reda:</b></p>
+<ul><li>A=1, B=0, C=1 → selekcija 101 = 5 → MUX gleda I<sub>5</sub> = 1 → F = 1. Direktno iz formule: AC = 1·1 = 1 → F = 1 ✔.</li>
+<li>A=1, B=1, C=0 → selekcija 110 = 6 → I<sub>6</sub> = 0 → F = 0. Iz formule: AC = 0, BC = 0, <span class="f">~A~B</span> = 0·0 = 0 → F = 0 ✔.</li></ul>
+<p class="warn">Najčešća greška: pomešaš redosled na selekciji (npr. C na S<sub>2</sub>). Onda brojevi redova više ne odgovaraju ulazima i ceo raspored je pogrešan. Najteža promenljiva → najteži selekcioni ulaz.</p>
+<div class="tip"><b>Na kolokvijumu napišeš:</b> „<span class="f">F = AC + BC + ~A~B = Σ(0,1,3,5,7)</span>. Promenljive ABC dovodimo na selekcione ulaze S<sub>2</sub>S<sub>1</sub>S<sub>0</sub>, EN=1. Na ulaz I<sub>k</sub> dovodimo F(k): I<sub>0</sub>=I<sub>1</sub>=I<sub>3</sub>=I<sub>5</sub>=I<sub>7</sub>=1, I<sub>2</sub>=I<sub>4</sub>=I<sub>6</sub>=0.“ + tablica istinitosti + crtež MUX-a.</div>
 </div>
 
 <div class="q"><h3><span class="n">30.</span> * <span class="f">F(A,B,C) = (A+~B)·C + ~A·B</span> pomoću MUX 4/1 (B i C na selekcione, B teži bit) <span class="tag">ZADATAK</span></h3>
-<p><span class="f">F = Σ(1,2,3,5,7)</span> (vidi 3a). S<sub>1</sub>=B, S<sub>0</sub>=C, a A ide na informacione ulaze. Za svaku kombinaciju BC gledamo F za A=0 i A=1:</p>
-<table class="t"><tr><th>B C</th><th>F (A=0)</th><th>F (A=1)</th><th>ulaz</th></tr>
-<tr><td>0 0</td><td>F(000)=0</td><td>F(100)=0</td><td>I0 = 0</td></tr>
-<tr><td>0 1</td><td>F(001)=1</td><td>F(101)=1</td><td>I1 = 1</td></tr>
-<tr><td>1 0</td><td>F(010)=1</td><td>F(110)=0</td><td>I2 = <span class="f">~A</span></td></tr>
-<tr><td>1 1</td><td>F(011)=1</td><td>F(111)=1</td><td>I3 = 1</td></tr></table>
-<div class="fig" data-b='{"title":"MUX 4/1","left":[["I0","0"],["I1","1"],["I2","!A"],["I3","1"]],"right":[["Y","F"]],"bottom":[["S1","B"],["S0","C"]],"top":[["EN","1"]]}'></div>
-<p>Provera: <span class="f">F = ~BC + B~C~A + BC = C + ~AB</span> ✓.</p>
+<p><b>Šta se traži:</b> da napraviš F pomoću MUX 4/1. Problem: promenljive su <b>tri</b> (A, B, C), a MUX 4/1 ima samo <b>dva</b> selekciona ulaza. Zadatak kaže: B i C idu na selekciju (B na teži, S<sub>1</sub>), pa <b>A mora da ide na informacione ulaze</b>.</p>
+<p><b>Korak 1 – izmnoži:</b></p>
+<p class="f big">F = (A+~B)·C + ~AB = AC + ~BC + ~AB</p>
+<p><b>Korak 2 – redovi gde je F = 1</b> (red = A B C, A vredi 4, B 2, C 1):</p>
+<table class="t" style="width:auto"><tr><th>proizvod</th><th>A B C</th><th>redovi</th></tr>
+<tr><td class="f">AC</td><td>1 ? 1</td><td>5, 7</td></tr>
+<tr><td class="f">~BC</td><td>? 0 1</td><td>1, 5</td></tr>
+<tr><td class="f">~AB</td><td>0 1 ?</td><td>2, 3</td></tr></table>
+<p><span class="f">F = Σ(1,2,3,5,7)</span> (isto kao pitanje 3a). Tablica istinitosti:</p>
+<table class="t" style="width:auto"><tr><th>red</th><th>A</th><th>B</th><th>C</th><th>F</th></tr><tr><td>0</td><td>0</td><td>0</td><td>0</td><td><b>0</b></td></tr><tr><td>1</td><td>0</td><td>0</td><td>1</td><td><b>1</b></td></tr><tr><td>2</td><td>0</td><td>1</td><td>0</td><td><b>1</b></td></tr><tr><td>3</td><td>0</td><td>1</td><td>1</td><td><b>1</b></td></tr><tr><td>4</td><td>1</td><td>0</td><td>0</td><td><b>0</b></td></tr><tr><td>5</td><td>1</td><td>0</td><td>1</td><td><b>1</b></td></tr><tr><td>6</td><td>1</td><td>1</td><td>0</td><td><b>0</b></td></tr><tr><td>7</td><td>1</td><td>1</td><td>1</td><td><b>1</b></td></tr></table>
+
+<p><b>Korak 3 – podeli redove po adresi BC.</b> Na selekciji su samo B i C, pa MUX ne „vidi“ A. Za istu adresu BC postoje <b>dva reda</b>: jedan sa A=0 i jedan sa A=1. Ulaz koji MUX izabere mora da da tačan F u <b>oba</b> ta reda – zato na ulaz ne stavljamo samo 0 ili 1, nego može i A ili <span class="f">~A</span>.</p>
+<p>Pazi: A je u tablici <b>najteži</b> bit, pa par redova nije susedan – to su redovi k i k+4 (npr. 0 i 4).</p>
+<table class="t" style="width:auto"><tr><th>B C</th><th>adresa</th><th>red sa A=0</th><th>red sa A=1</th><th>F kad A=0</th><th>F kad A=1</th><th>ulaz</th></tr><tr><td>0 0</td><td>0</td><td>000 = 0</td><td>100 = 4</td><td>0</td><td>0</td><td>I<sub>0</sub> = <b>0</b></td></tr><tr><td>0 1</td><td>1</td><td>001 = 1</td><td>101 = 5</td><td>1</td><td>1</td><td>I<sub>1</sub> = <b>1</b></td></tr><tr><td>1 0</td><td>2</td><td>010 = 2</td><td>110 = 6</td><td>1</td><td>0</td><td>I<sub>2</sub> = <b>~A</b></td></tr><tr><td>1 1</td><td>3</td><td>011 = 3</td><td>111 = 7</td><td>1</td><td>1</td><td>I<sub>3</sub> = <b>1</b></td></tr></table>
+<div class="key"><b>Ključ – šta staviš na ulaz</b> (F kad je A=0 / F kad je A=1):<br>0 / 0 → <b>0</b> (F je u oba reda 0)<br>1 / 1 → <b>1</b> (F je u oba reda 1)<br>0 / 1 → <b>A</b> (F je isto što i A)<br>1 / 0 → <span class="f">~A</span> (F je obrnuto od A)</div>
+<p><b>Objašnjenje za svaki ulaz:</b></p>
+<ul><li>BC = 00: F je 0 i kad je A=0 i kad je A=1 → I<sub>0</sub> = 0.</li>
+<li>BC = 01: F je 1 u oba reda → I<sub>1</sub> = 1.</li>
+<li>BC = 10: F = 1 kad je A=0, a F = 0 kad je A=1 – F je obrnuto od A → I<sub>2</sub> = <span class="f">~A</span>.</li>
+<li>BC = 11: F je 1 u oba reda → I<sub>3</sub> = 1.</li></ul>
+
+<p><b>Korak 4 – poveži MUX:</b> S<sub>1</sub> = B, S<sub>0</sub> = C, EN = 1, I<sub>0</sub> = 0, I<sub>1</sub> = 1, I<sub>2</sub> = <span class="f">~A</span> (A kroz invertor), I<sub>3</sub> = 1.</p>
+<div class="fig" data-b='{"title":"MUX 4/1","left":[["I0", "0"], ["I1", "1"], ["I2", "!A"], ["I3", "1"]],"right":[["Y","F"]],"bottom":[["S1","B"],["S0","C"]],"top":[["EN","1"]]}'></div>
+
+<p><b>Korak 5 – provera:</b></p>
+<ul><li>A=0, B=1, C=0 → adresa BC = 10 = 2 → MUX gleda I<sub>2</sub> = <span class="f">~A</span> = 1 → F = 1. Iz formule: <span class="f">~AB</span> = 1·1 = 1 ✔.</li>
+<li>A=1, B=1, C=0 → adresa 10 = 2 → I<sub>2</sub> = <span class="f">~A</span> = 0 → F = 0. Iz formule: AC = 0, <span class="f">~BC</span> = 0, <span class="f">~AB</span> = 0 → F = 0 ✔.</li>
+<li>Algebarski: MUX daje <span class="f">F = ~B~C·0 + ~BC·1 + B~C·~A + BC·1 = ~BC + ~AB~C + BC = C + ~AB</span>, a to je minimalni oblik naše funkcije ✔.</li></ul>
+<div class="tip"><b>Na kolokvijumu napišeš:</b> „<span class="f">F = Σ(1,2,3,5,7)</span>. S<sub>1</sub>=B, S<sub>0</sub>=C, EN=1. Za svaku kombinaciju BC posmatramo F za A=0 i A=1 (tabela gore): I<sub>0</sub>=0, I<sub>1</sub>=1, I<sub>2</sub>=<span class="f">~A</span>, I<sub>3</sub>=1.“ + crtež.</div>
 </div>
 
 <div class="q"><h3><span class="n">31.</span> Demultiplekser – principsko rešenje, funkcionalna tabela, blok šema, delimična detaljna šema</h3>
